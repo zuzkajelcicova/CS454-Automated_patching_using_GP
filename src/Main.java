@@ -1,6 +1,8 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
 
@@ -34,6 +36,7 @@ public class Main {
         try {
             File newFile = new File(dir, outputFile);
             String filepath = newFile.getAbsolutePath();
+            Files.deleteIfExists(Paths.get(filepath));
 
             newFile.createNewFile();
 
