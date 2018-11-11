@@ -1,19 +1,26 @@
 package AST;
 
+import General.Utils;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Parser {
-    private static final String SRCML_PATH = "C:\\Program Files\\srcML 0.9.5\\bin";
 
-    public static StringBuilder parseFile(String filePath) {
+    private Utils utils;
+
+    public Parser(Utils utils) {
+        this.utils = utils;
+    }
+
+    public StringBuilder parseFile(String filePath) {
 
         StringBuilder parsedData = null;
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("srcml", filePath);
 
-            processBuilder.directory(new File(SRCML_PATH));
+            processBuilder.directory(new File(utils.SRCML_PATH));
             Process process = processBuilder.start();
 
             InputStream inputStream = process.getInputStream();
@@ -28,7 +35,7 @@ public class Parser {
         return parsedData;
     }
 
-    public static void saveData(String dir, String outputFile, StringBuilder data) {
+    public void saveData(String dir, String outputFile, StringBuilder data) {
         try {
             File newFile = new File(dir, outputFile);
             String filepath = newFile.getAbsolutePath();
