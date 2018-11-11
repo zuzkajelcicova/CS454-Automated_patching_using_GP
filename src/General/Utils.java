@@ -45,6 +45,6 @@ public class Utils {
     public int INSERT = 2;
 
     //Compile pass or fail
-    public static final int PASS = 0;
-    public static final int FAIL = 1;
+    public final int PASS = 0;
+    public final int FAIL = 1;
 }
