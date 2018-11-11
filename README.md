@@ -34,7 +34,7 @@ In order to run the current version of the system, instructions below must be fo
 
     1. Install SRCML https://www.srcml.org/#download for parsing the .java and .xml code
     2. Run Main.java with the following papameters: 
-       "faultyProgram.java pathToSrcmlTool -p initialPopulationSize -f allowedNumberOfFitnessEvaluations -t maxRunTime".
+       "faultyProgram.java pathToSrcmlTool -p initialPopulationSize -f allowedNumberOfFitnessEvaluations -t maxRunTimeInMins".
        
        A specific example can be seen below:
        LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -f 1000 -t 90
