@@ -32,11 +32,12 @@ The project contains the following directories:
 
 In order to run the current version of the system, instructions below must be followed. Currently, Main.java hardcodes mutation operations that should be performed on "faulty" resources/LeapYear.java for testing purposes. Change these if you want to test another file/modifications. 
 
-    1. Install **srcml** https://www.srcml.org/#download for parsing the .java and .xml code
+    1. Install SRCML https://www.srcml.org/#download for parsing the .java and .xml code
     2. Run Main.java with the following papameters: 
-    **"faultyProgram.java pathToSrcmlTool -p initialPopulationSize -f allowedNumberOfFitnessEvaluations -t maxRunTime"**.
+       "faultyProgram.java pathToSrcmlTool -p initialPopulationSize -f allowedNumberOfFitnessEvaluations -t maxRunTime".
+       
        A specific example can be seen below:
-       **LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -f 1000 -t 90**
+       LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -f 1000 -t 90
        
        -p, -f, -t are currently not used (in progress).
     3. The potentially fixed program can be found in the src/ directory. Its name matches the faulty program name.
