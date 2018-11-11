@@ -1,6 +1,7 @@
 package GP;
 
 import AST.ASTHandler;
+import AST.Parser;
 import GP.Individual;
 import GP.Patch;
 import General.Utils;
@@ -14,10 +15,13 @@ public class GP_Initialize {
 
     private Individual individual;
     private String TARGET_CODE = "";
-
-    public GP_Initialize(String target_code) {
+    private Utils utils;
+    private Parser parser;
+    public GP_Initialize(String target_code, Utils utils, Parser parser) {
 
         this.TARGET_CODE = target_code;
+        this.utils = utils;
+        this.parser = parser;
     }
 //Patches here is a class that contains List (or ArrayList) of Insertion, Deletion, Replacement
     public ArrayList<Individual> initialize(int initialPopulationSize, ASTHandler astHandler){
@@ -51,12 +55,12 @@ public class GP_Initialize {
 
         ArrayList<JavaResult> ListJavaResult = new ArrayList<>();
         for(Individual individual : ListIndividual){
-            ASTHandler modified_AST = new ASTHandler(Utils.FAULTY_XML_FILE, TARGET_CODE);
+            ASTHandler modified_AST = new ASTHandler(utils, parser);
             modified_AST.applyPatches(individual);
 
-            JavaResult result = javaCompile(modified_AST);
+            JavaResult result = javaCompile();
 
-            if(result.getResult() == Utils.PASS){
+            if(result.getResult() == utils.PASS){
                 ListJavaResult.add(result);
             }
 
@@ -69,13 +73,11 @@ public class GP_Initialize {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
-    public JavaResult javaCompile(ASTHandler modified_AST){
+    public JavaResult javaCompile(){
 
 //        run the java file
 //        use fitness function somehow from JavaResult
-        JavaResult java = new JavaResult(TARGET_CODE, modified_AST);
-        java.run();
-        return java;
+        return new JavaResult(TARGET_CODE, utils);
     }
 
 }
