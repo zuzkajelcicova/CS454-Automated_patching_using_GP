@@ -58,7 +58,7 @@ public class GP_Initialize {
             ASTHandler modified_AST = new ASTHandler(utils, parser);
             modified_AST.applyPatches(individual);
 
-            JavaResult result = javaCompile();
+            JavaResult result = javaCompile(individual);
 
             if(result.getResult() == utils.PASS){
                 ListJavaResult.add(result);
@@ -73,11 +73,11 @@ public class GP_Initialize {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
-    public JavaResult javaCompile(){
+    public JavaResult javaCompile(Individual individual){
 
 //        run the java file
 //        use fitness function somehow from JavaResult
-        return new JavaResult(TARGET_CODE, utils);
+        return new JavaResult(TARGET_CODE, utils, individual);
     }
 
 }

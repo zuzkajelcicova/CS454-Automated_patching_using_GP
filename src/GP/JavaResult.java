@@ -15,12 +15,14 @@ public class JavaResult {
     private int result;
     private Utils utils;
     private String TARGET_CODE = "";
+    private Individual individual;
 
 
-    public JavaResult(String TARGET_CODE, Utils utils) {
+    public JavaResult(String TARGET_CODE, Utils utils, Individual individual) {
         this.TARGET_CODE = TARGET_CODE;
         this.utils = utils;
-        fitness_function();
+        this.individual = individual;
+        run();
     }
 
     public double getFitness() {
@@ -31,22 +33,19 @@ public class JavaResult {
         return result;
     }
 
-    private int run(TestCase testCase) {
-        //TODO: use testcase as argument for each compilation
+    private void run() {
         try {
             System.out.println("**********");
-            int result = runProcess("javac -cp src src/" + this.TARGET_CODE);
+            this.result = runProcess("javac -cp src src/" + this.TARGET_CODE);
             System.out.println("**********");
-            return result;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //TODO: should it be 0?
-        return 0;
     }
 
     private void printLines(String cmd, InputStream ins) throws Exception {
-        String line = null;
+        String line;
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(ins));
         while ((line = in.readLine()) != null) {
@@ -88,20 +87,21 @@ public class JavaResult {
         // save path(node) that were visited by neg and pos test case
         int negFail = 0;
         int posFail = 0;
-        for (TestCase testcase: negTest){
-            int output = run(testcase);
-            negFail = negFail + output;
-            if(output == 1){
-                this.result = utils.FAIL;
-            }
-        }
-        for (TestCase testcase: posTest){
-            int output = run(testcase);
-            posFail = posFail + output;
-            if(output == 1){
-                this.result = utils.FAIL;
-            }
-        }
+        //TODO: Add this later in UNIT test
+//        for (TestCase testcase: negTest){
+//            int output = run(testcase);
+//            negFail = negFail + output;
+//            if(output == 1){
+//                this.result = utils.FAIL;
+//            }
+//        }
+//        for (TestCase testcase: posTest){
+//            int output = run(testcase);
+//            posFail = posFail + output;
+//            if(output == 1){
+//                this.result = utils.FAIL;
+//            }
+//        }
         int negPass = negTest.size() - negFail;
         int posPass = posTest.size() - posFail;
 

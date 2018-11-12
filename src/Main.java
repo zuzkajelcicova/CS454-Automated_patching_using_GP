@@ -62,7 +62,7 @@ public class Main {
         GP_Initialize gp_initialize = new GP_Initialize(utils.TARGET_CODE, utils, parser);
         ArrayList<Individual> ListIndividual = gp_initialize.initialize(initialPopulationSize, astHandler);
 
-        ArrayList<JavaResult> ListJavaResult = gp_initialize.LoopPopulation(ListIndividual);
+        ArrayList<JavaResult> ListJavaPassedIndividual = gp_initialize.LoopPopulation(ListIndividual);
         //you can use JavaResult.getFitness() to access fitness value
 
         //Remove line numbers to clean the code
