@@ -10,11 +10,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class JavaResult {
-    private float fitness = 0;
+    private double fitness = 0;
 //    pass or fail
     private int result;
     private Utils utils;
     private String TARGET_CODE = "";
+
 
     public JavaResult(String TARGET_CODE, Utils utils) {
         this.TARGET_CODE = TARGET_CODE;
@@ -22,7 +23,7 @@ public class JavaResult {
         fitness_function();
     }
 
-    public float getFitness() {
+    public double getFitness() {
         return fitness;
     }
 
@@ -103,8 +104,9 @@ public class JavaResult {
         }
         int negPass = negTest.size() - negFail;
         int posPass = posTest.size() - posFail;
+
         //TODO: change formula for fitness function
-        this.fitness = (10*negPass) + (1*posPass);
+        this.fitness = (utils.WEIGHT_NEG*negPass) + (utils.WEIGHT_POS*posPass);
 
     }
 }

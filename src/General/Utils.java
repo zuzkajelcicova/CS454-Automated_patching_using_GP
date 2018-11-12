@@ -47,4 +47,9 @@ public class Utils {
     //Compile pass or fail
     public final int PASS = 0;
     public final int FAIL = 1;
+
+    //Weight
+    public final double WEIGHT_POS = 0.1;
+    public final double WEIGHT_NEG = 0.2;
+
 }
