@@ -214,7 +214,7 @@ public class ASTHandler {
             transformer.transform(source, result);
 
             StringBuilder codeData = parser.parseFile(utils.FIXED_XML_FILE_PATH);
-            parser.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, codeData);
+            utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, codeData);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,10 +264,10 @@ public class ASTHandler {
     private void createFileWithLineNumbers() {
         String targetCode = utils.TARGET_CODE_FILE_PATH;
         StringBuilder modifiedCodeWithLines = createCodeWithLineNumbers(targetCode);
-        parser.saveData(utils.RESOURCES_DIRECTORY, utils.TARGET_CODE_WITH_LINES, modifiedCodeWithLines);
+        utils.saveData(utils.RESOURCES_DIRECTORY, utils.TARGET_CODE_WITH_LINES, modifiedCodeWithLines);
 
         //Original AST extended with line numbers
         StringBuilder xmlDataWithLines = parser.parseFile(utils.TARGET_CODE_FILE_PATH_WITH_LINES);
-        parser.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML_WITH_LINES, xmlDataWithLines);
+        utils.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML_WITH_LINES, xmlDataWithLines);
     }
 }

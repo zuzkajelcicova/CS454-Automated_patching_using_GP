@@ -45,7 +45,7 @@ public class Main {
 
         //Original AST
         StringBuilder xmlData = parser.parseFile(utils.TARGET_CODE_FILE_PATH);
-        parser.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML, xmlData);
+        utils.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML, xmlData);
         //System.out.println("Program in AST XML format: \n" + xmlData.toString());
 
         //StringBuilder codeData = parser.parseFile((new File(OUTPUT_PARSED_DIRECTORY, FAULTY_XML)).getAbsolutePath());
@@ -67,7 +67,7 @@ public class Main {
         astHandler.applyPatches(potentialPatch);
         //Remove line numbers to clean the code
         StringBuilder noLinesCode = utils.removeCodeLines();
-        parser.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
+        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
 
         //parser.runFromCMD(filePath, faultyXml);
         //parser.runFromCMD(faultyXml, outputCode);

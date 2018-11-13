@@ -1,8 +1,8 @@
 package General;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,14 +15,12 @@ public class Utils {
     public String SRC_DIRECTORY = "src";
     public String GEN_CANDIDATE_DIRECTORY = "GAOutput";
     public String FL_DIRECTORY = "FL";
-    // Path pathToFile = Paths.get("/home/joe/foo/bar/myFile.txt")
     public String FAULTY_XML = "faulty.xml";
     public String FAULTY_XML_WITH_LINES = "faultyWithLines.xml";
     public String FIXED_XML = "fixed.xml";
 
     //GZoltar FL output
     public String FL_TARGET_FILE = "gzoltar.csv";
-
 
     //Buggy program as .java
     public String TARGET_CODE = "LeapYear.java";
@@ -55,6 +53,25 @@ public class Utils {
     public int REPLACE = 1;
     public int INSERT = 2;
 
+
+    public void saveData(String dir, String outputFile, StringBuilder data) {
+        try {
+            File newFile = new File(dir, outputFile);
+            String filepath = newFile.getAbsolutePath();
+            Files.deleteIfExists(Paths.get(filepath));
+
+            newFile.createNewFile();
+
+            FileWriter fileWriter = new FileWriter(filepath);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.append(data.toString());
+
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (Exception e) {
+            System.err.println("ERROR: " + e.getMessage());
+        }
+    }
 
     public StringBuilder removeCodeLines() {
         BufferedReader bufferedReader = null;
