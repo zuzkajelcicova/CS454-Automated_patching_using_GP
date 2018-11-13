@@ -57,16 +57,17 @@ public class Main {
         Individual potentialPatch = new Individual();
 
         // OPERATIONS (set up for LeapYear):
+        potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
         potentialPatch.getAllPatches().add(new Patch(utils.REPLACE, 114, 121));
         potentialPatch.getAllPatches().add(new Patch(utils.DELETE, -1, 106));
-        potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 114, 140));
+        // potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 114, 140));
         potentialPatch.getAllPatches().add(new Patch(utils.DELETE, -1, 96));
-        potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 114, 96));
+        // potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 114, 96));
 
         astHandler.applyPatches(potentialPatch);
         //Remove line numbers to clean the code
-        StringBuilder noLinesCode = astHandler.removeCodeLines();
-        parser.saveData(utils.SRC_DIRECTORY, utils.TARGET_CODE, noLinesCode);
+        StringBuilder noLinesCode = utils.removeCodeLines();
+        parser.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
 
         //parser.runFromCMD(filePath, faultyXml);
         //parser.runFromCMD(faultyXml, outputCode);

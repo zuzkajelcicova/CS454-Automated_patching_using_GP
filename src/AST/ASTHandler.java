@@ -214,7 +214,7 @@ public class ASTHandler {
             transformer.transform(source, result);
 
             StringBuilder codeData = parser.parseFile(utils.FIXED_XML_FILE_PATH);
-            parser.saveData(utils.SRC_DIRECTORY, utils.TARGET_CODE, codeData);
+            parser.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, codeData);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -269,51 +269,5 @@ public class ASTHandler {
         //Original AST extended with line numbers
         StringBuilder xmlDataWithLines = parser.parseFile(utils.TARGET_CODE_FILE_PATH_WITH_LINES);
         parser.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML_WITH_LINES, xmlDataWithLines);
-    }
-
-    public StringBuilder removeCodeLines() {
-        BufferedReader bufferedReader = null;
-        FileReader fileReader = null;
-        Scanner scanner = null;
-        StringBuilder result = new StringBuilder();
-        String targetCode = utils.TARGET_CODE_FIXED_WITH_LINES_FILE_PATH;
-        String regex = "//LC:\\d+";
-        Pattern pattern = Pattern.compile(regex);
-
-        try {
-            fileReader = new FileReader(targetCode);
-            bufferedReader = new BufferedReader(fileReader);
-            String sCurrentLine;
-            scanner = new Scanner(targetCode);
-
-            while (scanner.hasNext()) {
-                sCurrentLine = bufferedReader.readLine();
-                if (sCurrentLine != null) {
-                    Matcher matcher = pattern.matcher(sCurrentLine);
-
-                    if (matcher.find()) {
-                        String substring = matcher.group();
-                        String newLine = sCurrentLine.replace(substring, "");
-                        result.append(newLine).append(utils.LINE_SEPARATOR);
-                    }
-                } else {
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null)
-                    bufferedReader.close();
-                if (fileReader != null)
-                    fileReader.close();
-                if (scanner != null)
-                    scanner.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return result;
     }
 }
