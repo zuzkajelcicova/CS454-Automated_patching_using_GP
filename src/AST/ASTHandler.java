@@ -1,5 +1,6 @@
 package AST;
 
+import GP.Bug;
 import GP.Individual;
 import GP.Patch;
 import General.Utils;
@@ -25,12 +26,13 @@ public class ASTHandler {
     private HashMap<Integer, NodePair> allAstStatements;
     private HashMap<Integer, NodePair> allAstStatementsModified;
     private HashMap<Integer, NodePair> candidateSpace;
+    private HashMap<Integer, NodePair> faultSpace;
     private NodeList ast;
     private Document doc;
     private Utils utils;
     private Parser parser;
 
-    public ASTHandler(Utils utils, Parser parser) {
+    public ASTHandler(Utils utils, Parser parser, List<Bug> bugs) {
         this.utils = utils;
         this.parser = parser;
 
@@ -38,12 +40,18 @@ public class ASTHandler {
         createFileWithLineNumbers();
         allAstStatements = new HashMap<>();
         candidateSpace = new HashMap<>();
+        faultSpace = new HashMap<>();
+
         //Create AST with line numbers
         ast = initializeAST(utils.FAULTY_XML_FILE_WITH_LINES);
         populateStatementList();
+        populateFaultSpace(bugs);
+        removeBugsFromCandidateSpace();
         resetAllAstStatementsModified();
+
         printStatementList();
         printCandidateSpace();
+        printFaultSpace();
     }
 
     private void resetAllAstStatementsModified() {
@@ -98,6 +106,22 @@ public class ASTHandler {
         }
     }
 
+    public void printFaultSpace() {
+        for (Map.Entry<Integer, NodePair> entry : faultSpace.entrySet()) {
+            System.out.println(utils.LINE_SEPARATOR + "--------------------------------------------------------------------");
+            System.out.println("Fault ID : " + entry.getKey());
+            System.out.println("Fault Line : " + entry.getValue().getLineNumber());
+            System.out.println("Fault Content: " + utils.LINE_SEPARATOR + entry.getValue().getNode().getTextContent());
+            System.out.println("--------------------------------------------------------------------" + utils.LINE_SEPARATOR);
+        }
+    }
+
+    private void removeBugsFromCandidateSpace() {
+        for (Map.Entry<Integer, NodePair> currentStatement : faultSpace.entrySet()) {
+            candidateSpace.remove(currentStatement.getKey());
+        }
+    }
+
     private void populateStatementList() {
         for (int i = 0; i < ast.getLength(); i++) {
             Node node = ast.item(i);
@@ -116,9 +140,21 @@ public class ASTHandler {
         if (ALLOWED_STATEMENTS.contains(node.getNodeName().toLowerCase())) {
             NodePair newNode = new NodePair(lineNumber, node);
             allAstStatements.put(id, newNode);
+            candidateSpace.put(id, newNode);
 
-            if (!statementAlreadyExists(node.getTextContent()))
-                candidateSpace.put(id, newNode);
+            //todo: for now, candidate space the same as statement list
+            /*if (!statementAlreadyExists(node.getTextContent()))
+                candidateSpace.put(id, newNode);*/
+        }
+    }
+
+    private void populateFaultSpace(List<Bug> bugs) {
+        for (Bug currentBug : bugs) {
+            for (Map.Entry<Integer, NodePair> currentStatement : allAstStatements.entrySet()) {
+                if (currentBug.getCodeLine().equalsIgnoreCase(String.valueOf(currentStatement.getValue().getLineNumber()))) {
+                    faultSpace.put(currentStatement.getKey(), currentStatement.getValue());
+                }
+            }
         }
     }
 
