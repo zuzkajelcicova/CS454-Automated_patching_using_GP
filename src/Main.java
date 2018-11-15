@@ -1,8 +1,7 @@
 import AST.ASTHandler;
 import AST.Parser;
 import GP.Bug;
-import GP.Individual;
-import GP.Patch;
+import GP.GeneticAlgorithm;
 import General.Utils;
 
 import java.util.List;
@@ -10,22 +9,14 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        //todo: many things here are just temporary until being merged with GA Loop
-
-        //Example of a terminal input:
-        //LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -f 1000 -t 90
-
         int initialPopulationSize = 40;
         int fitnessEvaluations = 10;
         int timeInMinutes = 50;
         Utils utils = new Utils();
         Parser parser = new Parser(utils);
 
-        //Fault localization - process the output from GZoltar
-        utils.obtainSuspiciousLines();
-        List<Bug> chosenBugs = utils.amountOfBugsToFix(6);
-
-        //Terminal input
+        //An example of a terminal input:
+        //LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -f 1000 -t 90
         if (args.length > 7) {
             try {
                 if (args[0] != null) {
@@ -49,46 +40,18 @@ public class Main {
             }
         }
 
-        //Original AST
-        StringBuilder xmlData = parser.parseFile(utils.TARGET_CODE_FILE_PATH);
-        utils.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML, xmlData);
+        //Fault localization - process the output file from GZoltar
+        utils.obtainSuspiciousLines();
+        List<Bug> chosenBugs = utils.amountOfBugsToFix(6);
 
-        //Testing a potential "fix"
+        //ASTHandler instance
         ASTHandler astHandler = new ASTHandler(utils, parser, chosenBugs);
-        Individual potentialPatch1 = new Individual();
 
-        // OPERATIONS (set up for LeapYear):
-        potentialPatch1.getAllPatches().add(new Patch(utils.REPLACE, 114, 121));
-        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-        potentialPatch1.getAllPatches().add(new Patch(utils.DELETE, -1, 106));
-        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 114, 140));
-        potentialPatch1.getAllPatches().add(new Patch(utils.DELETE, -1, 96));
-        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 114, 96));
+        //Genetic algorithm instance
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(initialPopulationSize, timeInMinutes,
+                fitnessEvaluations, utils, parser, astHandler);
+        geneticAlgorithm.repairProgram();
 
-        astHandler.applyPatches(potentialPatch1);
-        StringBuilder noLinesCode = utils.removeCodeLines();
-        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
-
-        //Test out the second round
-        Individual potentialPatch2 = new Individual();
-        potentialPatch2.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-        potentialPatch2.getAllPatches().add(new Patch(utils.REPLACE, 140, 96));
-        potentialPatch2.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-        astHandler.applyPatches(potentialPatch2);
-
-
-        //Remove line numbers to clean the code
-        noLinesCode = utils.removeCodeLines();
-        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
-
-
-        //Test out the 3rd round
-        Individual potentialPatch3 = new Individual();
-        potentialPatch3.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-        astHandler.applyPatches(potentialPatch3);
-
-        //Remove line numbers to clean the code
-        noLinesCode = utils.removeCodeLines();
-        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
+        System.out.printf("The program has terminated!");
     }
 }

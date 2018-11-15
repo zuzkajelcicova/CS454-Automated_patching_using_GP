@@ -39,6 +39,9 @@ public class ASTHandler {
         this.utils = utils;
         this.parser = parser;
 
+        //Extract AST
+        extractAst();
+
         //Extend original .java faulty program with line numbers
         createFileWithLineNumbers();
         allAstStatements = new HashMap<>();
@@ -60,6 +63,12 @@ public class ASTHandler {
         printStatementList();
         printCandidateSpace();
         printFaultSpace();
+    }
+
+    private void extractAst() {
+        //Original AST
+        StringBuilder xmlData = parser.parseFile(utils.TARGET_CODE_FILE_PATH);
+        utils.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML, xmlData);
     }
 
     public NodeList getAst() {
