@@ -10,10 +10,6 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        //todo: hardcode faulty space for now - exclude buggy statements from ingredient space
-        //todo: after the faulty space has been created, initial population can be created randomly
-        //todo: specify number of bugs to fix
-
         //todo: many things here are just temporary until being merged with GA Loop
 
         //Example of a terminal input:
@@ -56,30 +52,43 @@ public class Main {
         //Original AST
         StringBuilder xmlData = parser.parseFile(utils.TARGET_CODE_FILE_PATH);
         utils.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML, xmlData);
-        //System.out.println("Program in AST XML format: \n" + xmlData.toString());
-
-        //StringBuilder codeData = parser.parseFile((new File(OUTPUT_PARSED_DIRECTORY, FAULTY_XML)).getAbsolutePath());
-        //FileUtils.saveData(OUTPUT_PARSED_DIRECTORY, TARGET_CODE, codeData);
-        //System.out.println("Program in CODE format: \n" + codeData.toString());
 
         //Testing a potential "fix"
         ASTHandler astHandler = new ASTHandler(utils, parser, chosenBugs);
-        Individual potentialPatch = new Individual();
+        Individual potentialPatch1 = new Individual();
 
         // OPERATIONS (set up for LeapYear):
-        potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-        potentialPatch.getAllPatches().add(new Patch(utils.REPLACE, 114, 121));
-        potentialPatch.getAllPatches().add(new Patch(utils.DELETE, -1, 106));
-        // potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 114, 140));
-        potentialPatch.getAllPatches().add(new Patch(utils.DELETE, -1, 96));
-        // potentialPatch.getAllPatches().add(new Patch(utils.INSERT, 114, 96));
+        potentialPatch1.getAllPatches().add(new Patch(utils.REPLACE, 114, 121));
+        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
+        potentialPatch1.getAllPatches().add(new Patch(utils.DELETE, -1, 106));
+        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 114, 140));
+        potentialPatch1.getAllPatches().add(new Patch(utils.DELETE, -1, 96));
+        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 114, 96));
 
-        astHandler.applyPatches(potentialPatch);
-        //Remove line numbers to clean the code
+        astHandler.applyPatches(potentialPatch1);
         StringBuilder noLinesCode = utils.removeCodeLines();
         utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
 
-        //parser.runFromCMD(filePath, faultyXml);
-        //parser.runFromCMD(faultyXml, outputCode);
+        //Test out the second round
+        Individual potentialPatch2 = new Individual();
+        potentialPatch2.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
+        potentialPatch2.getAllPatches().add(new Patch(utils.REPLACE, 140, 96));
+        potentialPatch2.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
+        astHandler.applyPatches(potentialPatch2);
+
+
+        //Remove line numbers to clean the code
+        noLinesCode = utils.removeCodeLines();
+        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
+
+
+        //Test out the 3rd round
+        Individual potentialPatch3 = new Individual();
+        potentialPatch3.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
+        astHandler.applyPatches(potentialPatch3);
+
+        //Remove line numbers to clean the code
+        noLinesCode = utils.removeCodeLines();
+        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
     }
 }

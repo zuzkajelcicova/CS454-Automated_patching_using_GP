@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -23,12 +24,14 @@ public class ASTHandler {
 
     private static final List<String> ALLOWED_STATEMENTS = new ArrayList<>(Arrays.asList("if", "while", "for", "do",
             "break", "continue", "return", "switch", "assert", "empty_stmt", "expr_stmt"));
+    // HashMap<Integer, Integer> => NodeID, LineNumber, Keeping NodePair for debugging purposes
     private HashMap<Integer, NodePair> allAstStatements;
-    private HashMap<Integer, NodePair> allAstStatementsModified;
     private HashMap<Integer, NodePair> candidateSpace;
     private HashMap<Integer, NodePair> faultSpace;
     private NodeList ast;
+    private NodeList astOriginal;
     private Document doc;
+    private Document docOriginal;
     private Utils utils;
     private Parser parser;
 
@@ -43,20 +46,20 @@ public class ASTHandler {
         faultSpace = new HashMap<>();
 
         //Create AST with line numbers
-        ast = initializeAST(utils.FAULTY_XML_FILE_WITH_LINES);
+        doc = initializeDoc(utils.FAULTY_XML_FILE_WITH_LINES, doc);
+        ast = initializeAST(doc);
+
+        //Create DOC and AST copy for resetting
+        docOriginal = initializeDoc(utils.FAULTY_XML_FILE_WITH_LINES, docOriginal);
+        astOriginal = initializeAST(docOriginal);
+
         populateStatementList();
         populateFaultSpace(bugs);
         removeBugsFromCandidateSpace();
-        resetAllAstStatementsModified();
 
         printStatementList();
         printCandidateSpace();
         printFaultSpace();
-    }
-
-    private void resetAllAstStatementsModified() {
-        allAstStatementsModified = new HashMap<>();
-        allAstStatementsModified.putAll(allAstStatements);
     }
 
     public NodeList getAst() {
@@ -71,19 +74,21 @@ public class ASTHandler {
         return candidateSpace;
     }
 
-    private NodeList initializeAST(File file) {
+    private Document initializeDoc(File file, Document doc) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
-        NodeList finalAst = null;
         try {
             dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(file);
             doc.getDocumentElement().normalize();
-            finalAst = doc.getElementsByTagName("*");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return finalAst;
+        return doc;
+    }
+
+    private NodeList initializeAST(Document doc) {
+        return doc.getElementsByTagName("*");
     }
 
     public void printStatementList() {
@@ -123,14 +128,14 @@ public class ASTHandler {
     }
 
     private void populateStatementList() {
-        for (int i = 0; i < ast.getLength(); i++) {
-            Node node = ast.item(i);
+        for (int i = 0; i < astOriginal.getLength(); i++) {
+            Node node = astOriginal.item(i);
             int lineNodeCounter = i;
 
             int lineNumber = findCorrespondingLine(node.getTextContent());
-            while (lineNumber == -1 && ast.getLength() > lineNodeCounter + 1) {
+            while (lineNumber == -1 && astOriginal.getLength() > lineNodeCounter + 1) {
                 lineNodeCounter++;
-                lineNumber = findCorrespondingLine((ast.item(lineNodeCounter)).getTextContent());
+                lineNumber = findCorrespondingLine((astOriginal.item(lineNodeCounter)).getTextContent());
             }
             evaluateNode(i, node, lineNumber);
         }
@@ -138,11 +143,11 @@ public class ASTHandler {
 
     private void evaluateNode(int id, Node node, int lineNumber) {
         if (ALLOWED_STATEMENTS.contains(node.getNodeName().toLowerCase())) {
-            NodePair newNode = new NodePair(lineNumber, node);
+            NodePair newNode = new NodePair(lineNumber, node.cloneNode(true));
             allAstStatements.put(id, newNode);
             candidateSpace.put(id, newNode);
 
-            //todo: for now, candidate space the same as statement list
+            //todo: we might be excluding statements that are the same (but that is already looking at the context)
             /*if (!statementAlreadyExists(node.getTextContent()))
                 candidateSpace.put(id, newNode);*/
         }
@@ -183,61 +188,70 @@ public class ASTHandler {
         return nodeExists;
     }
 
-    private void insertNode(int source, int target) {
-        Node sourceNode = allAstStatementsModified.get(source).getNode();
-        Node targetNode = allAstStatementsModified.get(target).getNode();
-        Node parentNodeSource = sourceNode.getParentNode();
+    private void insertNode(int source, Node targetNode) {
+        Node sourceNode = doc.importNode(astOriginal.item(source), true);
         Node parentNodeTarget = targetNode.getParentNode();
 
-        if (parentNodeSource != null && parentNodeTarget != null) {
+        if (parentNodeTarget != null) {
             Node clonedSourceNode = sourceNode.cloneNode(true);
             parentNodeTarget.insertBefore(clonedSourceNode, targetNode.getNextSibling());
         } else {
-            System.out.println("Node(s) does not exist!");
+            System.out.println("Node: " + utils.LINE_SEPARATOR + targetNode.getTextContent() + utils.LINE_SEPARATOR + " does not exist!");
         }
     }
 
-    private void replaceNode(int source, int target) {
-        Node sourceNode = allAstStatementsModified.get(source).getNode();
-        Node targetNode = allAstStatementsModified.get(target).getNode();
-        Node parentNodeSource = sourceNode.getParentNode();
+    private void replaceNode(int source, Node targetNode) {
+        Node sourceNode = doc.importNode(astOriginal.item(source), true);
         Node parentNodeTarget = targetNode.getParentNode();
 
-        if (parentNodeSource != null && parentNodeTarget != null) {
+        if (parentNodeTarget != null) {
             Node clonedSourceNode = sourceNode.cloneNode(true);
             parentNodeTarget.replaceChild(clonedSourceNode, targetNode);
         } else {
-            System.out.println("Node(s) does not exist!");
+            System.out.println("Node: " + utils.LINE_SEPARATOR + targetNode.getTextContent() + utils.LINE_SEPARATOR + " does not exist!");
         }
     }
 
-    private void deleteNode(int target) {
-        Node targetNode = allAstStatementsModified.get(target).getNode();
+    private void deleteNode(Node targetNode) {
         Node parentNodeTarget = targetNode.getParentNode();
 
         if (parentNodeTarget != null) {
             parentNodeTarget.removeChild(targetNode);
         } else {
-            System.out.println("Node does not exist!");
+            System.out.println("Node: " + utils.LINE_SEPARATOR + targetNode.getTextContent() + utils.LINE_SEPARATOR + " does not exist!");
         }
     }
 
     public void applyPatches(Individual individual) {
-        for (Patch currentPatch : individual.getAllPatches()) {
+        List<Node> originalNodeReferences = storeReferencesToNodes(individual);
+
+        for (int i = 0; i < individual.getAllPatches().size(); i++) {
+            Patch currentPatch = individual.getAllPatches().get(i);
+            Node currentTargetNode = originalNodeReferences.get(i);
             int operation = currentPatch.getOperation();
 
             if (operation == utils.DELETE) {
-                deleteNode(currentPatch.getTargetNode());
+                deleteNode(currentTargetNode);
             } else if (operation == utils.REPLACE) {
-                replaceNode(currentPatch.getSourceNode(), currentPatch.getTargetNode());
+                replaceNode(currentPatch.getSourceNode(), currentTargetNode);
             } else if (operation == utils.INSERT) {
-                insertNode(currentPatch.getSourceNode(), currentPatch.getTargetNode());
+                insertNode(currentPatch.getSourceNode(), currentTargetNode);
             } else {
                 System.out.println("ERROR: unsupported mutation operation no. " + operation);
             }
         }
         domToXML(utils.FIXED_XML_FILE_PATH);
-        resetAllAstStatementsModified();
+        resetAST();
+    }
+
+    //In case we had multiple targets - otherwise we can store a reference to 1 target Node (1 bug)
+    private List<Node> storeReferencesToNodes(Individual individual) {
+        List<Node> originalNodeReferences = new ArrayList<>();
+
+        for (Patch currentPatch : individual.getAllPatches()) {
+            originalNodeReferences.add(ast.item(currentPatch.getTargetNode()));
+        }
+        return originalNodeReferences;
     }
 
     public void domToXML(String filepath) {
@@ -305,5 +319,21 @@ public class ASTHandler {
         //Original AST extended with line numbers
         StringBuilder xmlDataWithLines = parser.parseFile(utils.TARGET_CODE_FILE_PATH_WITH_LINES);
         utils.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML_WITH_LINES, xmlDataWithLines);
+    }
+
+    public void resetAST() {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = null;
+        try {
+            db = dbf.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        Node originalRoot = docOriginal.getDocumentElement();
+
+        doc = db.newDocument();
+        Node copiedRoot = doc.importNode(originalRoot, true);
+        doc.appendChild(copiedRoot);
+        ast = initializeAST(doc);
     }
 }

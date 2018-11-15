@@ -1,6 +1,8 @@
 
 \.idea/
 \parsed/
+\GAOutput/
+\resources/CodeWithLines.java
 
 *.class
 
