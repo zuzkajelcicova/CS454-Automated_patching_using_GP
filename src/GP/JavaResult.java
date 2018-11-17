@@ -62,7 +62,7 @@ public class JavaResult {
         return pro.exitValue();
     }
 
-    private void fitness_function(){
+    private void fitness_function(ArrayList<JavaResult> ListJavaPassedIndividual){
         BigInteger bi1 = new BigInteger("18");
         BigInteger bi2 = new BigInteger("24");
         BigInteger bi3 = bi1.gcd(bi2);

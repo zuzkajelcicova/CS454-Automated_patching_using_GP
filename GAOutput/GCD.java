@@ -9,6 +9,7 @@ public class GCD {
 
         if (a == 0) {
             System.out.println("GCD: " + gcd + "\n");
+            //Extra line should be here
         }
         while (b != 0) {
             if (a > b) {

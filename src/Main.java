@@ -1,29 +1,22 @@
 import AST.ASTHandler;
 import AST.Parser;
-import GP.GP_Initialize;
-import GP.Individual;
-import GP.JavaResult;
-import GP.Patch;
+import GP.Bug;
+import GP.GeneticAlgorithm;
 import General.Utils;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        //todo: hardcode faulty space for now - exclude buggy statements from ingredient space
-        //todo: after the faulty space has been created, initial population can be created randomly
-
         int initialPopulationSize = 40;
-        //Buggy program
-        //Default program name - will change if different input program provided
         int fitnessEvaluations = 10;
-        int timeInminutes = 50;
+        int timeInMinutes = 50;
         Utils utils = new Utils();
         Parser parser = new Parser(utils);
 
-        //Terminal input
+        //An example of a terminal input:
+        //LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -f 1000 -t 90
         if (args.length > 7) {
             try {
                 if (args[0] != null) {
@@ -39,7 +32,7 @@ public class Main {
                     fitnessEvaluations = Integer.parseInt(args[5]);
                 }
                 if (args[6].equalsIgnoreCase("-t") && args[6] != null) {
-                    timeInminutes = Integer.parseInt(args[7]);
+                    timeInMinutes = Integer.parseInt(args[7]);
                 }
             } catch (NumberFormatException e) {
                 System.err.println("Arguments -p,-f and -t must be integers!");
@@ -47,30 +40,29 @@ public class Main {
             }
         }
 
-        //Original AST
-        StringBuilder xmlData = parser.parseFile(utils.TARGET_CODE_FILE_PATH);
-        parser.saveData(utils.OUTPUT_PARSED_DIRECTORY, utils.FAULTY_XML, xmlData);
-        //System.out.println("Program in AST XML format: \n" + xmlData.toString());
+        //Fault localization - process the output file from GZoltar
+        utils.obtainSuspiciousLines();
+        List<Bug> chosenBugs = utils.amountOfBugsToFix(6);
 
-        //StringBuilder codeData = parser.parseFile((new File(OUTPUT_PARSED_DIRECTORY, FAULTY_XML)).getAbsolutePath());
-        //FileUtils.saveData(OUTPUT_PARSED_DIRECTORY, TARGET_CODE, codeData);
-        //System.out.println("Program in CODE format: \n" + codeData.toString());
+        //ASTHandler instance
+        ASTHandler astHandler = new ASTHandler(utils, parser, chosenBugs);
 
-        //Testing a potential "fix"
-        ASTHandler astHandler = new ASTHandler(utils, parser);
+        //Genetic algorithm instance
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(initialPopulationSize, timeInMinutes,
+                fitnessEvaluations, utils, parser, astHandler);
 
-        GP_Initialize gp_initialize = new GP_Initialize(utils.TARGET_CODE, utils, parser);
-        ArrayList<Individual> ListIndividual = gp_initialize.initialize(initialPopulationSize, astHandler);
+        // GP_Initialize gp_initialize = new GP_Initialize(utils.TARGET_CODE, utils, parser);
+        // ArrayList<Individual> ListIndividual = gp_initialize.initialize(initialPopulationSize, astHandler);
 
-        ArrayList<JavaResult> ListJavaPassedIndividual = gp_initialize.LoopPopulation(ListIndividual);
-        //you can use JavaResult.getFitness() to access fitness value
+        // ArrayList<JavaResult> ListJavaPassedIndividual = gp_initialize.LoopPopulation(ListIndividual);
+        // //you can use JavaResult.getFitness() to access fitness value
 
-        //Remove line numbers to clean the code
-        StringBuilder noLinesCode = astHandler.removeCodeLines();
-        parser.saveData(utils.SRC_DIRECTORY, utils.TARGET_CODE, noLinesCode);
 
-        //parser.runFromCMD(filePath, faultyXml);
-        //parser.runFromCMD(faultyXml, outputCode);
+        // JUnitCore junit = new JUnitCore();
+        // Result result = junit.run(GP_InitializeTest.class);
+
+        geneticAlgorithm.repairProgram();
+
+        System.out.printf("The program has terminated!");
     }
 }
-

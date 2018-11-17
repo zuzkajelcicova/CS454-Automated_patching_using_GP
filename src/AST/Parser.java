@@ -35,25 +35,6 @@ public class Parser {
         return parsedData;
     }
 
-    public void saveData(String dir, String outputFile, StringBuilder data) {
-        try {
-            File newFile = new File(dir, outputFile);
-            String filepath = newFile.getAbsolutePath();
-            Files.deleteIfExists(Paths.get(filepath));
-
-            newFile.createNewFile();
-
-            FileWriter fileWriter = new FileWriter(filepath);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.append(data.toString());
-
-            bufferedWriter.flush();
-            bufferedWriter.close();
-        } catch (Exception e) {
-            System.err.println("ERROR: " + e.getMessage());
-        }
-    }
-
     public void runFromCMD(String inputFile, String outputFile) {
 
         String command = "srcml " + inputFile + " -o " + outputFile;
