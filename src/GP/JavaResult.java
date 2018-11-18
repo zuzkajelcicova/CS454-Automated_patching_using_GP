@@ -14,12 +14,10 @@ public class JavaResult {
 //    pass or fail
     private int result;
     private Utils utils;
-    private String TARGET_CODE = "";
     private Individual individual;
 
 
-    public JavaResult(String TARGET_CODE, Utils utils, Individual individual) {
-        this.TARGET_CODE = TARGET_CODE;
+    public JavaResult(Utils utils, Individual individual) {
         this.utils = utils;
         this.individual = individual;
         run();
@@ -36,7 +34,7 @@ public class JavaResult {
     private void run() {
         try {
             System.out.println("**********");
-            this.result = runProcess("javac -cp src src/" + this.TARGET_CODE);
+            this.result = runProcess("javac -cp src src/" + utils.TARGET_CODE);
             System.out.println("**********");
 
         } catch (Exception e) {
@@ -60,6 +58,9 @@ public class JavaResult {
         pro.waitFor();
         System.out.println(command + " exitValue() " + pro.exitValue());
         return pro.exitValue();
+    }
+    public void setFitness(double fitness){
+        this.fitness = fitness;
     }
 
     private void fitness_function(ArrayList<JavaResult> ListJavaPassedIndividual){
@@ -106,7 +107,7 @@ public class JavaResult {
         int posPass = posTest.size() - posFail;
 
         //TODO: change formula for fitness function
-        this.fitness = (utils.WEIGHT_NEG*negPass) + (utils.WEIGHT_POS*posPass);
+        this.fitness = (utils.WEIGHT_NEG*negPass)/(utils.NUM_NEG_TEST) + (utils.WEIGHT_POS*posPass)/(utils.NUM_POS_TEST);
 
     }
 }
