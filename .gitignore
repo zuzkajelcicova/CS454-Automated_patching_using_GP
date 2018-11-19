@@ -1,8 +1,10 @@
 
 \.idea/
-\parsed/
-\GAOutput/
+\parsed/*
+\GAOutput/*
 \resources/CodeWithLines.java
+\fault_localization/gzoltar.csv
+\fault_localization/suspicious.csv
 
 *.class
 
