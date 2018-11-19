@@ -11,8 +11,14 @@ public class Main {
 		
 		try {
 			// set the path to classes and test-classes of the desired application
-			Process p = Runtime.getRuntime().exec("java -jar C:/Users/Asdf/Eclipse/workspace/chrysler/com.gzoltar-0.0.11-jar-with-dependencies.jar"
-					+ " C:/Users/Asdf/Eclipse/workspace/chrysler daimler target/classes/:target/test-classes");
+			String testProjectPath = "C:/Users/Asdf/Eclipse/workspace/chrysler";
+			String testProjectName = "daimler";
+			
+			System.out.println(System.getProperty("user.dir"));
+			Process p = Runtime.getRuntime().exec("java -jar ./com.gzoltar-0.0.11-jar-with-dependencies.jar"
+					+ " " + testProjectPath 
+					+ " " + testProjectName 
+					+ " " + "target/classes/:target/test-classes");
 			
 			p.waitFor();
 
