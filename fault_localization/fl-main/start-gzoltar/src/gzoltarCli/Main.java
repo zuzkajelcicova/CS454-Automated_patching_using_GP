@@ -11,38 +11,20 @@ public class Main {
 		
 		try {
 			System.out.println(System.getProperty("user.dir"));
-			// TODO: project path and name as inout for jar file
+			
 			// set the path to classes and test-classes of the desired application
-//			String gzoltarFile = "./com.gzoltar-0.0.11-jar-with-dependencies.jar";
-//			String testProjectPath = "C:/Eigene_Programme/Git-Data/Own_Repositories/AISE/fault_localization/fl-test_code/chrysler";
-//			String testProjectName = "daimler";
-//			String outputFilePath = "gzoltar.csv";
-			
-			System.out.println(args[0]);
-			System.out.println(args[1]);
-			System.out.println(args[2]);
-			System.out.println(args[3]);
-			
-			String gzoltarFile = args[0];
-			String testProjectPath = args[1];
-			String testProjectName = args[2];
-			String outputFilePath = args[3];
-			String classesPath = "target/classes/";
-			String classesTestPath = "target/test-classes/";
-
+			String testProjectPath = "C:/Users/Asdf/Eclipse/workspace/chrysler";
+			String testProjectName = "daimler";
 			
 			// start java process
-			Process startGzoltar = Runtime.getRuntime().exec("java -jar"
-					+ " " + gzoltarFile
+			Process p = Runtime.getRuntime().exec("java -jar ./com.gzoltar-0.0.11-jar-with-dependencies.jar"
 					+ " " + testProjectPath 
 					+ " " + testProjectName 
-					+ " " + classesPath
-					+ ":" + classesTestPath
-					);
+					+ " " + "target/classes/:target/test-classes");
 			
 			// catch jar file output
-			startGzoltar.waitFor();
-            InputStream is = startGzoltar.getInputStream();
+			p.waitFor();
+            InputStream is = p.getInputStream();
             byte inputStreamByte[] = new byte[is.available()];
             is.read(inputStreamByte, 0, inputStreamByte.length); 
             String inputString = new String(inputStreamByte);
@@ -50,8 +32,8 @@ public class Main {
             System.out.println(inputString);
             
             // print jar file output to csv file
-            try (PrintWriter out = new PrintWriter(outputFilePath)) {
-                out.println(inputString);
+            try (PrintWriter out2 = new PrintWriter("outputFile.csv")) {
+                out2.println(inputString);
             }
 		} catch (IOException e) {
 			e.printStackTrace();
