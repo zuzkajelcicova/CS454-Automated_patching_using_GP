@@ -1,7 +1,7 @@
 package gzoltarCli;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.lang.Runtime;
 
 public class Main {
@@ -9,37 +9,29 @@ public class Main {
 	public static void main(String [ ] args)
 	{		
 		
-		
-		System.out.println(System.getProperty("user.dir"));
-		
-		// Set the projectName
-		String projectName = "chrysler";
-		
-		// set the package name
-		String packageName = "daimler";
-		
-		// set the path to classes and test-classes of the desired application, 
-		// no need of changing that, since it shouldn't change
-		
 		try {
-			
-			Process p = Runtime.getRuntime().exec("java -jar ../com.gzoltar-0.0.11-jar-with-dependencies.jar"
-					+ " ../fl-test_code/chrysler daimler target/classes/:target/test-classes");
-			
+			// set the path to classes and test-classes of the desired application
+			Process p = Runtime.getRuntime().exec("java -jar C:/Users/Asdf/Eclipse/workspace/chrysler/com.gzoltar-0.0.11-jar-with-dependencies.jar"
+					+ " C:/Users/Asdf/Eclipse/workspace/chrysler daimler target/classes/:target/test-classes");
 			
 			p.waitFor();
 
             InputStream is = p.getInputStream();
 
-            byte b[] = new byte[is.available()];
-            is.read(b, 0, b.length); // probably try b.length-1 or -2 to remove "new-line(s)"
+            byte inputStreamByte[] = new byte[is.available()];
+            is.read(inputStreamByte, 0, inputStreamByte.length); 
+            
+            String inputString = new String(inputStreamByte);
 
-//            String s = new String(b);
-            System.out.println(new String(b));
-		
+            System.out.println(inputString);
+            
+            try (PrintWriter out2 = new PrintWriter("outputFile.csv")) {
+                out2.println(inputString);
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} 
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
