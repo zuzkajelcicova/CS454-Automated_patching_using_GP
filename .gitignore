@@ -2,6 +2,12 @@
 \.idea/
 \parsed/
 \GAOutput/
+\AST/
+\GP/Bug.java
+\GP/GeneticOperation.java
+\GP/Individual.java
+\GP/Patch.java
+\GP/TestCase.java
 \resources/CodeWithLines.java
 
 *.class
