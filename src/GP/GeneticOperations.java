@@ -1,19 +1,12 @@
 package GP;
 
-import GenP.Individual;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GeneticOperations {
 
     //Selection
-    public Individual selection(List<Individual> pop, double fv) {
-        //Select the most fittest individual
-        int index = 0;
-        for (int i = 0; i < pop.size(); i++) {
-            if (pop.get(i).getFitnessVal() >= fv)
-                index = i;
-        }
-        return pop.get(index);
-    }
 
     public Individual fittestInTournament(List<Individual> pop) {
         //Select the most fittest individual
@@ -26,28 +19,6 @@ public class GeneticOperations {
             }
         }
         return pop.get(index);
-    }
-
-    public double getFittesFitnessValue(List<Individual> pop, double fv) {
-        for (int i = 0; i < pop.size(); i++) {
-            if (pop.get(i).getFitnessVal() >= fv) {
-                fv = pop.get(i).getFitnessVal();
-            }
-        }
-        return fv;
-    }
-
-    //Get index of least fittest individual
-    public int getLeastFittestIndex(List<Individual> pop) {
-        double minfit_val = Double.MAX_VALUE;
-        int minfit_index = 0;
-        for (int i = 0; i < pop.size(); i++) {
-            if (minfit_val >= pop.get(i).fitnessVal) {
-                minfit_val = pop.get(i).fitnessVal;
-                minfit_index = i;
-            }
-        }
-        return minfit_index;
     }
 
     public List<Individual> tournamentSelection(List<Individual> pop) {
@@ -93,58 +64,45 @@ public class GeneticOperations {
             int cutpoint = crossoverPoint(parent1);
 
             for (int i = 0; i < cutpoint; i++) {
-                offspring1.add(parent1.allPatches.get(i));
-                offspring2.add(parent2.allPatches.get(i));
-                offspring01.add(parent1.allPatches.get(i));
-                offspring02.add(parent2.allPatches.get(i));
+                offspring1.add(parent1.getAllPatches().get(i));
+                offspring2.add(parent2.getAllPatches().get(i));
+                offspring01.add(parent1.getAllPatches().get(i));
+                offspring02.add(parent2.getAllPatches().get(i));
 
             }
 
             for (int k = cutpoint; k < parent1.patchSize(); k++) {
                 if (k < parent2.patchSize()) {
-                    offspring1.add(parent2.allPatches.get(k));
-                    offspring22.add(parent2.allPatches.get(k));
-                    offspring12.add(parent2.allPatches.get(k));
-                    offspring02.add(parent2.allPatches.get(k));
+                    offspring1.add(parent2.getAllPatches().get(k));
+                    offspring22.add(parent2.getAllPatches().get(k));
+                    offspring12.add(parent2.getAllPatches().get(k));
+                    offspring02.add(parent2.getAllPatches().get(k));
                 }
 
-                offspring2.add(parent1.allPatches.get(k));
-                offspring11.add(parent1.allPatches.get(k));
-
-
-                offspring21.add(parent1.allPatches.get(k));
-
-                offspring01.add(parent1.allPatches.get(k));
-
-
+                offspring2.add(parent1.getAllPatches().get(k));
+                offspring11.add(parent1.getAllPatches().get(k));
+                offspring21.add(parent1.getAllPatches().get(k));
+                offspring01.add(parent1.getAllPatches().get(k));
             }
             for (int l = 0; l < cutpoint; l++) {
-                offspring01.add(parent2.allPatches.get(l));
-                offspring02.add(parent1.allPatches.get(l));
+                offspring01.add(parent2.getAllPatches().get(l));
+                offspring02.add(parent1.getAllPatches().get(l));
 
-                offspring11.add(parent2.allPatches.get(l));
-                offspring22.add(parent1.allPatches.get(l));
+                offspring11.add(parent2.getAllPatches().get(l));
+                offspring22.add(parent1.getAllPatches().get(l));
 
-                offspring12.add(parent1.allPatches.get(l));
-                offspring21.add(parent2.allPatches.get(l));
+                offspring12.add(parent1.getAllPatches().get(l));
+                offspring21.add(parent2.getAllPatches().get(l));
             }
-            int rnfitval = rn.nextInt(10) + 1;
 
-            newPop.add(new Individual(offspring1, rnfitval));
-            rnfitval = rn.nextInt(10) + 1;
-            newPop.add(new Individual(offspring2, rnfitval));
-            rnfitval = rn.nextInt(10) + 1;
-            newPop.add(new Individual(offspring11, rnfitval));
-            rnfitval = rn.nextInt(10) + 1;
-            newPop.add(new Individual(offspring22, rnfitval));
-            rnfitval = rn.nextInt(10) + 1;
-            newPop.add(new Individual(offspring12, rnfitval));
-            rnfitval = rn.nextInt(10) + 1;
-            newPop.add(new Individual(offspring21, rnfitval));
-            rnfitval = rn.nextInt(10) + 1;
-            newPop.add(new Individual(offspring01, rnfitval));
-            rnfitval = rn.nextInt(10) + 1;
-            newPop.add(new Individual(offspring02, rnfitval));
+            newPop.add(new Individual(offspring1));
+            newPop.add(new Individual(offspring2));
+            newPop.add(new Individual(offspring11));
+            newPop.add(new Individual(offspring22));
+            newPop.add(new Individual(offspring12));
+            newPop.add(new Individual(offspring21));
+            newPop.add(new Individual(offspring01));
+            newPop.add(new Individual(offspring02));
 //            }
 
 //            newGen = new ArrayList<Individual>(newPop);
@@ -158,8 +116,6 @@ public class GeneticOperations {
     //Mutation operation
     public Individual mutate(List<Individual> pop) {
         List<Integer> source_list;
-
-
         Individual mutated;
         Patch pts = new Patch();
         Random rn = new Random();
@@ -175,20 +131,6 @@ public class GeneticOperations {
         mutated = pop.get(1);
         return mutated;
 
-    }
-
-
-    //Get the fittest patchdou
-    public Individual getFittest(List<Individual> pop) {
-        double maxFit = Double.MIN_VALUE;
-        int maxFitIndex = 0;
-        for (int i = 0; i < pop.size(); i++) {
-            if (maxFit <= pop.get(i).fitnessVal) {
-                maxFit = pop.get(i).fitnessVal;
-                maxFitIndex = i;
-            }
-        }
-        return pop.get(maxFitIndex);
     }
 
     int crossoverPoint(Individual in) {

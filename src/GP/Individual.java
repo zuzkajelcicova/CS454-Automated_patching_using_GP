@@ -12,7 +12,9 @@ public class Individual {
     public Individual() {
         this.allPatches = new ArrayList<>();
     }
-
+    public Individual(List<Patch> ind) {
+        this.allPatches = ind;
+    }
     public List<Patch> getAllPatches() {
         return allPatches;
     }
@@ -20,7 +22,7 @@ public class Individual {
     void patchData(Patch pt){
         System.out.println(pt.getOperation() + "," + pt.getSourceNode()+ "," + pt.getTargetNode());
     }
-    public float getFitnessVal(){
+    public double getFitnessVal(){
         return this.fitnessVal;
     }
 
@@ -29,10 +31,10 @@ public class Individual {
     }
 
     public int patchSize(){
-        return pdata.size();
+        return allPatches.size();
     }
 
     public List<Patch> getPdata() {
-        return pdata;
+        return allPatches;
     }
 }

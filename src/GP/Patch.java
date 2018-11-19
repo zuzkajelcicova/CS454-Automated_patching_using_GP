@@ -5,6 +5,7 @@ public class Patch {
     private int sourceNode;
     private int targetNode;
 
+    public Patch(){}
     public Patch(int operation, int sNode, int tNode) {
         this.operation = operation;
         this.sourceNode = sNode;
@@ -19,9 +20,6 @@ public class Patch {
         return sourceNode;
     }
 
-    public int getTargetNode() {
-        return targetNode;
-    }
 
     public void addEdit(int op, int sn, int tn){
         this.operation = op;
