@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+Test set: daimler.AppTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.008 sec <<< FAILURE!
+test0(daimler.AppTest)  Time elapsed: 0.002 sec  <<< FAILURE!
+junit.framework.ComparisonFailure: expected:<St> but was:<a>
+	at junit.framework.Assert.assertEquals(Assert.java:81)
+	at junit.framework.Assert.assertEquals(Assert.java:87)
+	at daimler.AppTest.test0(AppTest.java:19)
+
+test5(daimler.AppTest)  Time elapsed: 0 sec  <<< FAILURE!
+junit.framework.ComparisonFailure: expected:<x> but was:<b>
+	at junit.framework.Assert.assertEquals(Assert.java:81)
+	at junit.framework.Assert.assertEquals(Assert.java:87)
+	at daimler.AppTest.test5(AppTest.java:54)
+
+test4(daimler.AppTest)  Time elapsed: 0 sec  <<< FAILURE!
+junit.framework.ComparisonFailure: expected:<x> but was:<a>
+	at junit.framework.Assert.assertEquals(Assert.java:81)
+	at junit.framework.Assert.assertEquals(Assert.java:87)
+	at daimler.AppTest.test4(AppTest.java:47)
+
