@@ -13,7 +13,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		// Define path to "(...)/gzoltar-data/spectra"
+		// Define path to "(...)/gzoltar-data/spectra" or outputFile.csv when using the gzoltarCli
 		String filePath = "";
 		Main main = new Main();
 		main.getLineSusp(filePath);
@@ -31,7 +31,7 @@ public class Main {
 		try(BufferedReader in = new BufferedReader(new FileReader(filePath))) {
 		    String str = in.readLine();
 		    
-		    // Extract lines and suspeciousness value from file
+		    // Extract lines and suspiciousness value from file
 		    while ((str = in.readLine()) != null) {
 		        String[] tokens = str.split("#");
 		        String[] values = tokens[1].split(",");
