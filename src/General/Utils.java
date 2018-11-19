@@ -76,7 +76,7 @@ public class Utils {
 
     // Number of Positive and Negative test case
     public final int NUM_POS_TEST = 7;
-    public final int NUM_NEG_TEST = 7;
+    public final int NUM_NEG_TEST = 6;
     
     public void obtainSuspiciousLines() {
         String line;

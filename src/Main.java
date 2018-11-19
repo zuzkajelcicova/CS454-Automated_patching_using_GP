@@ -56,6 +56,7 @@ public class Main {
 //        geneticAlgorithm.repairProgram();
         ArrayList<JavaResult> ListJavaPassedIndividual = geneticAlgorithm.LoopPopulation(geneticAlgorithm.getInitialPopulation());
 
+        geneticAlgorithm.repairProgram(ListJavaPassedIndividual);
         System.out.printf("The program has terminated!");
     }
 }

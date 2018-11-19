@@ -82,27 +82,27 @@ public class GCDTestNeg extends TestResult {
         Assert.assertEquals(20, gcdResult);
     }
 
+//    @Test
+//    public void testgcdNegative5() {
+//        Assert.assertEquals("testgcdNegative5", name.getMethodName());
+//        //b value is zero
+//        //should get divide by zero exception which is ArithmeticException
+//        exception.expect(ArithmeticException.class);
+//        int gcdResult = GCD.gcd(0, 0);
+//
+//    }
+
     @Test
     public void testgcdNegative5() {
         Assert.assertEquals("testgcdNegative5", name.getMethodName());
-        //b value is zero
-        //should get divide by zero exception which is ArithmeticException
-        exception.expect(ArithmeticException.class);
-        int gcdResult = GCD.gcd(0, 0);
-
-    }
-
-    @Test
-    public void testgcdNegative6() {
-        Assert.assertEquals("testgcdNegative6", name.getMethodName());
         //b is zero, a is negative
         int gcdResult = GCD.gcd(-5, 0);
         Assert.assertEquals(5, gcdResult);
     }
 
     @Test
-    public void testgcdNegative7() {
-        Assert.assertEquals("testgcdNegative7", name.getMethodName());
+    public void testgcdNegative6() {
+        Assert.assertEquals("testgcdNegative6", name.getMethodName());
         //b is zero, a is negative
         int gcdResult = GCD.gcd(0, -12);
         Assert.assertEquals(12, gcdResult);
