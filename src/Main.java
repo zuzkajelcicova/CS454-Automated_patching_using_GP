@@ -1,15 +1,16 @@
 import AST.ASTHandler;
 import AST.Parser;
 import GP.Bug;
-import GP.GeneticAlgorithm;
+import GP.JavaResult;
 import General.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        int initialPopulationSize = 40;
+        int initialPopulationSize = 10;
         int fitnessEvaluations = 10;
         int timeInMinutes = 50;
         Utils utils = new Utils();
@@ -49,9 +50,13 @@ public class Main {
 
         //Genetic algorithm instance
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(initialPopulationSize, timeInMinutes,
-                fitnessEvaluations, utils, parser, astHandler);
-        geneticAlgorithm.repairProgram();
+                fitnessEvaluations, utils, parser, astHandler, chosenBugs);
 
+
+//        geneticAlgorithm.repairProgram();
+        ArrayList<JavaResult> ListJavaPassedIndividual = geneticAlgorithm.LoopPopulation(geneticAlgorithm.getInitialPopulation());
+
+        geneticAlgorithm.repairProgram(ListJavaPassedIndividual);
         System.out.printf("The program has terminated!");
     }
 }
