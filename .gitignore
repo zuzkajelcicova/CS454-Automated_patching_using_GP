@@ -6,7 +6,9 @@
 \fault_localization/gzoltar.csv
 \fault_localization/suspicious.csv
 
+!*/fault_localization/fl-test_code
+
 *.class
 
-!*/fault_localization/fl-test_code/*
+
 
