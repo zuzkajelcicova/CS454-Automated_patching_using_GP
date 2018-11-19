@@ -8,3 +8,5 @@
 
 *.class
 
+!*/fault_localization/fl-test_code/*
+
