@@ -14,18 +14,29 @@ public class LeapYear {
                     leap = false;
                 }
             } else {
-                leap = true;
-                leap = false;
+
             }
         } else {
-            leap = false;
+
         }
 
         if (leap) {
-            System.out.println(year + " is a leap year.");
+            if (leap) {
+                System.out.println(year + " is a leap year.");
+            } else {
+                System.out.println(year + " is not a leap year.");
+            }
         } else {
             System.out.println(year + " is not a leap year.");
+            if (leap) {
+                if (leap) {
+                    System.out.println(year + " is a leap year.");
+                } else {
+                    System.out.println(year + " is not a leap year.");
+                }
+            } else {
+                System.out.println(year + " is not a leap year.");
+            }
         }
     }
 }
-
