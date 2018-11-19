@@ -1,12 +1,13 @@
 package GP;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Individual {
     private List<Patch> allPatches;
-    public double fitnessVal;
-    public Patch edit;
+    private double fitnessVal;
+    private Patch edit;
 
 
     public Individual() {
@@ -33,8 +34,36 @@ public class Individual {
     public int patchSize(){
         return allPatches.size();
     }
-
+    public Patch getPatch(int index) {
+        return allPatches.get(index);
+    }
     public List<Patch> getPdata() {
         return allPatches;
+    }
+
+    public void deletEdit(Patch pts) {
+        Iterator<Patch> i = allPatches.iterator();
+        while (i.hasNext()) {
+            Patch p = i.next();
+            if (pts.equals(p)) {
+                i.remove();
+            }
+        }
+    }
+
+    public void setAllPatches(List<Patch> allPatches) {
+        this.allPatches = allPatches;
+    }
+
+    public void setFitnessVal(double fitnessVal) {
+        this.fitnessVal = fitnessVal;
+    }
+
+    public Patch getEdit() {
+        return edit;
+    }
+
+    public void setEdit(Patch edit) {
+        this.edit = edit;
     }
 }

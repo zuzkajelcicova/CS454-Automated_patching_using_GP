@@ -114,23 +114,34 @@ public class GeneticOperations {
     }
 
     //Mutation operation
-    public Individual mutate(List<Individual> pop) {
-        List<Integer> source_list;
-        Individual mutated;
+
+    public List<Individual> mutate(List<Individual> pop, List<Integer> source_list) {
+
         Patch pts = new Patch();
         Random rn = new Random();
-        int index = rn.nextInt(pop.get(1).patchSize() - 1) + 1;
 
-        int x, y, z;
-        x = rn.nextInt(10) + 1;
-        y = rn.nextInt(10) + 1;
-        z = rn.nextInt(10) + 1;
-        pts.addEdit(x, y, z);
-        // Adding new patch
-        pop.get(1).addEdit(pts);
-        mutated = pop.get(1);
-        return mutated;
-
+        // select source edit source node
+        int sn = rn.nextInt(source_list.size() - 1) + 1;
+        // Select target edit (randomly)
+        int patch_index = rn.nextInt(pop.size() - 1) + 1;
+        int edit_index = rn.nextInt(pop.get(patch_index).patchSize() - 1) + 1;
+        pts = pop.get(patch_index).getPatch(edit_index);
+        int target = pts.getTargetNode();
+        //choose random operation 0 to delete, 1 to insert, 2 to replace
+        int op = rn.nextInt(3 - 1) + 1;
+        if (op == 0) {
+            // Deleting edit
+            pop.get(patch_index).deletEdit(pts);
+        }
+        if (op == 1) {
+            // Inserting new edit
+            pop.get(patch_index).getPatch(edit_index).setSourceNode(source_list.get(sn));
+        }
+        if (op == 2) {
+            // Replacing edit (changing source node)
+            pop.get(patch_index).getAllPatches().set(edit_index, pts);
+        }
+        return pop;
     }
 
     int crossoverPoint(Individual in) {
