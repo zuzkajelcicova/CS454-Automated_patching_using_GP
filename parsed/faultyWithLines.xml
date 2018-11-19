@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><unit xmlns="http://www.srcML.org/srcML/src" filename="C:\Users\admin\git\CS454-Automated_patching_using_GP\resources\CodeWithLines.java" language="Java" revision="0.9.5"><class><specifier>public</specifier> class <name>LeapYear</name> <block>{<comment type="line">//LC:1</comment>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="C:\Users\admin\git\CS454-Automated_patching_using_GP\resources\CodeWithLines.java"><class><specifier>public</specifier> class <name>LeapYear</name> <block>{<comment type="line">//LC:1</comment>
 <comment type="line">//LC:2</comment>
     <function><specifier>public</specifier> <specifier>static</specifier> <type><name>void</name></type> <name>main</name><parameter_list>(<parameter><decl><type><name><name>String</name><index>[]</index></name></type> <name>args</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:3</comment>
 <comment type="line">//LC:4</comment>
@@ -14,7 +15,7 @@
                     <expr_stmt><expr><name>leap</name> <operator>=</operator> <literal type="boolean">false</literal></expr>;</expr_stmt><comment type="line">//LC:14</comment>
                 }</block></else></if><comment type="line">//LC:15</comment>
             }</block></then> <else>else <block>{<comment type="line">//LC:16</comment>
-                <expr_stmt><expr><name>leap</name> <operator>=</operator> <literal type="boolean">true</literal></expr>;</expr_stmt><expr_stmt><expr><name>leap</name> <operator>=</operator> <literal type="boolean">false</literal></expr>;</expr_stmt><comment type="line">//LC:17</comment>
+                <expr_stmt><expr><name>leap</name> <operator>=</operator> <literal type="boolean">true</literal></expr>;</expr_stmt><comment type="line">//LC:17</comment>
             }</block></else></if><comment type="line">//LC:18</comment>
         }</block></then> <else>else <block>{<comment type="line">//LC:19</comment>
             <expr_stmt><expr><name>leap</name> <operator>=</operator> <literal type="boolean">false</literal></expr>;</expr_stmt><comment type="line">//LC:20</comment>
