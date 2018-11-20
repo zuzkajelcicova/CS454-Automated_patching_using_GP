@@ -7,7 +7,18 @@ import java.util.Random;
 public class GeneticOperations {
 
     //Selection
-
+    //Get the fittest patch
+    public Individual getFittest(List<Individual> pop) {
+        double maxFit = Double.MIN_VALUE;
+        int maxFitIndex = 0;
+        for (int i = 0; i < pop.size(); i++) {
+            if (maxFit <= pop.get(i).getFitnessVal()) {
+                maxFit = pop.get(i).getFitnessVal();
+                maxFitIndex = i;
+            }
+        }
+        return pop.get(maxFitIndex);
+    }
     public Individual fittestInTournament(List<Individual> pop) {
         //Select the most fittest individual
         int index = 0;
@@ -53,8 +64,6 @@ public class GeneticOperations {
 
             Individual parent1 = pop.get(ii);
             Individual parent2 = pop.get(p2);
-
-//            for (int j = 0; j < pop.size(); j++) {
 
             List<Patch> offspring1 = new ArrayList<Patch>();
             List<Patch> offspring2 = new ArrayList<Patch>();
@@ -107,9 +116,7 @@ public class GeneticOperations {
             newPop.add(new Individual(offspring21));
             newPop.add(new Individual(offspring01));
             newPop.add(new Individual(offspring02));
-//            }
 
-//            newGen = new ArrayList<Individual>(newPop);
             newGen.addAll(newPop);
 
         }
@@ -118,7 +125,6 @@ public class GeneticOperations {
     }
 
     //Mutation operation
-
     public List<Individual> mutate(List<Individual> pop, List<Integer> source_list) {
 
         Patch pts = new Patch();
