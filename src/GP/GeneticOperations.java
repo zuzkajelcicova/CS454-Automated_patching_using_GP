@@ -22,6 +22,10 @@ public class GeneticOperations {
     }
 
     public List<Individual> tournamentSelection(List<Individual> pop) {
+        // Arbitrarily selected tournament size, i think we need to be systematic.
+        // If the tournament size is larger, weak individuals have a smaller chance to be selected, because,
+        // if a weak individual is selected to be in a tournament,
+        // there is a higher probability that a stronger individual is also in that tournament.
         int tournament_size = 7;
         int tournament_each = pop.size() / tournament_size;
         List<Individual> tourament;
