@@ -6,8 +6,20 @@ import java.util.Random;
 
 public class GeneticOperations {
 
-    //Selection
+    //Select fittest individual which will be maintained
+    public Individual getFittest(List<Individual> pop) {
+        double maxFit = Double.MIN_VALUE;
+        int maxFitIndex = 0;
+        for (int i = 0; i < pop.size(); i++) {
+            if (maxFit <= pop.get(i).getFitnessVal()) {
+                maxFit = pop.get(i).getFitnessVal();
+                maxFitIndex = i;
+            }
+        }
+        return pop.get(maxFitIndex);
+    }
 
+    //Tournament selection
     public Individual fittestInTournament(List<Individual> pop) {
         //Select the most fittest individual
         int index = 0;
