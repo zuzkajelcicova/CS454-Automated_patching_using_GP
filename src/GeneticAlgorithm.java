@@ -1,10 +1,7 @@
 import AST.ASTHandler;
 import AST.NodePair;
 import AST.Parser;
-import GP.Bug;
-import GP.Individual;
-import GP.JavaResult;
-import GP.Patch;
+import GP.*;
 import General.Utils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -167,9 +164,12 @@ public class GeneticAlgorithm {
         Date date1 = formatter.parse(time1);
 
         ArrayList<JavaResult> solution = new ArrayList<>();
+        GeneticOperations gp = new GeneticOperations();
+        List<JavaResult> selected =  gp.tournamentSelection(ListJavaPassedIndividual);
         while (true){
 
             ArrayList<Individual> ListIndividual = new ArrayList<>();
+
 
             for (JavaResult eachJavaResult : ListJavaPassedIndividual){
 
