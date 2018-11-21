@@ -2,15 +2,11 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestResult;
 import org.junit.Assert;
 import org.junit.Rule;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GCDTestPos extends TestResult {
 
@@ -36,16 +32,16 @@ public class GCDTestPos extends TestResult {
 
     }
 
-    @BeforeEach
-    void setUp() {
-        posTestPassedCounter = 0;
-        negTestPassedCounter = 0;
-    }
-
-    @AfterEach
-    void tearDown() {
-
-    }
+//    @BeforeEach
+//    void setUp() {
+//        posTestPassedCounter = 0;
+//        negTestPassedCounter = 0;
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//
+//    }
 
     //Positive TestCases
     @Test

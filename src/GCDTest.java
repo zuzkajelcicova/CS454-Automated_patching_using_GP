@@ -1,14 +1,12 @@
 import junit.framework.AssertionFailedError;
 import junit.framework.TestResult;
 import org.junit.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class GCDTest extends TestResult {
 

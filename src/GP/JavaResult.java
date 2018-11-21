@@ -27,6 +27,10 @@ public class JavaResult {
         return fitness;
     }
 
+    public Individual getIndividual() {
+        return individual;
+    }
+
     public int getResult() {
         return result;
     }
