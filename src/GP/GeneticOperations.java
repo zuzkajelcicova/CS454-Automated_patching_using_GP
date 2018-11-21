@@ -1,11 +1,17 @@
 package GP;
 
+import General.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class GeneticOperations {
 
+    private Utils utils;
+    public GeneticOperations(Utils utils) {
+        this.utils = utils;
+    }
     //Select fittest individual which will be maintained
     public JavaResult getFittest(List<JavaResult> pop) {
         double maxFit = Double.MIN_VALUE;
@@ -20,7 +26,7 @@ public class GeneticOperations {
     }
 
     //Tournament selection
-    public JavaResult fittestInTournament(List<JavaResult> pop) {
+    public Individual fittestInTournament(List<JavaResult> pop) {
         //Select the most fittest individual
         int index = 0;
         double min = Double.MIN_VALUE;
@@ -30,10 +36,10 @@ public class GeneticOperations {
                 min = pop.get(i).getFitness();
             }
         }
-        return pop.get(index);
+        return pop.get(index).getIndividual();
     }
 
-    public List<JavaResult> tournamentSelection(List<JavaResult> pop) {
+    public List<Individual> tournamentSelection(List<JavaResult> pop) {
         // Arbitrarily selected tournament size, i think we need to be systematic.
         // If the tournament size is larger, weak individuals have a smaller chance to be selected, because,
         // if a weak individual is selected to be in a tournament,
@@ -41,13 +47,13 @@ public class GeneticOperations {
         int tournament_size = 7;
         int tournament_each = pop.size() / tournament_size;
         List<JavaResult> tournament;
-        List<JavaResult> selected = new ArrayList<>();
+        List<Individual> selected = new ArrayList<>();
         for (int i = 0; i < tournament_size; i++) {
             tournament = new ArrayList<>();
             for (int j = 0; j < tournament_each; j++) {
                 Random rn = new Random();
-                int Individual = rn.nextInt(pop.size() - 1) + 1;
-                tournament.add(j, pop.get(Individual));
+                int JavaResult = rn.nextInt(pop.size() - 1) + 1;
+                tournament.add(j, pop.get(JavaResult));
             }
             selected.add(fittestInTournament(tournament));
         }
@@ -137,7 +143,7 @@ public class GeneticOperations {
     //(4) mutate(pop)
     public List<Individual> mutate(List<Individual> pop, List<Integer> source_list) {
 
-        Patch pts = new Patch();
+        Patch pts;
         Random rn = new Random();
 
         // select source edit source node
@@ -149,15 +155,15 @@ public class GeneticOperations {
         int target = pts.getTargetNode();
         //choose random operation 0 to delete, 1 to insert, 2 to replace
         int op = rn.nextInt(3 - 1) + 1;
-        if (op == 0) {
+        if (op == utils.DELETE) {
             // Deleting edit
             pop.get(patch_index).deletEdit(pts);
         }
-        if (op == 1) {
+        if (op == utils.INSERT) {
             // Inserting new edit
             pop.get(patch_index).getPatch(edit_index).setSourceNode(source_list.get(sn));
         }
-        if (op == 2) {
+        if (op == utils.REPLACE) {
             // Replacing edit (changing source node)
             pop.get(patch_index).getAllPatches().set(edit_index, pts);
         }

@@ -167,20 +167,17 @@ public class GeneticAlgorithm {
         GeneticOperations gp = new GeneticOperations();
 
         JavaResult fittest_java_result = gp.getFittest(ListJavaPassedIndividual);
-        List<JavaResult> selected =  gp.tournamentSelection(ListJavaPassedIndividual);
+        List<Individual> selected =  gp.tournamentSelection(ListJavaPassedIndividual);
         while (true){
 
-            ArrayList<Individual> ListIndividual = new ArrayList<>();
+            List<Individual> newListIndividual;
 
-
-
-
-                gp.crossover(selected);
+                newListIndividual = gp.crossover(fittest_java_result.getIndividual(), selected);
                 Mutation(eachJavaResult);
-                ListIndividual.add(eachJavaResult.getIndividual());
+            newListIndividual.add(eachJavaResult.getIndividual());
 
 
-            ArrayList<JavaResult> ListJavaPassedIndividual_2 = LoopPopulation(ListIndividual);
+            ArrayList<JavaResult> ListJavaPassedIndividual_2 = LoopPopulation(newListIndividual);
 
             Date date_now_2 = new Date();
             String time2 = formatter.format(date_now_2);
