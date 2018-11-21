@@ -7,8 +7,6 @@ import java.util.List;
 public class Individual {
     private List<Patch> allPatches;
     private double fitnessVal;
-    private Patch edit;
-
 
     public Individual() {
         this.allPatches = new ArrayList<>();
@@ -25,10 +23,6 @@ public class Individual {
     }
     public double getFitnessVal(){
         return this.fitnessVal;
-    }
-
-    public void addEdit(Patch patch) {
-        this.edit = patch;
     }
 
     public int patchSize(){
