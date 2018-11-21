@@ -10,6 +10,8 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GeneticAlgorithm {
@@ -24,6 +26,7 @@ public class GeneticAlgorithm {
     private ASTHandler astHandler;
     private List<Bug> chosenBugs;
     private ArrayList<Individual> initialPopulation;
+    private ArrayList<JavaResult> solutionList = new ArrayList<>();
 
     public GeneticAlgorithm(int populationSize, int maxTimeInMinutes, int maxNumberOfFitnessEval,
                             Utils utils, Parser parser, ASTHandler astHandler, List<Bug> chosenBugs) {
@@ -111,35 +114,39 @@ public class GeneticAlgorithm {
 
             if(result.getResult() == utils.PASS){
 
-                Result testResult = JUnitCore.runClasses(GCDTestPos.class);
+                Result testPosResult = JUnitCore.runClasses(GCDTestPos.class);
 
-                for (Failure failure : testResult.getFailures()) {
+                for (Failure failure : testPosResult.getFailures()) {
                     System.out.println(failure.toString());
                 }
                 System.out.println("Testing Positive Test case");
-                System.out.println("Number of Failure: " + testResult.getFailureCount());
-                System.out.println("Number of Run: " + testResult.getRunCount());
-                System.out.println("Run Time: " + testResult.getRunTime());
+                System.out.println("Number of Failure: " + testPosResult.getFailureCount());
+                System.out.println("Number of Run: " + testPosResult.getRunCount());
+                System.out.println("Run Time: " + testPosResult.getRunTime());
 
-                posPass = utils.NUM_POS_TEST - testResult.getFailureCount();
+                posPass = utils.NUM_POS_TEST - testPosResult.getFailureCount();
 
-                testResult = JUnitCore.runClasses(GCDTestNeg.class);
+                Result testNegResult = JUnitCore.runClasses(GCDTestNeg.class);
 
-                for (Failure failure : testResult.getFailures()) {
+                for (Failure failure : testNegResult.getFailures()) {
                     System.out.println(failure.toString());
                 }
                 System.out.println("Testing Negative Test case");
-                System.out.println("Number of Failure: " + testResult.getFailureCount());
-                System.out.println("Number of Run: " + testResult.getRunCount());
-                System.out.println("Run Time: " + testResult.getRunTime());
+                System.out.println("Number of Failure: " + testNegResult.getFailureCount());
+                System.out.println("Number of Run: " + testNegResult.getRunCount());
+                System.out.println("Run Time: " + testNegResult.getRunTime());
 
-                negPass = utils.NUM_NEG_TEST - testResult.getFailureCount();
+                negPass = utils.NUM_NEG_TEST - testNegResult.getFailureCount();
 
                 double fitness = (utils.WEIGHT_NEG*negPass)/(utils.NUM_NEG_TEST) + (utils.WEIGHT_POS*posPass)/(utils.NUM_POS_TEST);
                 System.out.println("Fitness Value: " + fitness);
                 result.setFitness(fitness);
 
                 ListJavaResult.add(result);
+
+                if(testNegResult.getFailureCount() == 0 && testPosResult.getFailureCount() == 0){
+                    solutionList.add(result);
+                }
             }
 
         }
@@ -147,11 +154,43 @@ public class GeneticAlgorithm {
         return ListJavaResult;
     }
 
-    public void repairProgram(ArrayList<JavaResult> ListJavaPassedIndividual) {
+    public ArrayList<JavaResult> repairProgram(ArrayList<JavaResult> ListJavaPassedIndividual) throws ParseException {
         //todo: implement a loop handling the above three cases for exiting
 //        ArrayList<JavaResult> ListJavaPassedIndividual = LoopPopulation(this.initialPopulation);
         //todo: this is just a manual testing from Main (temporary before the loop is done)
 
+
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        //get Time now
+        Date date_now_1 = new Date();
+        String time1 = formatter.format(date_now_1);
+        Date date1 = formatter.parse(time1);
+
+        ArrayList<JavaResult> solution = new ArrayList<>();
+        while (true){
+
+            ArrayList<Individual> ListIndividual = new ArrayList<>();
+
+            for (JavaResult eachJavaResult : ListJavaPassedIndividual){
+
+                Crossover(eachJavaResult);
+                Mutation(eachJavaResult);
+                ListIndividual.add(eachJavaResult.getIndividual());
+            }
+
+            ArrayList<JavaResult> ListJavaPassedIndividual_2 = LoopPopulation(ListIndividual);
+
+            Date date_now_2 = new Date();
+            String time2 = formatter.format(date_now_2);
+            Date date2 = formatter.parse(time2);
+            long difference = date2.getTime() - date1.getTime();
+            //difference in milliseconds
+            if (difference > maxTimeInMinutes*60*1000){
+                break;
+            }
+        }
+
+        return solutionList;
         //Testing a potential "fix"
 //        JUnitCore junit = new JUnitCore();
 //        junit.addListener(new RunListener());
