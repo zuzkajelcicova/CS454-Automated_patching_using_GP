@@ -131,6 +131,10 @@ public class GeneticOperations {
 
     //Mutation operation
 
+    //(1) getFittest(pop) will return the fittest individual in the generation
+    //(2) tournamentSelection(pop) will return parent population
+    //(3) crossover(fittest, pop)
+    //(4) mutate(pop)
     public List<Individual> mutate(List<Individual> pop, List<Integer> source_list) {
 
         Patch pts = new Patch();

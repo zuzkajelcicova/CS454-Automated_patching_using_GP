@@ -165,18 +165,20 @@ public class GeneticAlgorithm {
 
         ArrayList<JavaResult> solution = new ArrayList<>();
         GeneticOperations gp = new GeneticOperations();
+
+        JavaResult fittest_java_result = gp.getFittest(ListJavaPassedIndividual);
         List<JavaResult> selected =  gp.tournamentSelection(ListJavaPassedIndividual);
         while (true){
 
             ArrayList<Individual> ListIndividual = new ArrayList<>();
 
 
-            for (JavaResult eachJavaResult : ListJavaPassedIndividual){
 
-                Crossover(eachJavaResult);
+
+                gp.crossover(selected);
                 Mutation(eachJavaResult);
                 ListIndividual.add(eachJavaResult.getIndividual());
-            }
+
 
             ArrayList<JavaResult> ListJavaPassedIndividual_2 = LoopPopulation(ListIndividual);
 
