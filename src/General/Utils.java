@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Utils {
-    public String SRCML_PATH = "ProvideYourOwnPath";
+    public String SRCML_PATH = "C:\\Program Files\\srcML 0.9.5\\bin";
     public String LINE_SEPARATOR = System.getProperty("line.separator");
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
     public String RESOURCES_DIRECTORY = "resources";

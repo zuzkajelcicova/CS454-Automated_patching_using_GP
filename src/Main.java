@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws ParseException {
         int initialPopulationSize = 10;
         int fitnessEvaluations = 10;
-        int timeInMinutes = 50;
+        int timeInMinutes = 5;
         Utils utils = new Utils();
         Parser parser = new Parser(utils);
 
@@ -56,8 +56,8 @@ public class Main {
 
 //        geneticAlgorithm.repairProgram();
         ArrayList<JavaResult> ListJavaPassedIndividual = geneticAlgorithm.LoopPopulation(geneticAlgorithm.getInitialPopulation());
-
-        geneticAlgorithm.repairProgram(ListJavaPassedIndividual);
+//      Does that astHandler the one that passed? which one?
+        geneticAlgorithm.repairProgram(ListJavaPassedIndividual, astHandler);
         System.out.printf("The program has terminated!");
     }
 }

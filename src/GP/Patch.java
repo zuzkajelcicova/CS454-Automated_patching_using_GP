@@ -22,4 +22,7 @@ public class Patch {
     public int getTargetNode() {
         return targetNode;
     }
+    public void setSourceNode(int sourceNode) {
+        this.sourceNode = sourceNode;
+    }
 }

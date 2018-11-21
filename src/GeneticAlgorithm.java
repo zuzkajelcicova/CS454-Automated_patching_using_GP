@@ -151,7 +151,7 @@ public class GeneticAlgorithm {
         return ListJavaResult;
     }
 
-    public ArrayList<JavaResult> repairProgram(ArrayList<JavaResult> ListJavaPassedIndividual) throws ParseException {
+    public ArrayList<JavaResult> repairProgram(ArrayList<JavaResult> ListJavaPassedIndividual, ASTHandler astHandler) throws ParseException {
         //todo: implement a loop handling the above three cases for exiting
 //        ArrayList<JavaResult> ListJavaPassedIndividual = LoopPopulation(this.initialPopulation);
         //todo: this is just a manual testing from Main (temporary before the loop is done)
@@ -163,28 +163,49 @@ public class GeneticAlgorithm {
         String time1 = formatter.format(date_now_1);
         Date date1 = formatter.parse(time1);
 
-        ArrayList<JavaResult> solution = new ArrayList<>();
-        GeneticOperations gp = new GeneticOperations();
+        GeneticOperations gp = new GeneticOperations(utils);
 
         JavaResult fittest_java_result = gp.getFittest(ListJavaPassedIndividual);
         List<Individual> selected =  gp.tournamentSelection(ListJavaPassedIndividual);
+
+        //candidate space
+        HashMap<Integer, NodePair> candidateSpace = astHandler.getCandidateSpace();
+        ArrayList<Integer> candidateList = new ArrayList<>();
+        for (Map.Entry<Integer, NodePair> entry : candidateSpace.entrySet()) {
+            candidateList.add(entry.getKey());
+        }
+        //KEEP the old array, cuz after cross over we might have to get rid all of them, so we need to add th eold one
+        // overwrite the new one to the old one
         while (true){
 
             List<Individual> newListIndividual;
 
-                newListIndividual = gp.crossover(fittest_java_result.getIndividual(), selected);
-                Mutation(eachJavaResult);
-            newListIndividual.add(eachJavaResult.getIndividual());
+            //CROSS OVER
+            newListIndividual = gp.crossover(fittest_java_result.getIndividual(), selected);
+            //MUTATION
+            //overwrite individual list after cross over with mutation
+            newListIndividual = gp.mutate(newListIndividual, candidateList);
 
+//            newListIndividual.add(eachJavaResult.getIndividual());
 
-            ArrayList<JavaResult> ListJavaPassedIndividual_2 = LoopPopulation(newListIndividual);
+            ArrayList<JavaResult> ListJavaPassedIndividual_2 = LoopPopulation((ArrayList<Individual>) newListIndividual);
+            List<JavaResult> chosenIndividualList = ListJavaPassedIndividual;
+            if (ListJavaPassedIndividual_2.size() > populationSize){
+                ListJavaPassedIndividual_2.sort(new SortbyFitness());
+                chosenIndividualList = ListJavaPassedIndividual_2.subList(0, populationSize);
+            }
+
+            //Now get rid of those having low fitness_value
+            fittest_java_result = gp.getFittest(chosenIndividualList);
+
+            selected =  gp.tournamentSelection(ListJavaPassedIndividual_2);
 
             Date date_now_2 = new Date();
             String time2 = formatter.format(date_now_2);
             Date date2 = formatter.parse(time2);
             long difference = date2.getTime() - date1.getTime();
             //difference in milliseconds
-            if (difference > maxTimeInMinutes*60*1000){
+            if (difference > maxTimeInMinutes*60*1000 || solutionList.size()>0){
                 break;
             }
         }
