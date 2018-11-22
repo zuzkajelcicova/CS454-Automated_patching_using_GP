@@ -162,7 +162,7 @@ public class GeneticOperations {
         int sn = rn.nextInt(source_list.size() - 1) + 1;
         // Select target edit (randomly)
         int patch_index = rn.nextInt(pop.size() - 1) + 1;
-        int edit_index = rn.nextInt(pop.get(patch_index).patchSize() - 1) + 1;
+        int edit_index = rn.nextInt(pop.get(patch_index).patchSize());
         pts = pop.get(patch_index).getPatch(edit_index);
         int target = pts.getTargetNode();
         //choose random operation 0 to delete, 1 to insert, 2 to replace
@@ -184,7 +184,7 @@ public class GeneticOperations {
 
     int crossoverPoint(Individual in) {
         Random rn = new Random();
-        int val1 = rn.nextInt(in.patchSize() - 1)+1;
+        int val1 = rn.nextInt(in.patchSize());
         return val1;
     }
 
