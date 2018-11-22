@@ -53,11 +53,5 @@ public class Individual {
         this.fitnessVal = fitnessVal;
     }
 
-    public Patch getEdit() {
-        return edit;
-    }
 
-    public void setEdit(Patch edit) {
-        this.edit = edit;
-    }
 }
