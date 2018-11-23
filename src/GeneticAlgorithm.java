@@ -198,7 +198,8 @@ public class GeneticAlgorithm {
             newListIndividual = gp.crossover(fittest_java_result.getIndividual(), selected);
             //MUTATION
             //overwrite individual list after cross over with mutation
-            newListIndividual = gp.mutate(newListIndividual, candidateList);
+            //add fittest one too
+            newListIndividual = gp.mutate(fittest_java_result.getIndividual(), newListIndividual, candidateList);
 
 //            newListIndividual.add(eachJavaResult.getIndividual());
 
@@ -208,8 +209,11 @@ public class GeneticAlgorithm {
                 ListJavaPassedIndividual_2.sort(new SortbyFitness());
                 chosenIndividualList = ListJavaPassedIndividual_2.subList(0, populationSize);
             }
-
+            else{
+                
+            }
             //Now get rid of those having low fitness_value
+            //get the best fitness first
             fittest_java_result = gp.getFittest(chosenIndividualList);
 
             selected =  gp.tournamentSelection(ListJavaPassedIndividual_2);
