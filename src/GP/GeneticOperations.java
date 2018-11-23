@@ -151,7 +151,7 @@ public class GeneticOperations {
 
     //Mutation operation
 
-    public List<Individual> mutate(List<Individual> pop, List<Integer> source_list) {
+    public List<Individual> mutate(List<Individual> pop, List<Integer> source_list, Individual ind) {
         Patch pts = new Patch();
         int mut = 0;
         Random rn = new Random();
@@ -186,6 +186,7 @@ public class GeneticOperations {
                     // Change operation
                 }
             }
+            pop.add(ind);
             return pop;
         }
         else {
