@@ -57,7 +57,7 @@ public class GeneticOperations {
     }
 
     // Crossover of parents
-    public List<Individual> crossover(Individual in1, List<Individual> pop) {
+    public List<Individual> crossover(Individual ind, List<Individual> pop) {
         List<Individual> newPop = new ArrayList<Individual>();
         List<Individual> newGen = new ArrayList<Individual>();
 
@@ -67,7 +67,12 @@ public class GeneticOperations {
 
             Individual parent1 = pop.get(ii);
             Individual parent2 = pop.get(p2);
-
+            int ctrC1 = parent1.getCtrCrossover();
+            ctrC1++;
+            parent1.setCtrCrossover(ctrC1);
+            int ctrC2 = parent2.getCtrCrossover();
+            ctrC2++;
+            parent1.setCtrMulataion(ctrC2);
 //            for (int j = 0; j < pop.size(); j++) {
 
             List<Patch> offspring1 = new ArrayList<Patch>();
@@ -86,9 +91,11 @@ public class GeneticOperations {
                     offspring2.add(parent2.getAllPatches().get(i));
                     offspring1.add(parent2.getAllPatches().get(i));
                     offspring2.add(parent1.getAllPatches().get(i));
+
                 }
                 newPop.add(new Individual(offspring1));
                 newPop.add(new Individual(offspring2));
+
                 newGen.addAll(newPop);
             } else {
 
@@ -136,42 +143,55 @@ public class GeneticOperations {
 
 //            newGen = new ArrayList<Individual>(newPop);
                 newGen.addAll(newPop);
-
             }
         }
-        newGen.add(in1);
+        newGen.add(ind);
         return newGen;
     }
 
     //Mutation operation
 
     public List<Individual> mutate(List<Individual> pop, List<Integer> source_list) {
-
         Patch pts = new Patch();
+        int mut = 0;
         Random rn = new Random();
+        int mutantsize = pop.size()/3;
+        if(mutantsize >= 1){
+            for(int i = 0; i < mutantsize; i++){
+                // select source edit source node
+                int sn = rn.nextInt(source_list.size() - 1) + 1;
+                // Select target edit (randomly)
+                int patch_index = rn.nextInt(pop.size() - 1) + 1;
+                int edit_index = rn.nextInt(pop.get(patch_index).patchSize() - 1) + 1;
+                mut =  pop.get(patch_index).getCtrMulataion();
+                mut++;
+                pop.get(patch_index).setCtrMulataion(mut);
+                pts = pop.get(patch_index).getPatch(edit_index);
+                int target = pts.getTargetNode();
+                //choose random operation 0 to delete, 1 to insert, 2 to replace
+                int op = rn.nextInt(4 - 1) + 1;
+                if (op == utils.DELETE) {
+                    // Deleting edit
+                    pop.get(patch_index).deletEdit(pts);
+                }
+                if (op == utils.INSERT) {
+                    // Inserting new edit
+                    pop.get(patch_index).getPatch(edit_index).setSourceNode(source_list.get(sn));
+                }
+                if (op == utils.REPLACE) {
+                    // Replacing edit (changing source node)
+                    pop.get(patch_index).getAllPatches().set(edit_index, pts);
+                }
+                if(op == utils.OPCHANGE){
+                    // Change operation
+                }
+            }
+            return pop;
+        }
+        else {
+            return pop;
+        }
 
-        // select source edit source node
-        int sn = rn.nextInt(source_list.size() - 1) + 1;
-        // Select target edit (randomly)
-        int patch_index = rn.nextInt(pop.size() - 1) + 1;
-        int edit_index = rn.nextInt(pop.get(patch_index).patchSize() - 1) + 1;
-        pts = pop.get(patch_index).getPatch(edit_index);
-        int target = pts.getTargetNode();
-        //choose random operation 0 to delete, 1 to insert, 2 to replace
-        int op = rn.nextInt(3 - 1) + 1;
-        if (op == utils.DELETE) {
-            // Deleting edit
-            pop.get(patch_index).deletEdit(pts);
-        }
-        if (op == utils.INSERT) {
-            // Inserting new edit
-            pop.get(patch_index).getPatch(edit_index).setSourceNode(source_list.get(sn));
-        }
-        if (op == utils.REPLACE) {
-            // Replacing edit (changing source node)
-            pop.get(patch_index).getAllPatches().set(edit_index, pts);
-        }
-        return pop;
     }
 
     int crossoverPoint(Individual in) {
