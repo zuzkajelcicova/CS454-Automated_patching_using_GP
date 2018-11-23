@@ -18,7 +18,7 @@ public class GCD {
                 b = b - a;
             }
         }
-        
+        System.out.printf("GCD: " + gcd + "\n");
         return gcd;
     }
 }

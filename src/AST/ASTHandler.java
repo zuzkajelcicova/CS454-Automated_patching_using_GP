@@ -75,6 +75,10 @@ public class ASTHandler {
         return ast;
     }
 
+    public HashMap<Integer, NodePair> getFaultSpace() {
+        return faultSpace;
+    }
+
     public HashMap<Integer, NodePair> getAllAstStatements() {
         return allAstStatements;
     }

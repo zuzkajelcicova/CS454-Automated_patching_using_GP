@@ -18,7 +18,7 @@
                 <expr_stmt><expr><name>b</name> <operator>=</operator> <name>b</name> <operator>-</operator> <name>a</name></expr>;</expr_stmt><comment type="line">//LC:18</comment>
             }</block></else></if><comment type="line">//LC:19</comment>
         }</block></while><comment type="line">//LC:20</comment>
-        <comment type="line">//LC:21</comment>
+        <expr_stmt><expr><call><name><name>System</name><operator>.</operator><name>out</name><operator>.</operator><name>printf</name></name><argument_list>(<argument><expr><literal type="string">"GCD: "</literal> <operator>+</operator> <name>gcd</name> <operator>+</operator> <literal type="string">"\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt><comment type="line">//LC:21</comment>
         <return>return <expr><name>gcd</name></expr>;</return><comment type="line">//LC:22</comment>
     }</block></function><comment type="line">//LC:23</comment>
 }</block></class><comment type="line">//LC:24</comment>

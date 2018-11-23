@@ -10,12 +10,34 @@ public class Individual {
     private double fitnessVal;
     private Patch edit;
 
+    private int ctrCrossover;
+    private int ctrMulataion;
+
+    public int getCtrCrossover() {
+        return ctrCrossover;
+    }
+
+    public void setCtrCrossover(int ctr_crossover) {
+        this.ctrCrossover = ctr_crossover;
+    }
+
+    public int getCtrMulataion() {
+        return ctrMulataion;
+    }
+
+    public void setCtrMulataion(int ctr_mulataion) {
+        this.ctrMulataion = ctr_mulataion;
+    }
 
     public Individual() {
         this.allPatches = new ArrayList<>();
+        this.ctrCrossover = 0;
+        this.ctrMulataion = 0;
     }
     public Individual(List<Patch> ind) {
         this.allPatches = ind;
+        this.ctrCrossover = 0;
+        this.ctrMulataion = 0;
     }
     public List<Patch> getAllPatches() {
         return allPatches;

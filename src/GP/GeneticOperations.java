@@ -26,7 +26,7 @@ public class GeneticOperations {
     }
 
     //Tournament selection
-    public Individual fittestInTournament(List<JavaResult> pop) {
+    public JavaResult fittestInTournament(List<JavaResult> pop) {
         //Select the most fittest individual
         int index = 0;
         double min = Double.MIN_VALUE;
@@ -36,10 +36,10 @@ public class GeneticOperations {
                 min = pop.get(i).getFitness();
             }
         }
-        return pop.get(index).getIndividual();
+        return pop.get(index);
     }
 
-    public List<Individual> tournamentSelection(List<JavaResult> pop) {
+    public List<JavaResult> tournamentSelection(List<JavaResult> pop) {
         // Arbitrarily selected tournament size, i think we need to be systematic.
         // If the tournament size is larger, weak individuals have a smaller chance to be selected, because,
         // if a weak individual is selected to be in a tournament,
@@ -47,7 +47,7 @@ public class GeneticOperations {
         int tournament_size = pop.size()/2;
         int tournament_each = pop.size() / tournament_size;
         List<JavaResult> tournament;
-        List<Individual> selected = new ArrayList<>();
+        List<JavaResult> selected = new ArrayList<>();
         for (int i = 0; i < tournament_size; i++) {
             tournament = new ArrayList<>();
             for (int j = 0; j < tournament_each; j++) {
@@ -61,18 +61,22 @@ public class GeneticOperations {
     }
 
     // Crossover of parents
-    // Crossover of parents
-    public List<Individual> crossover(Individual in1, List<Individual> pop) {
+    public List<Individual> crossover(List<JavaResult> pop) {
         List<Individual> newPop = new ArrayList<Individual>();
         List<Individual> newGen = new ArrayList<Individual>();
 
         for (int ii = 0; ii < pop.size(); ii++) {
             Random rn = new Random();
-            int p2 = rn.nextInt(pop.size() - 1) + 1;
+            int p2 = rn.nextInt(pop.size());
 
-            Individual parent1 = pop.get(ii);
-            Individual parent2 = pop.get(p2);
-
+            Individual parent1 = pop.get(ii).getIndividual();
+            Individual parent2 = pop.get(p2).getIndividual();
+            int ctrC1 = parent1.getCtrCrossover();
+            ctrC1++;
+            parent1.setCtrCrossover(ctrC1);
+            int ctrC2 = parent2.getCtrCrossover();
+            ctrC2++;
+            parent1.setCtrMulataion(ctrC2);
 //            for (int j = 0; j < pop.size(); j++) {
 
             List<Patch> offspring1 = new ArrayList<Patch>();
@@ -91,9 +95,11 @@ public class GeneticOperations {
                     offspring2.add(parent2.getAllPatches().get(i));
                     offspring1.add(parent2.getAllPatches().get(i));
                     offspring2.add(parent1.getAllPatches().get(i));
+
                 }
                 newPop.add(new Individual(offspring1));
                 newPop.add(new Individual(offspring2));
+
                 newGen.addAll(newPop);
             } else {
 
@@ -141,46 +147,54 @@ public class GeneticOperations {
 
 //            newGen = new ArrayList<Individual>(newPop);
                 newGen.addAll(newPop);
-
             }
         }
-        newGen.add(in1);
+//        newGen.add(ind);
         return newGen;
     }
 
     //Mutation operation
 
-    //(1) getFittest(pop) will return the fittest individual in the generation
-    //(2) tournamentSelection(pop) will return parent population
-    //(3) crossover(fittest, pop)
-    //(4) mutate(pop)
-    public List<Individual> mutate(List<Individual> pop, List<Integer> source_list) {
-
+    public List<Individual> mutate(List<Individual> pop, List<Integer> source_list, Individual ind) {
         Patch pts;
+        int mut = 0;
         Random rn = new Random();
+        int mutantsize = pop.size()/3;
+        if(mutantsize >= 1){
+            for(int i = 0; i < mutantsize; i++){
+                // select source edit source node
+                int sn = rn.nextInt(source_list.size());
+                // Select target edit (randomly)
+                int patch_index = rn.nextInt(pop.size());
+                int edit_index = rn.nextInt(pop.get(patch_index).patchSize());
+                mut =  pop.get(patch_index).getCtrMulataion();
+                mut++;
+                pop.get(patch_index).setCtrMulataion(mut);
+                pts = pop.get(patch_index).getPatch(edit_index);
+                int target = pts.getTargetNode();
+                //choose random operation 0 to delete, 1 to insert, 2 to replace
+                int op = rn.nextInt(3);
+                if (op == utils.DELETE) {
+                    // Deleting edit
+                    if(pop.get(edit_index).patchSize()>1)
+                        pop.get(patch_index).deletEdit(pts);
+                }
+                if (op == utils.INSERT) {
+                    // Inserting new edit
+                    pop.get(patch_index).getPatch(edit_index).setSourceNode(source_list.get(sn));
+                }
+                if (op == utils.REPLACE) {
+                    // Replacing edit (changing source node)
+                    pop.get(patch_index).getAllPatches().set(edit_index, pts);
+                }
+            }
+            pop.add(ind);
+            return pop;
+        }
+        else {
+            return pop;
+        }
 
-        // select source edit source node
-        int sn = rn.nextInt(source_list.size() - 1) + 1;
-        // Select target edit (randomly)
-        int patch_index = rn.nextInt(pop.size() - 1) + 1;
-        int edit_index = rn.nextInt(pop.get(patch_index).patchSize());
-        pts = pop.get(patch_index).getPatch(edit_index);
-        int target = pts.getTargetNode();
-        //choose random operation 0 to delete, 1 to insert, 2 to replace
-        int op = rn.nextInt(3 - 1) + 1;
-        if (op == utils.DELETE) {
-            // Deleting edit
-            pop.get(patch_index).deletEdit(pts);
-        }
-        if (op == utils.INSERT) {
-            // Inserting new edit
-            pop.get(patch_index).getPatch(edit_index).setSourceNode(source_list.get(sn));
-        }
-        if (op == utils.REPLACE) {
-            // Replacing edit (changing source node)
-            pop.get(patch_index).getAllPatches().set(edit_index, pts);
-        }
-        return pop;
     }
 
     int crossoverPoint(Individual in) {

@@ -44,7 +44,7 @@ public class Main {
 
         //Fault localization - process the output file from GZoltar
         utils.obtainSuspiciousLines();
-        List<Bug> chosenBugs = utils.amountOfBugsToFix(6);
+        List<Bug> chosenBugs = utils.amountOfBugsToFix(1);
 
         //ASTHandler instance
         ASTHandler astHandler = new ASTHandler(utils, parser, chosenBugs);

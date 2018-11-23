@@ -25,6 +25,8 @@ public class GeneticAlgorithm {
     private List<Bug> chosenBugs;
     private ArrayList<Individual> initialPopulation;
     private ArrayList<JavaResult> solutionList = new ArrayList<>();
+    private Date startRepairTime;
+    private SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 
     public GeneticAlgorithm(int populationSize, int maxTimeInMinutes, int maxNumberOfFitnessEval,
                             Utils utils, Parser parser, ASTHandler astHandler, List<Bug> chosenBugs) {
@@ -59,26 +61,28 @@ public class GeneticAlgorithm {
         for (Map.Entry<Integer, NodePair> entry : candidateSpace.entrySet()) {
             candidateList.add(entry.getKey());
         }
+        HashMap<Integer, NodePair> faultSpace = astHandler.getFaultSpace();
+        ArrayList<Integer> faultList = new ArrayList<>();
+        int targetNode = -1;
+        for (Map.Entry<Integer, NodePair> entry : faultSpace.entrySet()) {
+            targetNode = entry.getKey();
+            break;
+        }
         int i;
+
         ArrayList<Individual> ListIndividual = new ArrayList<>();
         for (i=0;i<initialPopulationSize;i++){
             Individual population = new Individual();
             int operation = getRandom(random1);
             if (operation == 0){
-                int index = new Random().nextInt(candidateList.size());
-                int targetNode = candidateList.get(index);
                 population.getAllPatches().add(new Patch(operation, -1, targetNode));
             }
             else{
                 int index = new Random().nextInt(candidateList.size());
-                int targetNode = candidateList.get(index);
-                index = new Random().nextInt(candidateList.size());
                 int sourceNode = candidateList.get(index);
-                //We do not allow the same target node and source node
-                while (targetNode == sourceNode){
-                    index = new Random().nextInt(candidateList.size());
-                    targetNode = candidateList.get(index);
-                }
+
+                targetNode = candidateList.get(index);
+
                 population.getAllPatches().add(new Patch(operation, sourceNode, targetNode));
             }
             ListIndividual.add(population);
@@ -98,7 +102,13 @@ public class GeneticAlgorithm {
         return new JavaResult(utils, individual);
     }
 
-    public ArrayList<JavaResult> LoopPopulation(ArrayList<Individual> ListIndividual){
+    public ArrayList<JavaResult> LoopPopulation(ArrayList<Individual> ListIndividual) throws ParseException {
+
+        System.out.println("RUNNING THE TEST");
+        //get Time now
+        Date date_now_1 = new Date();
+        String time1 = formatter.format(date_now_1);
+        startRepairTime = formatter.parse(time1);
 
         ArrayList<JavaResult> ListJavaResult = new ArrayList<>();
         for(Individual individual : ListIndividual){
@@ -158,28 +168,32 @@ public class GeneticAlgorithm {
                     utils.saveData(utils.SOLUTION_DIRECTORY, utils.TARGET_CODE + "Patches" + Integer.toString(number_of_sol), details);
                 }
             }
+            System.out.println("DONE one INDIVIDUAL");
+            //CHECK TIME
+            Date date_now_2 = new Date();
+            String time2 = formatter.format(date_now_2);
+            Date date2 = formatter.parse(time2);
+            long difference = date2.getTime() - startRepairTime.getTime();
+            //difference in milliseconds
+            if (difference > maxTimeInMinutes*60*1000 || solutionList.size()>0){
+                break;
+            }
 
         }
-
+        System.out.println("TEST ENDED");
         return ListJavaResult;
     }
 
-    public ArrayList<JavaResult> repairProgram(ArrayList<JavaResult> ListJavaPassedIndividual, ASTHandler astHandler) throws ParseException {
+    public ArrayList<JavaResult> repairProgram(ArrayList<JavaResult> ListJavaResultPassed, ASTHandler astHandler) throws ParseException {
         //todo: implement a loop handling the above three cases for exiting
-//        ArrayList<JavaResult> ListJavaPassedIndividual = LoopPopulation(this.initialPopulation);
+//        ArrayList<JavaResult> ListJavaResultPassed = LoopPopulation(this.initialPopulation);
         //todo: this is just a manual testing from Main (temporary before the loop is done)
 
 
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        //get Time now
-        Date date_now_1 = new Date();
-        String time1 = formatter.format(date_now_1);
-        Date date1 = formatter.parse(time1);
-
         GeneticOperations gp = new GeneticOperations(utils);
 
-        JavaResult fittest_java_result = gp.getFittest(ListJavaPassedIndividual);
-        List<Individual> selected =  gp.tournamentSelection(ListJavaPassedIndividual);
+        JavaResult fittest_java_result = gp.getFittest(ListJavaResultPassed);
+        List<JavaResult> selected =  gp.tournamentSelection(ListJavaResultPassed);
 
         //candidate space
         HashMap<Integer, NodePair> candidateSpace = astHandler.getCandidateSpace();
@@ -194,24 +208,42 @@ public class GeneticAlgorithm {
 
             List<Individual> newListIndividual;
 
+            //this is the older one before even doing CROSS OVER and MUTATION
+            List<JavaResult> chosenIndividualList = selected;
             //CROSS OVER
-            newListIndividual = gp.crossover(fittest_java_result.getIndividual(), selected);
+            newListIndividual = gp.crossover(selected);
             //MUTATION
             //overwrite individual list after cross over with mutation
             //add fittest one too
-            newListIndividual = gp.mutate(fittest_java_result.getIndividual(), newListIndividual, candidateList);
+            newListIndividual = gp.mutate(newListIndividual, candidateList, fittest_java_result.getIndividual());
 
 //            newListIndividual.add(eachJavaResult.getIndividual());
 
             ArrayList<JavaResult> ListJavaPassedIndividual_2 = LoopPopulation((ArrayList<Individual>) newListIndividual);
-            List<JavaResult> chosenIndividualList = ListJavaPassedIndividual;
-            if (ListJavaPassedIndividual_2.size() > populationSize){
-                ListJavaPassedIndividual_2.sort(new SortbyFitness());
-                chosenIndividualList = ListJavaPassedIndividual_2.subList(0, populationSize);
+
+
+            chosenIndividualList.add(fittest_java_result);
+            ListJavaPassedIndividual_2.sort(new SortbyFitness());
+            int diff = populationSize - chosenIndividualList.size();
+
+            if(diff < ListJavaPassedIndividual_2.size()) {
+                for (int i = 0; i < diff; i++) {
+                    chosenIndividualList.add(ListJavaPassedIndividual_2.get(i));
+                }
             }
             else{
-                
+
+                //add all passed compilation after CROSS OVER and MUTATION
+                chosenIndividualList.addAll(ListJavaPassedIndividual_2);
+
+                diff = populationSize - chosenIndividualList.size();
+                //add old population even before tournament selection
+                for (int i = 0; i < diff; i++) {
+                    chosenIndividualList.add(ListJavaResultPassed.get(i));
+                }
+
             }
+
             //Now get rid of those having low fitness_value
             //get the best fitness first
             fittest_java_result = gp.getFittest(chosenIndividualList);
@@ -221,7 +253,7 @@ public class GeneticAlgorithm {
             Date date_now_2 = new Date();
             String time2 = formatter.format(date_now_2);
             Date date2 = formatter.parse(time2);
-            long difference = date2.getTime() - date1.getTime();
+            long difference = date2.getTime() - startRepairTime.getTime();
             //difference in milliseconds
             if (difference > maxTimeInMinutes*60*1000 || solutionList.size()>0){
                 break;

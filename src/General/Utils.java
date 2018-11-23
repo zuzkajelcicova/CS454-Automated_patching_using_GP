@@ -115,7 +115,7 @@ public class Utils {
         List<Bug> allBugs = new ArrayList<>();
         int lineCounter = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(FL_EXTRACTED_FILE_PATH))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FL_TARGET_FILE_PATH))) {
             while ((line = br.readLine()) != null) {
                 if (lineCounter != 0) {
                     String[] data = line.split(csvSplitComma);
