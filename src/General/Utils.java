@@ -19,7 +19,7 @@ public class Utils {
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
     public String RESOURCES_DIRECTORY = "resources";
     public String SRC_DIRECTORY = "src";
-    public String GEN_CANDIDATE_DIRECTORY = "GAOutput";
+    public String GEN_CANDIDATE_DIRECTORY = "src";
     public String FL_DIRECTORY = "fault_localization";
     public String FAULTY_XML = "faulty.xml";
     public String FAULTY_XML_WITH_LINES = "faultyWithLines.xml";
@@ -36,7 +36,7 @@ public class Utils {
     public String FL_EXTRACTED_FILE_PATH = FL_EXTRACTED_FILE.getAbsolutePath();
 
     //Buggy program as .java
-    public String TARGET_CODE = "LeapYear.java";
+    public String TARGET_CODE = "GCD.java";
     public File TARGET_CODE_FILE = new File(RESOURCES_DIRECTORY, TARGET_CODE);
     public String TARGET_CODE_FILE_PATH = TARGET_CODE_FILE.getAbsolutePath();
 
@@ -66,7 +66,18 @@ public class Utils {
     public int REPLACE = 1;
     public int INSERT = 2;
 
+    //Compile pass or fail
+    public final int PASS = 0;
+    public final int FAIL = 1;
 
+    //Weight
+    public final double WEIGHT_POS = 0.1;
+    public final double WEIGHT_NEG = 0.2;
+
+    // Number of Positive and Negative test case
+    public final int NUM_POS_TEST = 7;
+    public final int NUM_NEG_TEST = 6;
+    
     public void obtainSuspiciousLines() {
         String line;
         String csvSplitComma = ",";
