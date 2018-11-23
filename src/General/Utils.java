@@ -20,6 +20,7 @@ public class Utils {
     public String RESOURCES_DIRECTORY = "resources";
     public String SRC_DIRECTORY = "src";
     public String GEN_CANDIDATE_DIRECTORY = "src";
+    public String SOLUTION_DIRECTORY = "correct_patch";
     public String FL_DIRECTORY = "fault_localization";
     public String FAULTY_XML = "faulty.xml";
     public String FAULTY_XML_WITH_LINES = "faultyWithLines.xml";
@@ -201,6 +202,53 @@ public class Utils {
                     break;
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+                if (fileReader != null)
+                    fileReader.close();
+                if (scanner != null)
+                    scanner.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public StringBuilder removeCodeLinesWithSol(String sol) {
+        BufferedReader bufferedReader = null;
+        FileReader fileReader = null;
+        Scanner scanner = null;
+        StringBuilder result = new StringBuilder();
+        String targetCode = TARGET_CODE_FIXED_WITH_LINES_FILE_PATH;
+        String regex = "//LC:\\d+";
+        Pattern pattern = Pattern.compile(regex);
+
+        try {
+            fileReader = new FileReader(targetCode);
+            bufferedReader = new BufferedReader(fileReader);
+            String sCurrentLine;
+            scanner = new Scanner(targetCode);
+
+            while (scanner.hasNext()) {
+                sCurrentLine = bufferedReader.readLine();
+                if (sCurrentLine != null) {
+                    Matcher matcher = pattern.matcher(sCurrentLine);
+
+                    if (matcher.find()) {
+                        String substring = matcher.group();
+                        String newLine = sCurrentLine.replace(substring, "");
+                        result.append(newLine).append(LINE_SEPARATOR);
+                    }
+                } else {
+                    break;
+                }
+            }
+            result.append(sol);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

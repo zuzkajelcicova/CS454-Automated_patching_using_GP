@@ -61,6 +61,7 @@ public class GeneticOperations {
     }
 
     // Crossover of parents
+    // Crossover of parents
     public List<Individual> crossover(Individual in1, List<Individual> pop) {
         List<Individual> newPop = new ArrayList<Individual>();
         List<Individual> newGen = new ArrayList<Individual>();
@@ -76,12 +77,12 @@ public class GeneticOperations {
 
             List<Patch> offspring1 = new ArrayList<Patch>();
             List<Patch> offspring2 = new ArrayList<Patch>();
-            List<Patch> offspring11 = new ArrayList<Patch>();
-            List<Patch> offspring22 = new ArrayList<Patch>();
-            List<Patch> offspring12 = new ArrayList<Patch>();
-            List<Patch> offspring21 = new ArrayList<Patch>();
-            List<Patch> offspring01 = new ArrayList<Patch>();
-            List<Patch> offspring02 = new ArrayList<Patch>();
+//            List<Patch> offspring11 = new ArrayList<Patch>();
+//            List<Patch> offspring22 = new ArrayList<Patch>();
+//            List<Patch> offspring12 = new ArrayList<Patch>();
+//            List<Patch> offspring21 = new ArrayList<Patch>();
+//            List<Patch> offspring01 = new ArrayList<Patch>();
+//            List<Patch> offspring02 = new ArrayList<Patch>();
 
             int cutpoint = crossoverPoint(parent1);
             if (cutpoint == 1) {
@@ -99,43 +100,43 @@ public class GeneticOperations {
                 for (int i = 0; i < cutpoint; i++) {
                     offspring1.add(parent1.getAllPatches().get(i));
                     offspring2.add(parent2.getAllPatches().get(i));
-                    offspring01.add(parent1.getAllPatches().get(i));
-                    offspring02.add(parent2.getAllPatches().get(i));
+//                    offspring01.add(parent1.getAllPatches().get(i));
+//                    offspring02.add(parent2.getAllPatches().get(i));
 
                 }
 
                 for (int k = cutpoint; k < parent1.patchSize(); k++) {
                     if (k < parent2.patchSize()) {
                         offspring1.add(parent2.getAllPatches().get(k));
-                        offspring22.add(parent2.getAllPatches().get(k));
-                        offspring12.add(parent2.getAllPatches().get(k));
-                        offspring02.add(parent2.getAllPatches().get(k));
+//                        offspring22.add(parent2.getAllPatches().get(k));
+//                        offspring12.add(parent2.getAllPatches().get(k));
+//                        offspring02.add(parent2.getAllPatches().get(k));
                     }
 
                     offspring2.add(parent1.getAllPatches().get(k));
-                    offspring11.add(parent1.getAllPatches().get(k));
-                    offspring21.add(parent1.getAllPatches().get(k));
-                    offspring01.add(parent1.getAllPatches().get(k));
+//                    offspring11.add(parent1.getAllPatches().get(k));
+//                    offspring21.add(parent1.getAllPatches().get(k));
+//                    offspring01.add(parent1.getAllPatches().get(k));
                 }
-                for (int l = 0; l < cutpoint; l++) {
-                    offspring01.add(parent2.getAllPatches().get(l));
-                    offspring02.add(parent1.getAllPatches().get(l));
-
-                    offspring11.add(parent2.getAllPatches().get(l));
-                    offspring22.add(parent1.getAllPatches().get(l));
-
-                    offspring12.add(parent1.getAllPatches().get(l));
-                    offspring21.add(parent2.getAllPatches().get(l));
-                }
+//                for (int l = 0; l < cutpoint; l++) {
+//                    offspring01.add(parent2.getAllPatches().get(l));
+//                    offspring02.add(parent1.getAllPatches().get(l));
+//
+//                    offspring11.add(parent2.getAllPatches().get(l));
+//                    offspring22.add(parent1.getAllPatches().get(l));
+//
+//                    offspring12.add(parent1.getAllPatches().get(l));
+//                    offspring21.add(parent2.getAllPatches().get(l));
+//                }
 
                 newPop.add(new Individual(offspring1));
                 newPop.add(new Individual(offspring2));
-                newPop.add(new Individual(offspring11));
-                newPop.add(new Individual(offspring22));
-                newPop.add(new Individual(offspring12));
-                newPop.add(new Individual(offspring21));
-                newPop.add(new Individual(offspring01));
-                newPop.add(new Individual(offspring02));
+//                newPop.add(new Individual(offspring11));
+//                newPop.add(new Individual(offspring22));
+//                newPop.add(new Individual(offspring12));
+//                newPop.add(new Individual(offspring21));
+//                newPop.add(new Individual(offspring01));
+//                newPop.add(new Individual(offspring02));
 //            }
 
 //            newGen = new ArrayList<Individual>(newPop);

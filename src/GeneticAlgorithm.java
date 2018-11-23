@@ -18,6 +18,7 @@ public class GeneticAlgorithm {
     private int maxNumberOfFitnessEval;
     private int negPass = 0;
     private int posPass = 0;
+    private int numberOfGenerations = 0;
     private Utils utils;
     private Parser parser;
     private ASTHandler astHandler;
@@ -143,6 +144,18 @@ public class GeneticAlgorithm {
 
                 if(testNegResult.getFailureCount() == 0 && testPosResult.getFailureCount() == 0){
                     solutionList.add(result);
+                    int number_of_sol = solutionList.size();
+                    utils.saveData(utils.SOLUTION_DIRECTORY, utils.TARGET_CODE + Integer.toString(number_of_sol), noLinesCode);
+                    StringBuilder details = new StringBuilder();
+                    List<Patch> ListPatch = result.getIndividual().getAllPatches();
+                    // TODO: ADD number of cross over and mutation
+                    for (Patch patch : ListPatch){
+                        details.append(patch.printPatch());
+                        details.append("Number of generations: " + Integer.toString(this.numberOfGenerations) + utils.LINE_SEPARATOR);
+                        details.append("******************************" + utils.LINE_SEPARATOR);
+                    }
+
+                    utils.saveData(utils.SOLUTION_DIRECTORY, utils.TARGET_CODE + "Patches" + Integer.toString(number_of_sol), details);
                 }
             }
 
@@ -176,6 +189,7 @@ public class GeneticAlgorithm {
         }
         //KEEP the old array, cuz after cross over we might have to get rid all of them, so we need to add th eold one
         // overwrite the new one to the old one
+
         while (true){
 
             List<Individual> newListIndividual;
@@ -208,6 +222,7 @@ public class GeneticAlgorithm {
             if (difference > maxTimeInMinutes*60*1000 || solutionList.size()>0){
                 break;
             }
+            this.numberOfGenerations++;
         }
 
         return solutionList;
