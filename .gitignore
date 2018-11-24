@@ -1,6 +1,5 @@
 
 \.idea/
-\parsed
 \GAOutput/*
 \correctPatch/*
 \resources/CodeWithLines.java
