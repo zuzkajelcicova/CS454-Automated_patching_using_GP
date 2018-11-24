@@ -8,7 +8,7 @@ public class GCD {
         int gcd = b;
 
         if (a == 0) {
-            System.out.println("GCD: " + gcd + "\n");
+            
         }
         while (b != 0) {
             if (a > b) {

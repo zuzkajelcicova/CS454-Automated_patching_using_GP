@@ -19,12 +19,14 @@ public class Utils {
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
     public String RESOURCES_DIRECTORY = "resources";
     public String SRC_DIRECTORY = "src";
-    public String GEN_CANDIDATE_DIRECTORY = "src";
-    public String SOLUTION_DIRECTORY = "correct_patch";
+    public String GEN_CANDIDATE_DIRECTORY = "GAOutput";
+    public String SOLUTION_DIRECTORY = "correctPatch";
     public String FL_DIRECTORY = "fault_localization";
     public String FAULTY_XML = "faulty.xml";
     public String FAULTY_XML_WITH_LINES = "faultyWithLines.xml";
     public String FIXED_XML = "fixed.xml";
+    public String FIXED_JAVA = "solution";
+    public String FIXED_JAVA_STATISTICS = "stats";
 
     //GZoltar FL output
     public String FL_TARGET = "gzoltar.csv";
@@ -77,8 +79,8 @@ public class Utils {
 
     // Number of Positive and Negative test case
     public final int NUM_POS_TEST = 7;
-    public final int NUM_NEG_TEST = 6;
-    
+    public final int NUM_NEG_TEST = 1;
+
     public void obtainSuspiciousLines() {
         String line;
         String csvSplitComma = ",";
@@ -96,7 +98,7 @@ public class Utils {
                     // Obtain line and the probability
                     String[] codeLineAndProbability = data.split(csvSplitComma);
                     String codeLine = codeLineAndProbability[0];
-                    double probability = Double.parseDouble("0." + codeLineAndProbability[2]);
+                    double probability = Double.parseDouble(codeLineAndProbability[1] + "." + codeLineAndProbability[2]);
                     double rounded = Math.round(probability * 100.0) / 100.0;
                     stringBuilder.append(codeLine).append(csvSplitComma).append(rounded).append(LINE_SEPARATOR);
                 }
@@ -115,7 +117,7 @@ public class Utils {
         List<Bug> allBugs = new ArrayList<>();
         int lineCounter = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(FL_TARGET_FILE_PATH))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FL_EXTRACTED_FILE_PATH))) {
             while ((line = br.readLine()) != null) {
                 if (lineCounter != 0) {
                     String[] data = line.split(csvSplitComma);

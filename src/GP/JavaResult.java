@@ -11,17 +11,17 @@ import java.util.ArrayList;
 
 public class JavaResult {
     private double fitness = 0;
-//    pass or fail
+    //    pass or fail
     private int result;
     private Utils utils;
     private Individual individual;
 
 
-    public JavaResult(Utils utils, Individual individual) {
+    /*public JavaResult(Utils utils, Individual individual) {
         this.utils = utils;
         this.individual = individual;
         run();
-    }
+    }*/
 
     public double getFitness() {
         return fitness;
@@ -35,7 +35,7 @@ public class JavaResult {
         return result;
     }
 
-    private void run() {
+   /* private void run() {
         try {
             System.out.println("**********");
             this.result = runProcess("javac -cp src src/" + utils.TARGET_CODE);
@@ -44,9 +44,9 @@ public class JavaResult {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    private void printLines(String cmd, InputStream ins) throws Exception {
+    /*private void printLines(String cmd, InputStream ins) throws Exception {
         String line;
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(ins));
@@ -62,12 +62,12 @@ public class JavaResult {
         pro.waitFor();
         System.out.println(command + " exitValue() " + pro.exitValue());
         return pro.exitValue();
-    }
-    public void setFitness(double fitness){
+    }*/
+    /*public void setFitness(double fitness) {
         this.fitness = fitness;
-    }
+    }*/
 
-    private void fitness_function(ArrayList<JavaResult> ListJavaPassedIndividual){
+    /*private void fitness_function(ArrayList<JavaResult> ListJavaPassedIndividual) {
         BigInteger bi1 = new BigInteger("18");
         BigInteger bi2 = new BigInteger("24");
         BigInteger bi3 = bi1.gcd(bi2);
@@ -76,18 +76,18 @@ public class JavaResult {
         ArrayList<TestCase> negTest = new ArrayList<>();
         ArrayList<TestCase> posTest = new ArrayList<>();
         // mock up test case
-        int[] a = new int[]{42,56};
-        TestCase testCase1 = new TestCase(a,14);
-        int[] b = new int[]{461952,116298};
-        TestCase testCase2 = new TestCase(b,18);
+        int[] a = new int[]{42, 56};
+        TestCase testCase1 = new TestCase(a, 14);
+        int[] b = new int[]{461952, 116298};
+        TestCase testCase2 = new TestCase(b, 18);
         negTest.add(testCase1);
         negTest.add(testCase2);
-        int[] c = new int[]{12,0};
-        TestCase testCase3 = new TestCase(c,12);
-        int[] d = new int[]{0,0};
-        TestCase testCase4 = new TestCase(d,0);
+        int[] c = new int[]{12, 0};
+        TestCase testCase3 = new TestCase(c, 12);
+        int[] d = new int[]{0, 0};
+        TestCase testCase4 = new TestCase(d, 0);
         posTest.add(testCase3);
-        posTest.add(testCase4);
+        posTest.add(testCase4);*/
 
         // save path(node) that were visited by neg and pos test case
         int negFail = 0;
@@ -107,11 +107,11 @@ public class JavaResult {
 //                this.result = utils.FAIL;
 //            }
 //        }
-        int negPass = negTest.size() - negFail;
-        int posPass = posTest.size() - posFail;
+        //int negPass = negTest.size() - negFail;
+        //int posPass = posTest.size() - posFail;
 
         //TODO: change formula for fitness function
-        this.fitness = (utils.WEIGHT_NEG*negPass)/(utils.NUM_NEG_TEST) + (utils.WEIGHT_POS*posPass)/(utils.NUM_POS_TEST);
+        //this.fitness = (utils.WEIGHT_NEG * negPass) / (utils.NUM_NEG_TEST) + (utils.WEIGHT_POS * posPass) / (utils.NUM_POS_TEST);
 
-    }
+    //}
 }

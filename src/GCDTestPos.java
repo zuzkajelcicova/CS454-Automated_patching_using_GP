@@ -10,40 +10,23 @@ import org.junit.rules.Timeout;
 
 public class GCDTestPos extends TestResult {
 
-    //todo: split into methods instead
-    //todo: just examples, add more to cover the code
-
-    int posTestPassedCounter;
-    int negTestPassedCounter;
-
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(1);
+    public Timeout globalTimeout = Timeout.seconds(1000);
     @Rule
     public TestName name = new TestName();
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-    public synchronized void addError(Test test, Throwable t){
+    public synchronized void addError(Test test, Throwable t) {
         super.addError((junit.framework.Test) test, t);
 
     }
-    public synchronized void addFailure(Test test, AssertionFailedError t){
+
+    public synchronized void addFailure(Test test, AssertionFailedError t) {
         super.addFailure((junit.framework.Test) test, t);
 
     }
 
-//    @BeforeEach
-//    void setUp() {
-//        posTestPassedCounter = 0;
-//        negTestPassedCounter = 0;
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//
-//    }
-
-    //Positive TestCases
     @Test
     public void testgcdPositive1() {
         Assert.assertEquals(8, GCD.gcd(72, 16));
@@ -53,7 +36,7 @@ public class GCDTestPos extends TestResult {
     @Test
     public void testgcdPositive2() {
         //straight case
-        Assert.assertEquals(18, GCD.gcd(461952,116298));
+        Assert.assertEquals(18, GCD.gcd(461952, 116298));
         Assert.assertEquals("testgcdPositive2", name.getMethodName());
     }
 
@@ -91,5 +74,4 @@ public class GCDTestPos extends TestResult {
         Assert.assertEquals(18913, GCD.gcd(624129, 2061517));
         Assert.assertEquals("testgcdPositive7", name.getMethodName());
     }
-
 }

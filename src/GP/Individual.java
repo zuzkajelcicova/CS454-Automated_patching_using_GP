@@ -8,10 +8,9 @@ import java.util.List;
 public class Individual {
     private List<Patch> allPatches;
     private double fitnessVal;
-    private Patch edit;
 
     private int ctrCrossover;
-    private int ctrMulataion;
+    private int ctrMutation;
 
     public int getCtrCrossover() {
         return ctrCrossover;
@@ -21,50 +20,52 @@ public class Individual {
         this.ctrCrossover = ctr_crossover;
     }
 
-    public int getCtrMulataion() {
-        return ctrMulataion;
+    public int getCtrMutation() {
+        return ctrMutation;
     }
 
-    public void setCtrMulataion(int ctr_mulataion) {
-        this.ctrMulataion = ctr_mulataion;
+    public void setCtrMutation(int ctrMutation) {
+        this.ctrMutation = ctrMutation;
     }
 
     public Individual() {
         this.allPatches = new ArrayList<>();
         this.ctrCrossover = 0;
-        this.ctrMulataion = 0;
+        this.ctrMutation = 0;
     }
+
     public Individual(List<Patch> ind) {
         this.allPatches = ind;
         this.ctrCrossover = 0;
-        this.ctrMulataion = 0;
+        this.ctrMutation = 0;
     }
+
     public List<Patch> getAllPatches() {
         return allPatches;
     }
 
-    void patchData(Patch pt){
-        System.out.println(pt.getOperation() + "," + pt.getSourceNode()+ "," + pt.getTargetNode());
-    }
-    public double getFitnessVal(){
+    public double getFitness() {
         return this.fitnessVal;
     }
 
-    public void addEdit(Patch patch) {
-        this.edit = patch;
+    public StringBuilder getAllPatchesContent() {
+        StringBuilder content = new StringBuilder();
+
+        for (Patch patch : allPatches) {
+            content.append(patch.getPatchContent()).append("\n");
+        }
+        return content;
     }
 
-    public int patchSize(){
+    public int patchSize() {
         return allPatches.size();
     }
+
     public Patch getPatch(int index) {
         return allPatches.get(index);
     }
-    public List<Patch> getPdata() {
-        return allPatches;
-    }
 
-    public void deletEdit(Patch pts) {
+    public void deleteEdit(Patch pts) {
         Iterator<Patch> i = allPatches.iterator();
         while (i.hasNext()) {
             Patch p = i.next();
@@ -74,19 +75,7 @@ public class Individual {
         }
     }
 
-    public void setAllPatches(List<Patch> allPatches) {
-        this.allPatches = allPatches;
-    }
-
-    public void setFitnessVal(double fitnessVal) {
+    public void setFitness(double fitnessVal) {
         this.fitnessVal = fitnessVal;
-    }
-
-    public Patch getEdit() {
-        return edit;
-    }
-
-    public void setEdit(Patch edit) {
-        this.edit = edit;
     }
 }
