@@ -1,5 +1,9 @@
 package fibonacci;
 
+/*
+ * No bugs yet
+ */
+
 public class Fibonacci {
 	
 	public static void main(String[] args) {
