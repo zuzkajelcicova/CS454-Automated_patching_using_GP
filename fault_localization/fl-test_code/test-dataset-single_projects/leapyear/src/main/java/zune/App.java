@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Check for specific characters 
+ * zuna bug
+ * Check the leap year
+ * bug in line 30
  *
  */
 public class App 
@@ -25,7 +27,7 @@ public class App
 
         while (days > 365) {
             if (Year.isLeap(year)) {
-                if (days > 366) {
+                if (days > 366) { // days > 365
                     days -= 366;
                     year += 1;
                 }
@@ -36,6 +38,5 @@ public class App
             }
         }
         return year;
-//        System.out.println(days + " " + year + " is leap year? " + Year.isLeap(year));
     }
 }
