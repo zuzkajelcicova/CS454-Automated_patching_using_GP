@@ -8,14 +8,11 @@ import org.junit.runner.notification.Failure;
 
 import java.io.File;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GeneticAlgorithm {
 
     private int populationSize;
-    private int maxTimeInMinutes;
-    private int maxNumberOfFitnessEval;
     private int negPass;
     private int posPass;
     private int numberOfGenerations;
@@ -25,24 +22,18 @@ public class GeneticAlgorithm {
     private ArrayList<Integer> candidateList;
     private ArrayList<Individual> initialPopulation;
     private int solutionList;
-    //private ArrayList<Individual> solutionList;
-    private Date startRepairTime;
-    private SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     private int solutionCounter;
     private int targetNode;
 
-    public GeneticAlgorithm(int populationSize, int maxTimeInMinutes, int maxNumberOfFitnessEval,
-                            Utils utils, ASTHandler astHandler) {
+    public GeneticAlgorithm(int populationSize, Utils utils, ASTHandler astHandler) {
         this.populationSize = populationSize;
-        this.maxTimeInMinutes = maxTimeInMinutes;
-        this.maxNumberOfFitnessEval = maxNumberOfFitnessEval;
         this.utils = utils;
         this.astHandler = astHandler;
         this.candidateSpace = astHandler.getCandidateSpace();
         this.candidateList = new ArrayList<>();
         this.solutionCounter = 1;
         this.numberOfGenerations = 1;
-        this.solutionList = 0;// new ArrayList<>();
+        this.solutionList = 0;
         this.targetNode = -1;
     }
 
@@ -58,11 +49,6 @@ public class GeneticAlgorithm {
         }
 
         ArrayList<Individual> population = new ArrayList<>();
-        /*//todo:hardcoded, delete!!!
-        List<Patch> patches = new ArrayList<>();
-        patches.add(new Patch(1, 156, 75));
-        population.add(new Individual(patches));
-        //todo*/
 
         for (int i = 0; i < initialPopulationSize; i++) {
             Individual individual = new Individual();
@@ -91,8 +77,6 @@ public class GeneticAlgorithm {
         } else System.out.println("File GCD.class does not exist");
 
         String command = "javac -d C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching\\ src/" + utils.TARGET_CODE;
-        //String command = "javac -cp src src/" + utils.TARGET_CODE;
-        //String command = "FIX!!!";
         Process pro = Runtime.getRuntime().exec(command);
         pro.waitFor();
         System.out.println(command + " exitValue() " + pro.exitValue());
@@ -101,11 +85,6 @@ public class GeneticAlgorithm {
 
     public void repairProgram() throws ParseException {
         System.out.println("Running defect fixing...");
-        //todo: run the time in a separate thread
-        //todo: create a JUnit test for Zunu
-        Date date_now_1 = new Date();
-        String time1 = formatter.format(date_now_1);
-        startRepairTime = formatter.parse(time1);
 
         GeneticOperations gp = new GeneticOperations(utils);
 
@@ -139,13 +118,7 @@ public class GeneticAlgorithm {
         fittestIndividual = gp.getFittest(oldPopulation);
         populateList(oldPopulation, newPopulation);
 
-        //CHECK TIME
-        Date date_now_2 = new Date();
-        String time2 = formatter.format(date_now_2);
-        Date date2 = formatter.parse(time2);
-        long difference = date2.getTime() - startRepairTime.getTime();
-
-        while (difference < maxTimeInMinutes * 60 * 1000 && solutionList == 0) {
+        while (solutionList == 0) {
             this.numberOfGenerations++;
             //Tournament selection
             tournamentSelectionParents = gp.tournamentSelection(newPopulation);

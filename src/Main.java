@@ -11,7 +11,6 @@ public class Main {
 
     public static void main(String[] args) throws ParseException {
         int initialPopulationSize = 10;
-        int fitnessEvaluations = 10;
         int timeInMinutes = 90;
         Utils utils = new Utils();
         Parser parser = new Parser(utils);
@@ -50,8 +49,7 @@ public class Main {
         ASTHandler astHandler = new ASTHandler(utils, parser, chosenBugs);
 
         //Genetic algorithm instance
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(initialPopulationSize, timeInMinutes,
-                fitnessEvaluations, utils, astHandler);
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(initialPopulationSize, utils, astHandler);
 
         geneticAlgorithm.repairProgram();
         System.out.printf("The program has terminated!");
