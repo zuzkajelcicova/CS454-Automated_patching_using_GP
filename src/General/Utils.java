@@ -65,7 +65,7 @@ public class Utils {
     public int DELETE = 0;
     public int REPLACE = 1;
     public int INSERT = 2;
-
+  
     //Compile pass or fail
     public final int PASS = 0;
     public final int FAIL = 1;
