@@ -6,6 +6,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -57,11 +58,11 @@ public class GeneticAlgorithm {
         }
 
         ArrayList<Individual> population = new ArrayList<>();
-        //todo:hardcoded, delete!!!
+        /*//todo:hardcoded, delete!!!
         List<Patch> patches = new ArrayList<>();
         patches.add(new Patch(1, 156, 75));
         population.add(new Individual(patches));
-        //todo
+        //todo*/
 
         for (int i = 0; i < initialPopulationSize; i++) {
             Individual individual = new Individual();
@@ -84,9 +85,14 @@ public class GeneticAlgorithm {
     }
 
     private int javaCompile() throws Exception {
-        // String command = "javac -d C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching\\ src/" + utils.TARGET_CODE;
+        File file = new File("C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching\\GCD.class");
+        if (file.delete()) {
+            System.out.println("File GCD.class deleted");
+        } else System.out.println("File GCD.class does not exist");
+
+        String command = "javac -d C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching\\ src/" + utils.TARGET_CODE;
         //String command = "javac -cp src src/" + utils.TARGET_CODE;
-        String command = "FIX!!!";
+        //String command = "FIX!!!";
         Process pro = Runtime.getRuntime().exec(command);
         pro.waitFor();
         System.out.println(command + " exitValue() " + pro.exitValue());
@@ -96,7 +102,7 @@ public class GeneticAlgorithm {
     public void repairProgram() throws ParseException {
         System.out.println("Running defect fixing...");
         //todo: run the time in a separate thread
-        //todo: create a JUnit test forZunu
+        //todo: create a JUnit test for Zunu
         Date date_now_1 = new Date();
         String time1 = formatter.format(date_now_1);
         startRepairTime = formatter.parse(time1);
@@ -201,6 +207,7 @@ public class GeneticAlgorithm {
 
                 //Fitness function step
                 if (compilationResult == utils.PASS) {
+
                     Result testNegResult = JUnitCore.runClasses(GCDTestNeg.class);
                     printTestStatistics(testNegResult, "Negative");
                     negPass = utils.NUM_NEG_TEST - testNegResult.getFailureCount();

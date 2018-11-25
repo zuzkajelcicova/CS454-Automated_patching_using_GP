@@ -11,7 +11,7 @@ import org.junit.rules.Timeout;
 public class GCDTestPos extends TestResult {
 
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(1000);
+    public Timeout globalTimeout = Timeout.seconds(1);
     @Rule
     public TestName name = new TestName();
     @Rule
