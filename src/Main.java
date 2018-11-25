@@ -1,6 +1,7 @@
 import AST.ASTHandler;
 import AST.Parser;
 import GP.Bug;
+import General.TimeThread;
 import General.Utils;
 
 import java.text.ParseException;
@@ -36,6 +37,10 @@ public class Main {
                 System.exit(1);
             }
         }
+
+        Thread currThread = Thread.currentThread();
+        TimeThread t1 = new TimeThread(timeInMinutes, currThread);
+        t1.start();
 
         //Fault localization - process the output file from GZoltar
         utils.obtainSuspiciousLines();
