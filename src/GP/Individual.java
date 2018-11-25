@@ -8,7 +8,7 @@ public class Individual {
     private List<Patch> allPatches;
     private double fitnessVal;
     private int ctrCrossover;
-    private int ctrMulataion;
+    private int ctrMutation;
 
     public int getCtrCrossover() {
         return ctrCrossover;
@@ -18,23 +18,23 @@ public class Individual {
         this.ctrCrossover = ctr_crossover;
     }
 
-    public int getCtrMulataion() {
-        return ctrMulataion;
+    public int getCtrMutation() {
+        return ctrMutation;
     }
 
-    public void setCtrMulataion(int ctr_mulataion) {
-        this.ctrMulataion = ctr_mulataion;
+    public void setCtrMutation(int ctr_mutataion) {
+        this.ctrMutation = ctr_mutataion;
     }
 
     public Individual() {
         this.allPatches = new ArrayList<>();
         this.ctrCrossover = 0;
-        this.ctrMulataion = 0;
+        this.ctrMutation= 0;
     }
     public Individual(List<Patch> ind) {
         this.allPatches = ind;
         this.ctrCrossover = 0;
-        this.ctrMulataion = 0;
+        this.ctrMutation = 0;
     }
     public List<Patch> getAllPatches() {
         return allPatches;
@@ -57,7 +57,7 @@ public class Individual {
         return allPatches;
     }
 
-    public void deletEdit(Patch pts) {
+    public void deleteEdit(Patch pts) {
         Iterator<Patch> i = allPatches.iterator();
         while (i.hasNext()) {
             Patch p = i.next();
