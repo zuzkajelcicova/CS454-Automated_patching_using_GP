@@ -1,5 +1,10 @@
 package digits35;
 
+/**
+ * Trim input and reverse
+ * Bug with negative integers
+ *
+ */
 class IntObj {
     public int value;
     public IntObj () {

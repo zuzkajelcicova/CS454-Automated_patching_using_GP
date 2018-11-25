@@ -2,7 +2,7 @@ package main.java.br;
 
 /**
  * Get the max element of an array
- *
+ * Fault in line 13
  */
 public class Max
 {

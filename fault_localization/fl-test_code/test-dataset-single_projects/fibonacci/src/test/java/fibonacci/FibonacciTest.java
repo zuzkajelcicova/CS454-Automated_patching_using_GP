@@ -32,6 +32,6 @@ public class FibonacciTest {
 
     @Test
     public void test() {
-        assertEquals(fExpected, Fibonacci.compute(fInput));
+        assertEquals(fExpected, Fibonacci.computeFirst(fInput));
     }
 }

@@ -1,5 +1,10 @@
 package digits14;
 
+/**
+ * Trim input and reverse
+ * Bug with only 0 as input
+ *
+ */
 class IntObj {
     public int value;
     public IntObj () {

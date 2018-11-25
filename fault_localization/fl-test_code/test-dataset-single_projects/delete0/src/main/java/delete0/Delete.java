@@ -2,6 +2,7 @@ package delete0;
 
 /**
  * Print input 
+ * delete line 15
  *
  */
 public class Delete 

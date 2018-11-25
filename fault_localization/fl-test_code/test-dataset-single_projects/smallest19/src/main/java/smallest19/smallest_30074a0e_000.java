@@ -1,5 +1,9 @@
 package smallest19;
 
+/*
+ * Print out smallest integer from database
+ */
+
 class IntObj {
     public int value;
     public IntObj () {
@@ -66,13 +70,13 @@ public class smallest_30074a0e_000 {
         c.value = scanner.nextInt ();
         d.value = scanner.nextInt ();
         if (a.value < b.value && a.value < c.value && a.value < d.value) {
-            output += (String.format ("%d is the smallest integer\n", a.value));
+            output += (String.format ("%d is the smallest\n", a.value));
         } else if (b.value < a.value && b.value < c.value && b.value < d.value) {
-            output += (String.format ("%d is the smallest integer\n", b.value));
+            output += (String.format ("%d is the smallest\n", b.value));
         } else if (c.value < a.value && c.value < b.value && c.value < d.value) {
-            output += (String.format ("%d is the smallest integer\n", c.value));
+            output += (String.format ("%d is the smallest\n", c.value));
         } else if (d.value < a.value && d.value < c.value && d.value < b.value) {
-            output += (String.format ("%d is the smallest integer\n", d.value));
+            output += (String.format ("%d is the smallest\n", d.value));
         } else {
             output += (String.format ("I don't know what I'm doing. \n"));
         }

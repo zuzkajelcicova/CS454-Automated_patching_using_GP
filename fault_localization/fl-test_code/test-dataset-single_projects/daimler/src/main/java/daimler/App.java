@@ -1,30 +1,44 @@
 package daimler;
 
 /**
- * Hello world!
+ * Check for specific characters 
  *
  */
 public class App 
 {
 	public static void main(String[] args) {
-		System.out.print("Hello World");
+		System.out.print("Check if some characters are inside specific string");
 	}
 	
-	public String stringOutput(String a){
-		if (a.contains("a")){
-			return a;
-		}else if (a.contains("b")) {
-			return a;
-		}else if (a.contains("c")) {
-			return a;
+	public String stringOutput(String testString){
+		String stringA = new String("a");
+		String stringB = new String("b");
+		String stringC = new String("c");
+		System.out.println(testString);
+		if (testString.contains(stringA)){
+			return testString;
+		}else if (testString == stringB) {
+			return testString;
+		}else if (testString.contains(stringC)) {
+			return testString;
 		}else {
 			return "x";
 		}
 	}
 	
-	public String nextOutput(){
-		String a = "asdad";
-		
-		return "a";
+	public String stringTest (String testString){
+		String stringA = new String("a");
+		String stringB = new String("b");
+		String stringC = new String("c");
+		System.out.println(testString);
+		if (testString.contains(stringA)){
+			return testString;
+		}else if (testString.contains(stringB)) {
+			return testString;
+		}else if (testString.contains(stringC)) {
+			return testString;
+		}else {
+			return "x";
+		}
 	}
 }
