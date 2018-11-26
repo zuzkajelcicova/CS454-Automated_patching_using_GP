@@ -6,7 +6,7 @@ public class TimeThread extends Thread {
     private Thread main;
 
 
-    public TimeThread(int maxTimeInMinutes, Thread main){
+    public TimeThread(int maxTimeInMinutes, Thread main) {
         this.maxTimeInMinutes = maxTimeInMinutes;
         this.main = main;
     }
@@ -22,9 +22,6 @@ public class TimeThread extends Thread {
             // main_thread.interrupt
         }
     }
-
-
-
 
 
 }

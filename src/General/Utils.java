@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 
 public class Utils {
     public String SRCML_PATH = "C:\\Program Files\\srcML 0.9.5\\bin";
+    //Tested .class file name and location (default)
+    public String TARGET_CLASS = "GCD.class";
+    public String DOT_CLASS_FOLDER_PATH = "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching";
+
     public String LINE_SEPARATOR = System.getProperty("line.separator");
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
     public String RESOURCES_DIRECTORY = "resources";
@@ -73,13 +77,9 @@ public class Utils {
     public final int PASS = 0;
     public final int FAIL = 1;
 
-    //Weight
+    //Weight for Positive and Negative test cases
     public final double WEIGHT_POS = 0.1;
-    public final double WEIGHT_NEG = 0.2;
-
-    // Number of Positive and Negative test case
-    public final int NUM_POS_TEST = 7;
-    public final int NUM_NEG_TEST = 1;
+    public final double WEIGHT_NEG = 2 * WEIGHT_POS;
 
     public void obtainSuspiciousLines() {
         String line;
@@ -204,53 +204,6 @@ public class Utils {
                     break;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null)
-                    bufferedReader.close();
-                if (fileReader != null)
-                    fileReader.close();
-                if (scanner != null)
-                    scanner.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    public StringBuilder removeCodeLinesWithSol(String sol) {
-        BufferedReader bufferedReader = null;
-        FileReader fileReader = null;
-        Scanner scanner = null;
-        StringBuilder result = new StringBuilder();
-        String targetCode = TARGET_CODE_FIXED_WITH_LINES_FILE_PATH;
-        String regex = "//LC:\\d+";
-        Pattern pattern = Pattern.compile(regex);
-
-        try {
-            fileReader = new FileReader(targetCode);
-            bufferedReader = new BufferedReader(fileReader);
-            String sCurrentLine;
-            scanner = new Scanner(targetCode);
-
-            while (scanner.hasNext()) {
-                sCurrentLine = bufferedReader.readLine();
-                if (sCurrentLine != null) {
-                    Matcher matcher = pattern.matcher(sCurrentLine);
-
-                    if (matcher.find()) {
-                        String substring = matcher.group();
-                        String newLine = sCurrentLine.replace(substring, "");
-                        result.append(newLine).append(LINE_SEPARATOR);
-                    }
-                } else {
-                    break;
-                }
-            }
-            result.append(sol);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

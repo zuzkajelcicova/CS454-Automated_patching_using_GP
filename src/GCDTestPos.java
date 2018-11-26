@@ -1,77 +1,125 @@
-import junit.framework.AssertionFailedError;
 import junit.framework.TestResult;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.TestName;
 import org.junit.rules.Timeout;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import static java.lang.System.out;
 
 
 public class GCDTestPos extends TestResult {
 
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(1);
-    @Rule
-    public TestName name = new TestName();
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
+    public Timeout globalTimeout = Timeout.seconds(2);
+    public static int numberOfPositiveTests = 6;
 
-    public synchronized void addError(Test test, Throwable t) {
-        super.addError((junit.framework.Test) test, t);
+    public static Class gcdClass = null;
+    public static Method[] allMethods = null;
+    public static Method gcdMethod = null;
+    public static String testedMethodName = "gcd";
 
+
+    @BeforeClass
+    public static void setupEnvironment() {
+        //Get access to a recompiled class during the runtime
+        gcdClass = GCD.class;
+        allMethods = CompiledClassLoader.getRecompiledMethods(gcdClass);
+
+        for (Method m : allMethods) {
+            String methodName = m.getName();
+            if (methodName.startsWith(testedMethodName)) {
+                m.setAccessible(true);
+                gcdMethod = m;
+            }
+        }
     }
 
-    public synchronized void addFailure(Test test, AssertionFailedError t) {
-        super.addFailure((junit.framework.Test) test, t);
 
+    @Test
+    public void testGCDPositive1() {
+        try {
+            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive1...");
+            Object o = gcdMethod.invoke(null, 72, 16);
+            Assert.assertEquals(8, o);
+            out.format("%s() returned %b%n", testedMethodName, o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testgcdPositive1() {
-        Assert.assertEquals(8, GCD.gcd(72, 16));
-        Assert.assertEquals("testgcdPositive1", name.getMethodName());
+    public void testGCDPositive2() {
+        try {
+            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive2...");
+            Object o = gcdMethod.invoke(null, 461952, 116298);
+            Assert.assertEquals(18, o);
+            out.format("%s() returned %b%n", testedMethodName, o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testgcdPositive2() {
-        //straight case
-        Assert.assertEquals(18, GCD.gcd(461952, 116298));
-        Assert.assertEquals("testgcdPositive2", name.getMethodName());
+    public void testGCDPositive3() {
+        try {
+            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive3...");
+            Object o = gcdMethod.invoke(null, 42, 56);
+            Assert.assertEquals(14, o);
+            out.format("%s() returned %b%n", testedMethodName, o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testgcdPositive3() {
-        //both have common divisor
-        Assert.assertEquals(14, GCD.gcd(42, 56));
-        Assert.assertEquals("testgcdPositive3", name.getMethodName());
+    public void testGCDPositive4() {
+        try {
+            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive4...");
+            Object o = gcdMethod.invoke(null, 13, 13);
+            Assert.assertEquals(13, o);
+            out.format("%s() returned %b%n", testedMethodName, o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testgcdPositive4() {
-        //trick case: a = b
-        Assert.assertEquals(13, GCD.gcd(13, 13));
-        Assert.assertEquals("testgcdPositive4", name.getMethodName());
+    public void testGCDPositive5() {
+        try {
+            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive5...");
+            Object o = gcdMethod.invoke(null, 37, 600);
+            Assert.assertEquals(1, o);
+            out.format("%s() returned %b%n", testedMethodName, o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testgcdPositive5() {
-        //first argument is a prime
-        Assert.assertEquals(1, GCD.gcd(37, 600));
-        Assert.assertEquals("testgcdPositive5", name.getMethodName());
-    }
-
-    @Test
-    public void testgcdPositive6() {
-        //one is multiplum of other
-        Assert.assertEquals(20, GCD.gcd(20, 100));
-        Assert.assertEquals("testgcdPositive6", name.getMethodName());
-    }
-
-    @Test
-    public void testgcdPositive7() {
-        //straight case
-        Assert.assertEquals(18913, GCD.gcd(624129, 2061517));
-        Assert.assertEquals("testgcdPositive7", name.getMethodName());
+    public void testGCDPositive6() {
+        try {
+            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive6...");
+            Object o = gcdMethod.invoke(null, 20, 100);
+            Assert.assertEquals(20, o);
+            out.format("%s() returned %b%n", testedMethodName, o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }

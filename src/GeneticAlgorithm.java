@@ -7,7 +7,6 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import java.io.File;
-import java.text.ParseException;
 import java.util.*;
 
 public class GeneticAlgorithm {
@@ -24,8 +23,9 @@ public class GeneticAlgorithm {
     private int solutionList;
     private int solutionCounter;
     private int targetNode;
+    private long startTime;
 
-    public GeneticAlgorithm(int populationSize, Utils utils, ASTHandler astHandler) {
+    public GeneticAlgorithm(int populationSize, Utils utils, ASTHandler astHandler, long startTime) {
         this.populationSize = populationSize;
         this.utils = utils;
         this.astHandler = astHandler;
@@ -35,6 +35,7 @@ public class GeneticAlgorithm {
         this.numberOfGenerations = 1;
         this.solutionList = 0;
         this.targetNode = -1;
+        this.startTime = startTime;
     }
 
     public ArrayList<Individual> initialize(int initialPopulationSize, ASTHandler astHandler) {
@@ -71,19 +72,19 @@ public class GeneticAlgorithm {
     }
 
     private int javaCompile() throws Exception {
-        File file = new File("C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching\\GCD.class");
+        File file = new File(utils.DOT_CLASS_FOLDER_PATH, utils.TARGET_CLASS);
         if (file.delete()) {
-            System.out.println("File GCD.class deleted");
-        } else System.out.println("File GCD.class does not exist");
+            System.out.println("File " + utils.TARGET_CLASS + " deleted.");
+        } else System.out.println("File " + utils.TARGET_CLASS + " does not exist.");
 
-        String command = "javac -d C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching\\ src/" + utils.TARGET_CODE;
+        String command = "javac -d " + utils.DOT_CLASS_FOLDER_PATH + " src/" + utils.TARGET_CODE;
         Process pro = Runtime.getRuntime().exec(command);
         pro.waitFor();
         System.out.println(command + " exitValue() " + pro.exitValue());
         return pro.exitValue();
     }
 
-    public void repairProgram() throws ParseException {
+    public void repairProgram() {
         System.out.println("Running defect fixing...");
 
         GeneticOperations gp = new GeneticOperations(utils);
@@ -181,23 +182,26 @@ public class GeneticAlgorithm {
                 //Fitness function step
                 if (compilationResult == utils.PASS) {
 
+                    //todo: here a class on runtime must be provided, create e.g. switch case
                     Result testNegResult = JUnitCore.runClasses(GCDTestNeg.class);
                     printTestStatistics(testNegResult, "Negative");
-                    negPass = utils.NUM_NEG_TEST - testNegResult.getFailureCount();
+                    negPass = GCDTestNeg.numberOfNegativeTests - testNegResult.getFailureCount();
 
                     Result testPosResult = JUnitCore.runClasses(GCDTestPos.class);
                     printTestStatistics(testPosResult, "Positive");
-                    posPass = utils.NUM_POS_TEST - testPosResult.getFailureCount();
+                    posPass = GCDTestPos.numberOfPositiveTests - testPosResult.getFailureCount();
 
                     double fitness = (utils.WEIGHT_NEG * negPass) + (utils.WEIGHT_POS * posPass);
                     System.out.println("Fitness Value: " + fitness);
                     individual.setFitness(fitness);
                     candidateResult.add(individual);
 
-                    //todo: maybe break here as soon as we find a solution
+                    //We do not finish after finding the very first solution - full generation is finished
+                    //to see how many potential patches are available
                     if (testNegResult.getFailureCount() == 0 && testPosResult.getFailureCount() == 0) {
-                        //Storing 2 files -> .java and .txt for statistics
-                        storeCodeAndStatistics(individual, reformattedCode);
+                        //Storing 2 files -> .java and .txt for statistics, Time in seconds
+                        long requiredPatchTime = (System.currentTimeMillis() - startTime) / 1000;
+                        storeCodeAndStatistics(individual, reformattedCode, requiredPatchTime);
                         this.solutionList++;
                     }
                 }
@@ -218,7 +222,7 @@ public class GeneticAlgorithm {
         System.out.println("Run Time: " + testResult.getRunTime());
     }
 
-    private void storeCodeAndStatistics(Individual individual, StringBuilder reformattedCode) {
+    private void storeCodeAndStatistics(Individual individual, StringBuilder reformattedCode, long requiredPatchTime) {
         String javaFile = utils.FIXED_JAVA + solutionCounter + ".java";
         String statistics = utils.FIXED_JAVA_STATISTICS + solutionCounter + ".txt";
 
@@ -229,8 +233,8 @@ public class GeneticAlgorithm {
 
         individualStatistics = individual.getAllPatchesContent();
         individualStatistics.append(utils.LINE_SEPARATOR).append(utils.LINE_SEPARATOR);
-        //todo: add time
-        individualStatistics.append("Time: " + " will be added");
+
+        individualStatistics.append("Time: " + requiredPatchTime).append(" seconds").append(utils.LINE_SEPARATOR);
         individualStatistics.append("Generation: " + numberOfGenerations).append(utils.LINE_SEPARATOR);
         individualStatistics.append("Mutations: " + individual.getCtrMutation()).append(utils.LINE_SEPARATOR);
         individualStatistics.append("Crossovers: " + individual.getCtrCrossover()).append(utils.LINE_SEPARATOR);

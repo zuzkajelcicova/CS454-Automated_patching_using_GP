@@ -8,7 +8,7 @@ public class GCD {
         int gcd = b;
 
         if (a == 0) {
-            
+            b = b - a;
         }
         while (b != 0) {
             if (a > b) {
