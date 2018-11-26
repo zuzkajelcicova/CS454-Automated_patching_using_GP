@@ -8,7 +8,14 @@ public class GCD {
         int gcd = b;
 
         if (a == 0) {
-            System.out.println("GCD: " + gcd + "\n");gcd(6, 3);
+            while (b != 0) {
+            if (a > b) {
+                a = a - b;
+            } else {
+                gcd = b;
+                b = b - a;
+            }
+        }
         }
         while (b != 0) {
             if (a > b) {

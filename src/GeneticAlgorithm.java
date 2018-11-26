@@ -175,8 +175,9 @@ public class GeneticAlgorithm {
         for (Individual individual : newPopulation) {
             astHandler.applyPatches(individual);
 
-            StringBuilder reformattedCode = utils.removeCodeLines();
-            utils.saveData(utils.SRC_DIRECTORY, utils.TARGET_CODE, reformattedCode);
+            //StringBuilder reformattedCode = utils.removeCodeLines();
+            StringBuilder codeWithLines = utils.getCodeWithLines();
+            utils.saveData(utils.SRC_DIRECTORY, utils.TARGET_CODE, codeWithLines);
             //Compilation step
             try {
                 int compilationResult = javaCompile();
@@ -202,10 +203,14 @@ public class GeneticAlgorithm {
                     if (testNegResult.getFailureCount() == 0 && testPosResult.getFailureCount() == 0) {
                         //Storing 2 files -> .java and .txt for statistics, Time in seconds
                         long requiredPatchTime = (System.currentTimeMillis() - startTime) / 1000;
-                        storeCodeAndStatistics(individual, reformattedCode, requiredPatchTime);
-                        this.solutionList++;
+                        storeCodeAndStatistics(individual, codeWithLines, requiredPatchTime);
+                        //todo: comment this back
+                        //this.solutionList++;
                     }
+                } else {
+                    individual.setFitness(0);
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

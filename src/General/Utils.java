@@ -47,6 +47,10 @@ public class Utils {
     public File TARGET_CODE_FILE = new File(RESOURCES_DIRECTORY, TARGET_CODE);
     public String TARGET_CODE_FILE_PATH = TARGET_CODE_FILE.getAbsolutePath();
 
+    //Target code in src/
+    public File TARGET_CODE_SRC_FILE = new File(SRC_DIRECTORY, TARGET_CODE);
+    public String TARGET_CODE_SRC_FILE_PATH = TARGET_CODE_SRC_FILE.getAbsolutePath();
+
     //Buggy program as .java with code lines
     public String TARGET_CODE_WITH_LINES = "CodeWithLines.java";
     public File TARGET_CODE_FILE_WITH_LINES = new File(RESOURCES_DIRECTORY, TARGET_CODE_WITH_LINES);
@@ -203,6 +207,44 @@ public class Utils {
                         String newLine = sCurrentLine.replace(substring, "");
                         result.append(newLine).append(LINE_SEPARATOR);
                     }
+                } else {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+                if (fileReader != null)
+                    fileReader.close();
+                if (scanner != null)
+                    scanner.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public StringBuilder getCodeWithLines() {
+        BufferedReader bufferedReader = null;
+        FileReader fileReader = null;
+        Scanner scanner = null;
+        StringBuilder result = new StringBuilder();
+        String targetCode = TARGET_CODE_SRC_FILE_PATH;
+
+        try {
+            fileReader = new FileReader(targetCode);
+            bufferedReader = new BufferedReader(fileReader);
+            String sCurrentLine;
+            scanner = new Scanner(targetCode);
+
+            while (scanner.hasNext()) {
+                sCurrentLine = bufferedReader.readLine();
+                if (sCurrentLine != null) {
+                    result.append(sCurrentLine).append(LINE_SEPARATOR);
                 } else {
                     break;
                 }
