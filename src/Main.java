@@ -6,6 +6,8 @@ import General.Utils;
 
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -38,7 +40,7 @@ public class Main {
                 }
             } catch (NumberFormatException e) {
                 System.err.println("Arguments -p and -t must be integers!");
-                System.exit(1);
+                exit(1);
             }
         }
 
@@ -59,6 +61,7 @@ public class Main {
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(initialPopulationSize, utils, astHandler, startTime);
 
         geneticAlgorithm.repairProgram();
-        System.out.printf("The program has terminated!");
+        System.out.println("The program has terminated!");
+        exit(0);
     }
 }

@@ -175,7 +175,8 @@ public class GeneticOperations {
     public List<Individual> mutate(List<Individual> population, Individual fittestIndividual) {
         Patch patchToDelete;
         int mutation;
-        int mutationPop = population.size() / 2;
+        //Apply mutation to every individual
+        int mutationPop = population.size();
         if (mutationPop >= 1) {
             for (int i = 0; i < mutationPop; i++) {
                 // select source edit source node

@@ -68,7 +68,6 @@ public class Individual {
     public void deleteEdit(Patch pts) {
         for (Patch p : allPatches) {
             if (p.getTargetNode() == pts.getTargetNode() && p.getSourceNode() == pts.getSourceNode() && p.getOperation() == pts.getOperation()) {
-                System.out.println(pts.getOperation() + " " + pts.getSourceNode() + " " + pts.getTargetNode());
                 allPatches.remove(p);
                 break;
             }
