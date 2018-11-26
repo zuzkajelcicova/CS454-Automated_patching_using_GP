@@ -1,0 +1,5 @@
+Test,Pass-Fail,Runtime(ns)
+test.java.br.MaxManyElementsTest#test1,PASS,4450028
+test.java.br.MaxManyElementsTest#test2,PASS,3537103
+test.java.br.MaxManyElementsTest#test3,PASS,4542062
+test.java.br.MaxManyElementsTest#test4,FAIL,22023762

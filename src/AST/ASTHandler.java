@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class ASTHandler {
 
     private static final List<String> ALLOWED_STATEMENTS = new ArrayList<>(Arrays.asList("if", "while", "for", "do",
-            "break", "continue", "return", "switch", "assert", "empty_stmt", "expr_stmt"));
+            "break", "continue", "return", "switch", "assert", "empty_stmt", "expr_stmt", "else"));
     // HashMap<Integer, Integer> => NodeID, LineNumber, Keeping NodePair for debugging purposes
     private HashMap<Integer, NodePair> allAstStatements;
     private HashMap<Integer, NodePair> candidateSpace;
@@ -73,6 +73,10 @@ public class ASTHandler {
 
     public NodeList getAst() {
         return ast;
+    }
+
+    public HashMap<Integer, NodePair> getFaultSpace() {
+        return faultSpace;
     }
 
     public HashMap<Integer, NodePair> getAllAstStatements() {
@@ -156,7 +160,7 @@ public class ASTHandler {
             allAstStatements.put(id, newNode);
             candidateSpace.put(id, newNode);
 
-            //todo: we might be excluding statements that are the same (but that is already looking at the context)
+            //We might be excluding statements that are the same (but that is already looking at the context)
             /*if (!statementAlreadyExists(node.getTextContent()))
                 candidateSpace.put(id, newNode);*/
         }

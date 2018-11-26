@@ -14,16 +14,23 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Utils {
-    public String SRCML_PATH = "ProvideYourOwnPath";
+    public String SRCML_PATH = "C:\\Program Files\\srcML 0.9.5\\bin";
+    //Tested .class file name and location (default)
+    public String TARGET_CLASS = "GCD.class";
+    public String DOT_CLASS_FOLDER_PATH = "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching";
+
     public String LINE_SEPARATOR = System.getProperty("line.separator");
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
     public String RESOURCES_DIRECTORY = "resources";
     public String SRC_DIRECTORY = "src";
-    public String GEN_CANDIDATE_DIRECTORY = "src";
+    public String GEN_CANDIDATE_DIRECTORY = "GAOutput";
+    public String SOLUTION_DIRECTORY = "correctPatch";
     public String FL_DIRECTORY = "fault_localization";
     public String FAULTY_XML = "faulty.xml";
     public String FAULTY_XML_WITH_LINES = "faultyWithLines.xml";
     public String FIXED_XML = "fixed.xml";
+    public String FIXED_JAVA = "solution";
+    public String FIXED_JAVA_STATISTICS = "stats";
 
     //GZoltar FL output
     public String FL_TARGET = "gzoltar.csv";
@@ -39,6 +46,10 @@ public class Utils {
     public String TARGET_CODE = "GCD.java";
     public File TARGET_CODE_FILE = new File(RESOURCES_DIRECTORY, TARGET_CODE);
     public String TARGET_CODE_FILE_PATH = TARGET_CODE_FILE.getAbsolutePath();
+
+    //Target code in src/
+    public File TARGET_CODE_SRC_FILE = new File(SRC_DIRECTORY, TARGET_CODE);
+    public String TARGET_CODE_SRC_FILE_PATH = TARGET_CODE_SRC_FILE.getAbsolutePath();
 
     //Buggy program as .java with code lines
     public String TARGET_CODE_WITH_LINES = "CodeWithLines.java";
@@ -70,14 +81,13 @@ public class Utils {
     public final int PASS = 0;
     public final int FAIL = 1;
 
-    //Weight
-    public final double WEIGHT_POS = 0.1;
-    public final double WEIGHT_NEG = 0.2;
+    public final String positive = "Positive";
+    public final String negative = "Negative";
 
-    // Number of Positive and Negative test case
-    public final int NUM_POS_TEST = 7;
-    public final int NUM_NEG_TEST = 6;
-    
+    //Weight for Positive and Negative test cases
+    public final double WEIGHT_POS = 0.1;
+    public final double WEIGHT_NEG = 2 * WEIGHT_POS;
+
     public void obtainSuspiciousLines() {
         String line;
         String csvSplitComma = ",";
@@ -95,7 +105,7 @@ public class Utils {
                     // Obtain line and the probability
                     String[] codeLineAndProbability = data.split(csvSplitComma);
                     String codeLine = codeLineAndProbability[0];
-                    double probability = Double.parseDouble("0." + codeLineAndProbability[2]);
+                    double probability = Double.parseDouble(codeLineAndProbability[1] + "." + codeLineAndProbability[2]);
                     double rounded = Math.round(probability * 100.0) / 100.0;
                     stringBuilder.append(codeLine).append(csvSplitComma).append(rounded).append(LINE_SEPARATOR);
                 }
@@ -197,6 +207,44 @@ public class Utils {
                         String newLine = sCurrentLine.replace(substring, "");
                         result.append(newLine).append(LINE_SEPARATOR);
                     }
+                } else {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+                if (fileReader != null)
+                    fileReader.close();
+                if (scanner != null)
+                    scanner.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public StringBuilder getCodeWithLines() {
+        BufferedReader bufferedReader = null;
+        FileReader fileReader = null;
+        Scanner scanner = null;
+        StringBuilder result = new StringBuilder();
+        String targetCode = TARGET_CODE_FIXED_WITH_LINES_FILE_PATH;
+
+        try {
+            fileReader = new FileReader(targetCode);
+            bufferedReader = new BufferedReader(fileReader);
+            String sCurrentLine;
+            scanner = new Scanner(targetCode);
+
+            while (scanner.hasNext()) {
+                sCurrentLine = bufferedReader.readLine();
+                if (sCurrentLine != null) {
+                    result.append(sCurrentLine).append(LINE_SEPARATOR);
                 } else {
                     break;
                 }

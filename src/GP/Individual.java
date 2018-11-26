@@ -66,11 +66,10 @@ public class Individual {
     }
 
     public void deleteEdit(Patch pts) {
-        Iterator<Patch> i = allPatches.iterator();
-        while (i.hasNext()) {
-            Patch p = i.next();
-            if (pts.equals(p)) {
-                i.remove();
+        for (Patch p : allPatches) {
+            if (p.getTargetNode() == pts.getTargetNode() && p.getSourceNode() == pts.getSourceNode() && p.getOperation() == pts.getOperation()) {
+                allPatches.remove(p);
+                break;
             }
         }
     }

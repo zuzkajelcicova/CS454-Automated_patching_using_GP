@@ -1,0 +1,8 @@
+Test,Pass-Fail,Runtime(ns)
+fibonacci.FibonacciTest#test[0],PASS,3141819
+fibonacci.FibonacciTest#test[1],PASS,3382303
+fibonacci.FibonacciTest#test[2],PASS,3362557
+fibonacci.FibonacciTest#test[3],PASS,3646061
+fibonacci.FibonacciTest#test[4],PASS,3184485
+fibonacci.FibonacciTest#test[5],PASS,2652033
+fibonacci.FibonacciTest#test[6],PASS,10569346

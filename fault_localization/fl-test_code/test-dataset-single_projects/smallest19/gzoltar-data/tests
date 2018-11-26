@@ -1,0 +1,17 @@
+Test,Pass-Fail,Runtime(ns)
+smallest19.smallest_30074a0e_000BlackboxTest#test1,PASS,12142371
+smallest19.smallest_30074a0e_000BlackboxTest#test2,PASS,12422349
+smallest19.smallest_30074a0e_000BlackboxTest#test3,PASS,13845865
+smallest19.smallest_30074a0e_000BlackboxTest#test4,PASS,13767231
+smallest19.smallest_30074a0e_000BlackboxTest#test5,FAIL,21906693
+smallest19.smallest_30074a0e_000BlackboxTest#test6,FAIL,19878438
+smallest19.smallest_30074a0e_000BlackboxTest#test7,PASS,12883220
+smallest19.smallest_30074a0e_000BlackboxTest#test8,PASS,15921370
+smallest19.smallest_30074a0e_000WhiteboxTest#test1,FAIL,15864245
+smallest19.smallest_30074a0e_000WhiteboxTest#test2,FAIL,22824908
+smallest19.smallest_30074a0e_000WhiteboxTest#test3,FAIL,18621359
+smallest19.smallest_30074a0e_000WhiteboxTest#test4,FAIL,23258627
+smallest19.smallest_30074a0e_000WhiteboxTest#test5,FAIL,51345992
+smallest19.smallest_30074a0e_000WhiteboxTest#test6,PASS,34942949
+smallest19.smallest_30074a0e_000WhiteboxTest#test7,FAIL,52686643
+smallest19.smallest_30074a0e_000WhiteboxTest#test8,PASS,18318461
