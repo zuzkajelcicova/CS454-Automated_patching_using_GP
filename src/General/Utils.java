@@ -233,7 +233,7 @@ public class Utils {
         FileReader fileReader = null;
         Scanner scanner = null;
         StringBuilder result = new StringBuilder();
-        String targetCode = TARGET_CODE_SRC_FILE_PATH;
+        String targetCode = TARGET_CODE_FIXED_WITH_LINES_FILE_PATH;
 
         try {
             fileReader = new FileReader(targetCode);

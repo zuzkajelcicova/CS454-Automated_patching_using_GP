@@ -127,8 +127,8 @@ public class GeneticAlgorithm {
             tournamentSelectionParents = gp.tournamentSelection(newPopulation);
 
             //Crossovers and mutations
-            offsprings = gp.crossover(tournamentSelectionParents, fittestIndividual);
-            offsprings = gp.mutate(offsprings, candidateList, fittestIndividual);
+            offsprings = gp.crossover(tournamentSelectionParents);
+            offsprings = gp.mutate(offsprings, candidateList);
 
             offsprings = compileAndTest(offsprings);
             offsprings = selectPopulationIndividuals(oldPopulation, offsprings);
@@ -178,6 +178,7 @@ public class GeneticAlgorithm {
             //StringBuilder reformattedCode = utils.removeCodeLines();
             StringBuilder codeWithLines = utils.getCodeWithLines();
             utils.saveData(utils.SRC_DIRECTORY, utils.TARGET_CODE, codeWithLines);
+
             //Compilation step
             try {
                 int compilationResult = javaCompile();
