@@ -1,0 +1,4 @@
+Test,Pass-Fail,Runtime(ns)
+test.java.gcd.GCDTestNeg#testGCDNegative1,FAIL,2006098154
+test.java.gcd.GCDTestPos#testGCDPositive1,PASS,5879180
+test.java.gcd.GCDTestPos#testGCDPositive2,PASS,5478960

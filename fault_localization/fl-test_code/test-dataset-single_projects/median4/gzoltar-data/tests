@@ -1,0 +1,14 @@
+Test,Pass-Fail,Runtime(ns)
+median4.median_1b31fa5c_000BlackboxTest#test1,PASS,19133007
+median4.median_1b31fa5c_000BlackboxTest#test2,PASS,19662638
+median4.median_1b31fa5c_000BlackboxTest#test3,PASS,26424776
+median4.median_1b31fa5c_000BlackboxTest#test4,PASS,16695011
+median4.median_1b31fa5c_000BlackboxTest#test5,PASS,12992531
+median4.median_1b31fa5c_000BlackboxTest#test6,PASS,13465744
+median4.median_1b31fa5c_000BlackboxTest#test7,FAIL,20694394
+median4.median_1b31fa5c_000WhiteboxTest#test1,FAIL,15112465
+median4.median_1b31fa5c_000WhiteboxTest#test2,PASS,49336427
+median4.median_1b31fa5c_000WhiteboxTest#test3,FAIL,17920004
+median4.median_1b31fa5c_000WhiteboxTest#test4,FAIL,49343127
+median4.median_1b31fa5c_000WhiteboxTest#test5,PASS,16280686
+median4.median_1b31fa5c_000WhiteboxTest#test6,PASS,10597556

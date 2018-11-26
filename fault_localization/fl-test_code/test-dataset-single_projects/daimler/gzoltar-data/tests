@@ -1,0 +1,6 @@
+Test,Pass-Fail,Runtime(ns)
+daimler.AppTest#test0,PASS,4937698
+daimler.AppTest#test1,FAIL,9640200
+daimler.AppTest#test2,PASS,5422899
+daimler.AppTest#test4,PASS,3833654
+daimler.AppTest#test5,PASS,6348520

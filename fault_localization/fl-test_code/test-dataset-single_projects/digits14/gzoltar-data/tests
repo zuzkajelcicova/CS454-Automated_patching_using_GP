@@ -1,0 +1,17 @@
+Test,Pass-Fail,Runtime(ns)
+digits14.digits_90a14c1a_000BlackboxTest#test1,PASS,11027748
+digits14.digits_90a14c1a_000BlackboxTest#test2,PASS,15502813
+digits14.digits_90a14c1a_000BlackboxTest#test3,PASS,15259860
+digits14.digits_90a14c1a_000BlackboxTest#test4,PASS,24070704
+digits14.digits_90a14c1a_000BlackboxTest#test5,PASS,19944026
+digits14.digits_90a14c1a_000BlackboxTest#test6,PASS,11681148
+digits14.digits_90a14c1a_000WhiteboxTest#test1,FAIL,15626229
+digits14.digits_90a14c1a_000WhiteboxTest#test10,PASS,16609678
+digits14.digits_90a14c1a_000WhiteboxTest#test2,PASS,12902614
+digits14.digits_90a14c1a_000WhiteboxTest#test3,PASS,14621623
+digits14.digits_90a14c1a_000WhiteboxTest#test4,PASS,25452258
+digits14.digits_90a14c1a_000WhiteboxTest#test5,PASS,12803528
+digits14.digits_90a14c1a_000WhiteboxTest#test6,PASS,13139573
+digits14.digits_90a14c1a_000WhiteboxTest#test7,PASS,10780212
+digits14.digits_90a14c1a_000WhiteboxTest#test8,PASS,24670858
+digits14.digits_90a14c1a_000WhiteboxTest#test9,PASS,19789227
