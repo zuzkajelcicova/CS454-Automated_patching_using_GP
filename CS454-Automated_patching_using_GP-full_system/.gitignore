@@ -1,0 +1,10 @@
+
+\.idea/
+\GAOutput/*
+\correctPatch/*
+\resources/CodeWithLines.java
+\fault_localization/gzoltar.csv
+\fault_localization/suspicious.csv
+
+*.class
+

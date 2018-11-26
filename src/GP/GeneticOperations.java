@@ -60,9 +60,8 @@ public class GeneticOperations {
     }
 
     // Crossover of parents
-    public List<Individual> crossover(List<Individual> pop, Individual fittestInd) {
+    public List<Individual> crossover(List<Individual> pop) {
         List<Individual> newPop = new ArrayList<Individual>();
-        List<Individual> newGen = new ArrayList<Individual>();
 
         for (int ii = 0; ii < pop.size(); ii++) {
             Random rn = new Random();
@@ -80,67 +79,67 @@ public class GeneticOperations {
             List<Patch> offspring2 = new ArrayList<Patch>();
             int cutpoint = crossoverPoint(parent1);
             if (parent1.patchSize() == 1 && parent2.patchSize() == 1) {
-                offspring1.add(parent1.getAllPatches().get(0));
-                offspring2.add(parent2.getAllPatches().get(0));
-                offspring1.add(parent2.getAllPatches().get(0));
-                offspring2.add(parent1.getAllPatches().get(0));
+                offspring1.add(new Patch(parent1.getAllPatches().get(0).getOperation(), parent1.getAllPatches().get(0).getSourceNode(), parent1.getAllPatches().get(0).getTargetNode()));//parent1.getAllPatches().get(0));
+                offspring2.add(new Patch(parent2.getAllPatches().get(0).getOperation(), parent2.getAllPatches().get(0).getSourceNode(), parent2.getAllPatches().get(0).getTargetNode()));
+                offspring1.add(new Patch(parent2.getAllPatches().get(0).getOperation(), parent2.getAllPatches().get(0).getSourceNode(), parent2.getAllPatches().get(0).getTargetNode()));
+                offspring2.add(new Patch(parent1.getAllPatches().get(0).getOperation(), parent1.getAllPatches().get(0).getSourceNode(), parent1.getAllPatches().get(0).getTargetNode()));
                 newPop.add(new Individual(offspring1));
                 newPop.add(new Individual(offspring2));
-                newGen.addAll(newPop);
+
             }
             if (parent1.patchSize() > 1 && parent2.patchSize() > 1) {
                 for (int i = 0; i < cutpoint; i++) {
-                    offspring1.add(parent1.getAllPatches().get(i));
-                    offspring2.add(parent2.getAllPatches().get(i));
+                    offspring1.add(new Patch(parent1.getAllPatches().get(i).getOperation(), parent1.getAllPatches().get(i).getSourceNode(), parent1.getAllPatches().get(i).getTargetNode()));
+                    offspring2.add(new Patch(parent2.getAllPatches().get(i).getOperation(), parent2.getAllPatches().get(i).getSourceNode(), parent2.getAllPatches().get(i).getTargetNode()));
                 }
                 for (int k = cutpoint; k < parent1.patchSize(); k++) {
                     if (k < parent2.patchSize()) {
-                        offspring1.add(parent2.getAllPatches().get(k));
+                        offspring1.add(new Patch(parent2.getAllPatches().get(k).getOperation(), parent2.getAllPatches().get(k).getSourceNode(), parent2.getAllPatches().get(k).getTargetNode()));
                     }
-                    offspring2.add(parent1.getAllPatches().get(k));
+                    offspring2.add(new Patch(parent1.getAllPatches().get(k).getOperation(), parent1.getAllPatches().get(k).getSourceNode(), parent1.getAllPatches().get(k).getTargetNode()));
                 }
                 newPop.add(new Individual(offspring1));
                 newPop.add(new Individual(offspring2));
-                newGen.addAll(newPop);
+
             }
             if (parent1.patchSize() > 1) {
                 for (int i = 0; i < cutpoint; i++) {
-                    offspring1.add(parent1.getAllPatches().get(i));
-                    offspring2.add(parent2.getAllPatches().get(0));
+                    offspring1.add(new Patch(parent1.getAllPatches().get(i).getOperation(), parent1.getAllPatches().get(i).getSourceNode(), parent1.getAllPatches().get(i).getTargetNode()));
+                    offspring2.add(new Patch(parent2.getAllPatches().get(0).getOperation(), parent2.getAllPatches().get(0).getSourceNode(), parent2.getAllPatches().get(0).getTargetNode()));
                 }
                 for (int j = cutpoint; j < parent1.patchSize(); j++) {
-                    offspring2.add(parent1.getAllPatches().get(j));
-                    offspring1.add(parent2.getAllPatches().get(0));
+                    offspring2.add(new Patch(parent1.getAllPatches().get(j).getOperation(), parent1.getAllPatches().get(j).getSourceNode(), parent1.getAllPatches().get(j).getTargetNode()));
+                    offspring1.add(new Patch(parent2.getAllPatches().get(0).getOperation(), parent2.getAllPatches().get(0).getSourceNode(), parent2.getAllPatches().get(0).getTargetNode()));
                 }
                 newPop.add(new Individual(offspring1));
                 newPop.add(new Individual(offspring2));
-                newGen.addAll(newPop);
+
             }
             if (parent2.patchSize() > 1) {
                 cutpoint = crossoverPoint(parent2);
                 for (int i = 0; i < cutpoint; i++) {
-                    offspring1.add(parent2.getAllPatches().get(i));
-                    offspring2.add(parent1.getAllPatches().get(0));
+                    offspring1.add(new Patch(parent2.getAllPatches().get(i).getOperation(), parent2.getAllPatches().get(i).getSourceNode(), parent2.getAllPatches().get(i).getTargetNode()));
+                    offspring2.add(new Patch(parent1.getAllPatches().get(0).getOperation(), parent1.getAllPatches().get(0).getSourceNode(), parent1.getAllPatches().get(0).getTargetNode()));
                 }
                 for (int j = cutpoint; j < parent1.patchSize(); j++) {
-                    offspring2.add(parent1.getAllPatches().get(0));
-                    offspring1.add(parent2.getAllPatches().get(j));
+                    offspring2.add(new Patch(parent1.getAllPatches().get(0).getOperation(), parent1.getAllPatches().get(0).getSourceNode(), parent1.getAllPatches().get(0).getTargetNode()));
+                    offspring1.add(new Patch(parent2.getAllPatches().get(j).getOperation(), parent2.getAllPatches().get(j).getSourceNode(), parent2.getAllPatches().get(j).getTargetNode()));
                 }
                 newPop.add(new Individual(offspring1));
                 newPop.add(new Individual(offspring2));
-                newGen.addAll(newPop);
+
             }
         }
-        newPop.add(fittestInd);
-        return newGen;
+//        newPop.add(fittestInd);
+        return newPop;
     }
 
     //Mutation operation
-    public List<Individual> mutate(List<Individual> pop, List<Integer> sourceList, Individual fittestInd) {
+    public List<Individual> mutate(List<Individual> pop, List<Integer> sourceList) {
         Patch pts;
         int mut = 0;
         Random rn = new Random();
-        int mutationPop = pop.size() / 3;
+        int mutationPop = pop.size()/3;
         if (mutationPop >= 1) {
             for (int i = 0; i < mutationPop; i++) {
                 // select source edit source node
@@ -172,18 +171,15 @@ public class GeneticOperations {
                     pop.get(patch_index).getAllPatches().set(edit_index, pts);
                 }
             }
-            pop.add(fittestInd);
             return pop;
         } else {
             return pop;
         }
     }
-
     int crossoverPoint(Individual in) {
         Random rn = new Random();
         int val1 = rn.nextInt(in.patchSize());
         return val1;
     }
-
 }
 

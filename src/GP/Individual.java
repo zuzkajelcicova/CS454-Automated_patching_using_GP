@@ -71,6 +71,7 @@ public class Individual {
             Patch p = i.next();
             if (pts.equals(p)) {
                 i.remove();
+                break;
             }
         }
     }

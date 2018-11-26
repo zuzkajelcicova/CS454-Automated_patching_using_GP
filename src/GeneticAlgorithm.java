@@ -1,202 +1,268 @@
 import AST.ASTHandler;
 import AST.NodePair;
-import AST.Parser;
-import GP.Bug;
-import GP.Individual;
-import GP.JavaResult;
-import GP.Patch;
+import GP.*;
 import General.Utils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import java.io.File;
 import java.util.*;
 
 public class GeneticAlgorithm {
 
     private int populationSize;
-    private int maxTimeInMinutes;
-    private int maxNumberOfFitnessEval;
-    private int negPass = 0;
-    private int posPass = 0;
+    private int negPass;
+    private int posPass;
+    private int numberOfGenerations;
     private Utils utils;
-    private Parser parser;
     private ASTHandler astHandler;
-    private List<Bug> chosenBugs;
+    private HashMap<Integer, NodePair> candidateSpace;
+    private ArrayList<Integer> candidateList;
     private ArrayList<Individual> initialPopulation;
+    private int solutionList;
+    private int solutionCounter;
+    private int targetNode;
+    private long startTime;
+    private int posTestsNumber;
+    private int negTestNumber;
 
-    public GeneticAlgorithm(int populationSize, int maxTimeInMinutes, int maxNumberOfFitnessEval,
-                            Utils utils, Parser parser, ASTHandler astHandler, List<Bug> chosenBugs) {
+    public GeneticAlgorithm(int populationSize, Utils utils, ASTHandler astHandler, long startTime) {
         this.populationSize = populationSize;
-        this.maxTimeInMinutes = maxTimeInMinutes;
-        this.maxNumberOfFitnessEval = maxNumberOfFitnessEval;
         this.utils = utils;
-        this.parser = parser;
         this.astHandler = astHandler;
-        this.chosenBugs = chosenBugs;
-        //todo: create an initial population of size populationSize randomly
-        this.initialPopulation = initialize(this.populationSize,this.astHandler);
+        this.candidateSpace = astHandler.getCandidateSpace();
+        this.candidateList = new ArrayList<>();
+        this.solutionCounter = 1;
+        this.numberOfGenerations = 1;
+        this.solutionList = 0;
+        this.targetNode = -1;
+        this.startTime = startTime;
     }
 
-    public ArrayList<Individual> getInitialPopulation() {
-        return initialPopulation;
-    }
-
-    public void setNegPass(int negPass) {
-        this.negPass = negPass;
-    }
-
-    public void setPosPass(int posPass) {
-        this.posPass = posPass;
-    }
-
-    public ArrayList<Individual> initialize(int initialPopulationSize, ASTHandler astHandler){
-
-        int[] random1 = new int[]{0,1,2};
-        HashMap<Integer, NodePair> candidateSpace = astHandler.getCandidateSpace();
-        ArrayList<Integer> candidateList = new ArrayList<>();
+    public ArrayList<Individual> initialize(int initialPopulationSize, ASTHandler astHandler) {
+        int[] possibleOperations = new int[]{0, 1, 2};
         for (Map.Entry<Integer, NodePair> entry : candidateSpace.entrySet()) {
             candidateList.add(entry.getKey());
         }
-        int i;
-        ArrayList<Individual> ListIndividual = new ArrayList<>();
-        for (i=0;i<initialPopulationSize;i++){
-            Individual population = new Individual();
-            int operation = getRandom(random1);
-            if (operation == 0){
-                int index = new Random().nextInt(candidateList.size());
-                int targetNode = candidateList.get(index);
-                population.getAllPatches().add(new Patch(operation, -1, targetNode));
-            }
-            else{
-                int index = new Random().nextInt(candidateList.size());
-                int targetNode = candidateList.get(index);
-                index = new Random().nextInt(candidateList.size());
-                int sourceNode = candidateList.get(index);
-                //We do not allow the same target node and source node
-                while (targetNode == sourceNode){
-                    index = new Random().nextInt(candidateList.size());
-                    targetNode = candidateList.get(index);
-                }
-                population.getAllPatches().add(new Patch(operation, sourceNode, targetNode));
-            }
-            ListIndividual.add(population);
+
+        for (Map.Entry<Integer, NodePair> entry : astHandler.getFaultSpace().entrySet()) {
+            targetNode = entry.getKey();
+            break;
         }
 
-        return ListIndividual;
+        ArrayList<Individual> population = new ArrayList<>();
+
+        for (int i = 0; i < initialPopulationSize; i++) {
+            Individual individual = new Individual();
+            int operation = getRandom(possibleOperations);
+            if (operation == 0) {
+                individual.getAllPatches().add(new Patch(operation, -1, targetNode));
+            } else {
+                int index = new Random().nextInt(candidateList.size());
+                int sourceNode = candidateList.get(index);
+                individual.getAllPatches().add(new Patch(operation, sourceNode, targetNode));
+            }
+            population.add(individual);
+        }
+        return population;
     }
 
     public int getRandom(int[] array) {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
-    public JavaResult javaCompile(Individual individual){
 
-//        run the java file
-//        use fitness function somehow from JavaResult
-        return new JavaResult(utils, individual);
+    private int javaCompile() throws Exception {
+        File file = new File(utils.DOT_CLASS_FOLDER_PATH, utils.TARGET_CLASS);
+        if (file.delete()) {
+            System.out.println("File " + utils.TARGET_CLASS + " deleted.");
+        } else System.out.println("File " + utils.TARGET_CLASS + " does not exist.");
+
+        String command = "javac -d " + utils.DOT_CLASS_FOLDER_PATH + " src/" + utils.TARGET_CODE;
+        Process pro = Runtime.getRuntime().exec(command);
+        pro.waitFor();
+        System.out.println(command + " exitValue() " + pro.exitValue());
+        return pro.exitValue();
     }
 
-    public ArrayList<JavaResult> LoopPopulation(ArrayList<Individual> ListIndividual){
+    public void repairProgram() {
+        System.out.println("Running defect fixing...");
 
-        ArrayList<JavaResult> ListJavaResult = new ArrayList<>();
-        for(Individual individual : ListIndividual){
-            ASTHandler modified_AST = new ASTHandler(utils, parser, chosenBugs);
-            modified_AST.applyPatches(individual);
+        GeneticOperations gp = new GeneticOperations(utils);
 
-            StringBuilder noLinesCode = utils.removeCodeLines();
-            utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
+        //Initialize population - initialize with more to have enough to choose from if a lot does not compile
+        this.initialPopulation = initialize(this.populationSize + populationSize / 2, this.astHandler);
 
-            JavaResult result = javaCompile(individual);
+        Individual fittestIndividual;
+        List<Individual> oldPopulation = new ArrayList<>();
+        List<Individual> newPopulation = new ArrayList<>();
+        List<Individual> tournamentSelectionParents;
+        List<Individual> offsprings;
 
-            if(result.getResult() == utils.PASS){
-
-                Result testResult = JUnitCore.runClasses(GCDTestPos.class);
-
-                for (Failure failure : testResult.getFailures()) {
-                    System.out.println(failure.toString());
-                }
-                System.out.println("Testing Positive Test case");
-                System.out.println("Number of Failure: " + testResult.getFailureCount());
-                System.out.println("Number of Run: " + testResult.getRunCount());
-                System.out.println("Run Time: " + testResult.getRunTime());
-
-                posPass = utils.NUM_POS_TEST - testResult.getFailureCount();
-
-                testResult = JUnitCore.runClasses(GCDTestNeg.class);
-
-                for (Failure failure : testResult.getFailures()) {
-                    System.out.println(failure.toString());
-                }
-                System.out.println("Testing Negative Test case");
-                System.out.println("Number of Failure: " + testResult.getFailureCount());
-                System.out.println("Number of Run: " + testResult.getRunCount());
-                System.out.println("Run Time: " + testResult.getRunTime());
-
-                negPass = utils.NUM_NEG_TEST - testResult.getFailureCount();
-
-                double fitness = (utils.WEIGHT_NEG*negPass)/(utils.NUM_NEG_TEST) + (utils.WEIGHT_POS*posPass)/(utils.NUM_POS_TEST);
-                System.out.println("Fitness Value: " + fitness);
-                result.setFitness(fitness);
-
-                ListJavaResult.add(result);
-            }
-
+        //Initial population
+        initialPopulation = compileAndTest(initialPopulation);
+        if (solutionList > 0) {
+            return;
         }
 
-        return ListJavaResult;
+        initialPopulation.sort(new SortByFitness());
+
+        int indiv = 0;
+        while (oldPopulation.size() != populationSize) {
+            oldPopulation.add(initialPopulation.get(indiv));
+            indiv++;
+        }
+        if (oldPopulation.size() != populationSize) {
+            System.out.println("NOT ENOUGH INDIVIDUALS, POPULATION SMALLER!!!");
+            this.populationSize = oldPopulation.size();
+        }
+
+        fittestIndividual = gp.getFittest(oldPopulation);
+        populateList(oldPopulation, newPopulation);
+
+        while (solutionList == 0) {
+            this.numberOfGenerations++;
+            //Tournament selection
+            tournamentSelectionParents = gp.tournamentSelection(newPopulation);
+
+            //Crossovers and mutations
+            offsprings = gp.crossover(tournamentSelectionParents);
+            offsprings = gp.mutate(offsprings, candidateList);
+
+            offsprings = compileAndTest(offsprings);
+            offsprings = selectPopulationIndividuals(oldPopulation, offsprings);
+
+            populateList(newPopulation, oldPopulation);
+            //Create new population
+            populateList(tournamentSelectionParents, newPopulation);
+            populateList(offsprings, newPopulation);
+        }
     }
 
-    public void repairProgram(ArrayList<JavaResult> ListJavaPassedIndividual) {
-        //todo: implement a loop handling the above three cases for exiting
-//        ArrayList<JavaResult> ListJavaPassedIndividual = LoopPopulation(this.initialPopulation);
-        //todo: this is just a manual testing from Main (temporary before the loop is done)
+    private List<Individual> selectPopulationIndividuals(List<Individual> oldPopulation, List<Individual> offspringPopulation) {
+        int threshold = populationSize / 2;
+        List<Individual> result = new ArrayList<>();
 
-        //Testing a potential "fix"
-//        JUnitCore junit = new JUnitCore();
-//        junit.addListener(new RunListener());
-//        Result result = JUnitCore.runClasses(GCDTestPos.class);
-//
-//        for (Failure failure : result.getFailures()) {
-//            System.out.println(failure.toString());
-//        }
-//        System.out.println(result.wasSuccessful());
-//        System.out.println("ENDED RESULT OF TESTING");
+        if (offspringPopulation.size() == threshold) {
+            return offspringPopulation;
+        } else if (offspringPopulation.size() < threshold) {
+            populateList(offspringPopulation, result);
+            oldPopulation.sort(new SortByFitness());
 
+            int indexCounter = 0;
+            while (result.size() != populationSize) {
+                result.add(oldPopulation.get(indexCounter));
+                indexCounter++;
+            }
+            return result;
+        } else if (offspringPopulation.size() > threshold) {
+            offspringPopulation.sort(new SortByFitness());
 
-//        Individual potentialPatch1 = new Individual();
-//        // OPERATIONS (set up for LeapYear):
-//        potentialPatch1.getAllPatches().add(new Patch(utils.REPLACE, 114, 121));
-//        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-//        potentialPatch1.getAllPatches().add(new Patch(utils.DELETE, -1, 106));
-//        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 114, 140));
-//        potentialPatch1.getAllPatches().add(new Patch(utils.DELETE, -1, 96));
-//        potentialPatch1.getAllPatches().add(new Patch(utils.INSERT, 114, 96));
-//
-//        astHandler.applyPatches(potentialPatch1);
-//        StringBuilder noLinesCode = utils.removeCodeLines();
-//        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
-//
-//        //Test out the second round
-//        Individual potentialPatch2 = new Individual();
-//        potentialPatch2.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-//        potentialPatch2.getAllPatches().add(new Patch(utils.REPLACE, 140, 96));
-//        potentialPatch2.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-//        astHandler.applyPatches(potentialPatch2);
-//
-//
-//        //Remove line numbers to clean the code
-//        noLinesCode = utils.removeCodeLines();
-//        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
-//
-//
-//        //Test out the 3rd round
-//        Individual potentialPatch3 = new Individual();
-//        potentialPatch3.getAllPatches().add(new Patch(utils.INSERT, 106, 96));
-//        astHandler.applyPatches(potentialPatch3);
-//
-//        //Remove line numbers to clean the code
-//        noLinesCode = utils.removeCodeLines();
-//        utils.saveData(utils.GEN_CANDIDATE_DIRECTORY, utils.TARGET_CODE, noLinesCode);
+            int indexCounter = 0;
+            while (result.size() != populationSize) {
+                result.add(offspringPopulation.get(indexCounter));
+                indexCounter++;
+            }
+            return result;
+        }
+        return null;
+    }
+
+    private ArrayList<Individual> compileAndTest(List<Individual> newPopulation) {
+        ArrayList<Individual> candidateResult = new ArrayList<>();
+
+        for (Individual individual : newPopulation) {
+            astHandler.applyPatches(individual);
+
+            StringBuilder reformattedCode = utils.removeCodeLines();
+            utils.saveData(utils.SRC_DIRECTORY, utils.TARGET_CODE, reformattedCode);
+            //Compilation step
+            try {
+                int compilationResult = javaCompile();
+
+                //Fitness function step
+                if (compilationResult == utils.PASS) {
+
+                    Result testNegResult = JUnitCore.runClasses(getCorrespondingTests(utils.TARGET_CODE, utils.negative));
+                    printTestStatistics(testNegResult, utils.negative);
+                    negPass = negTestNumber - testNegResult.getFailureCount();
+
+                    Result testPosResult = JUnitCore.runClasses(getCorrespondingTests(utils.TARGET_CODE, utils.positive));
+                    printTestStatistics(testPosResult, utils.positive);
+                    posPass = posTestsNumber - testPosResult.getFailureCount();
+
+                    double fitness = (utils.WEIGHT_NEG * negPass) + (utils.WEIGHT_POS * posPass);
+                    System.out.println("Fitness Value: " + fitness);
+                    individual.setFitness(fitness);
+                    candidateResult.add(individual);
+
+                    //We do not finish after finding the very first solution - full generation is finished
+                    //to see how many potential patches are available
+                    if (testNegResult.getFailureCount() == 0 && testPosResult.getFailureCount() == 0) {
+                        //Storing 2 files -> .java and .txt for statistics, Time in seconds
+                        long requiredPatchTime = (System.currentTimeMillis() - startTime) / 1000;
+                        storeCodeAndStatistics(individual, reformattedCode, requiredPatchTime);
+                        this.solutionList++;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return candidateResult;
+    }
+
+    private Class getCorrespondingTests(String testedProgramName, String testType) {
+        switch (testedProgramName) {
+            case "GCD.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = GCDTestPos.numberOfPositiveTests;
+                    return GCDTestPos.class;
+                } else {
+                    this.negTestNumber = GCDTestNeg.numberOfNegativeTests;
+                    return GCDTestNeg.class;
+                }
+            default:
+                return null;
+        }
+    }
+
+    private void printTestStatistics(Result testResult, String str) {
+        for (Failure failure : testResult.getFailures()) {
+            System.out.println(failure.toString());
+        }
+        System.out.println(str + " tests");
+        System.out.println("Number of Failure: " + testResult.getFailureCount());
+        System.out.println("Number of Run: " + testResult.getRunCount());
+        System.out.println("Run Time: " + testResult.getRunTime());
+    }
+
+    private void storeCodeAndStatistics(Individual individual, StringBuilder reformattedCode, long requiredPatchTime) {
+        String javaFile = utils.FIXED_JAVA + solutionCounter + ".java";
+        String statistics = utils.FIXED_JAVA_STATISTICS + solutionCounter + ".txt";
+
+        StringBuilder individualStatistics = new StringBuilder();
+        individualStatistics.append("Target: ").append(astHandler.getFaultSpace().get(targetNode).getNode().getTextContent()).append(utils.LINE_SEPARATOR);
+
+        individualStatistics.append("Sources: to be added");
+
+        individualStatistics = individual.getAllPatchesContent();
+        individualStatistics.append(utils.LINE_SEPARATOR).append(utils.LINE_SEPARATOR);
+
+        individualStatistics.append("Time: " + requiredPatchTime).append(" seconds").append(utils.LINE_SEPARATOR);
+        individualStatistics.append("Generation: " + numberOfGenerations).append(utils.LINE_SEPARATOR);
+        individualStatistics.append("Mutations: " + individual.getCtrMutation()).append(utils.LINE_SEPARATOR);
+        individualStatistics.append("Crossovers: " + individual.getCtrCrossover()).append(utils.LINE_SEPARATOR);
+
+        utils.saveData(utils.SOLUTION_DIRECTORY, javaFile, reformattedCode);
+        utils.saveData(utils.SOLUTION_DIRECTORY, statistics, individualStatistics);
+        solutionCounter++;
+    }
+
+    private void populateList(List<Individual> sourceList, List<Individual> targetList) {
+        for (Individual currentIndividual : sourceList) {
+            targetList.add(currentIndividual);
+        }
     }
 }
