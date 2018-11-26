@@ -231,6 +231,22 @@ public class GeneticAlgorithm {
                     this.negTestNumber = GCDTestNeg.numberOfNegativeTests;
                     return GCDTestNeg.class;
                 }
+            case "median.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = median_PosTest.numberOfPositiveTests;
+                    return median_PosTest.class;
+                } else {
+                    this.negTestNumber = median_NegTest.numberOfNegativeTests;
+                    return median_NegTest.class;
+                }
+            case "Triangle.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = TestTriPos.numberOfPositiveTests;
+                    return TestTriPos.class;
+                } else {
+                    this.negTestNumber = TestTriNeg.numberOfNegativeTests;
+                    return TestTriNeg.class;
+                }
             default:
                 return null;
         }
