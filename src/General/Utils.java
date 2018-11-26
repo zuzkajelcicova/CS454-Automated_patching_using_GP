@@ -17,7 +17,7 @@ public class Utils {
     public String SRCML_PATH = "C:\\Program Files\\srcML 0.9.5\\bin";
     //Tested .class file name and location (default)
     public String TARGET_CLASS = "GCD.class";
-    public String DOT_CLASS_FOLDER_PATH = "C:\\GitHubProjects\\CS454-Automated_patching_using_GP-full_system\\out\\production\\CS454-Automated_patching_using_GP-full_system";
+    public String DOT_CLASS_FOLDER_PATH = "C:\\latest\\CS454-Automated_patching_using_GP\\out\\production\\CS454-Automated_patching_using_GP-full_system";
 
     public String LINE_SEPARATOR = System.getProperty("line.separator");
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
