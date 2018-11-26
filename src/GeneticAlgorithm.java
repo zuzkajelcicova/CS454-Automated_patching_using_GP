@@ -36,7 +36,12 @@ public class GeneticAlgorithm {
         this.solutionCounter = 1;
         this.numberOfGenerations = 1;
         this.solutionList = 0;
-        this.targetNode = -1;
+
+        for (Map.Entry<Integer, NodePair> entry : astHandler.getFaultSpace().entrySet()) {
+            targetNode = entry.getKey();
+            break;
+        }
+
         this.startTime = startTime;
     }
 
@@ -44,11 +49,6 @@ public class GeneticAlgorithm {
         int[] possibleOperations = new int[]{0, 1, 2};
         for (Map.Entry<Integer, NodePair> entry : candidateSpace.entrySet()) {
             candidateList.add(entry.getKey());
-        }
-
-        for (Map.Entry<Integer, NodePair> entry : astHandler.getFaultSpace().entrySet()) {
-            targetNode = entry.getKey();
-            break;
         }
 
         ArrayList<Individual> population = new ArrayList<>();
@@ -89,7 +89,7 @@ public class GeneticAlgorithm {
     public void repairProgram() {
         System.out.println("Running defect fixing...");
 
-        GeneticOperations gp = new GeneticOperations(utils);
+        GeneticOperations gp = new GeneticOperations(utils, targetNode, candidateList);
 
         //Initialize population - initialize with more to have enough to choose from if a lot does not compile
         this.initialPopulation = initialize(this.populationSize + populationSize / 2, this.astHandler);
@@ -119,7 +119,7 @@ public class GeneticAlgorithm {
         }
 
         fittestIndividual = gp.getFittest(oldPopulation);
-        populateList(oldPopulation, newPopulation);
+        newPopulation = populateList(oldPopulation);
 
         while (solutionList == 0) {
             this.numberOfGenerations++;
@@ -128,15 +128,18 @@ public class GeneticAlgorithm {
 
             //Crossovers and mutations
             offsprings = gp.crossover(tournamentSelectionParents);
-            offsprings = gp.mutate(offsprings, candidateList);
+            offsprings = gp.mutate(offsprings, fittestIndividual);
 
             offsprings = compileAndTest(offsprings);
             offsprings = selectPopulationIndividuals(oldPopulation, offsprings);
 
-            populateList(newPopulation, oldPopulation);
+            oldPopulation = populateList(newPopulation);
             //Create new population
-            populateList(tournamentSelectionParents, newPopulation);
-            populateList(offsprings, newPopulation);
+            newPopulation = populateList(tournamentSelectionParents);
+
+            for (Individual individual : populateList(offsprings)) {
+                newPopulation.add(individual);
+            }
         }
     }
 
@@ -147,11 +150,11 @@ public class GeneticAlgorithm {
         if (offspringPopulation.size() == threshold) {
             return offspringPopulation;
         } else if (offspringPopulation.size() < threshold) {
-            populateList(offspringPopulation, result);
+            result = populateList(offspringPopulation);
             oldPopulation.sort(new SortByFitness());
 
             int indexCounter = 0;
-            while (result.size() != populationSize) {
+            while (result.size() != threshold) {
                 result.add(oldPopulation.get(indexCounter));
                 indexCounter++;
             }
@@ -160,7 +163,7 @@ public class GeneticAlgorithm {
             offspringPopulation.sort(new SortByFitness());
 
             int indexCounter = 0;
-            while (result.size() != populationSize) {
+            while (result.size() != threshold) {
                 result.add(offspringPopulation.get(indexCounter));
                 indexCounter++;
             }
@@ -205,8 +208,7 @@ public class GeneticAlgorithm {
                         //Storing 2 files -> .java and .txt for statistics, Time in seconds
                         long requiredPatchTime = (System.currentTimeMillis() - startTime) / 1000;
                         storeCodeAndStatistics(individual, codeWithLines, requiredPatchTime);
-                        //todo: comment this back
-                        //this.solutionList++;
+                        this.solutionList++;
                     }
                 } else {
                     individual.setFitness(0);
@@ -266,9 +268,11 @@ public class GeneticAlgorithm {
         solutionCounter++;
     }
 
-    private void populateList(List<Individual> sourceList, List<Individual> targetList) {
+    private List<Individual> populateList(List<Individual> sourceList) {
+        List<Individual> targetList = new ArrayList<>();
         for (Individual currentIndividual : sourceList) {
             targetList.add(currentIndividual);
         }
+        return targetList;
     }
 }
