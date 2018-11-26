@@ -77,6 +77,9 @@ public class Utils {
     public final int PASS = 0;
     public final int FAIL = 1;
 
+    public final String positive = "Positive";
+    public final String negative = "Negative";
+
     //Weight for Positive and Negative test cases
     public final double WEIGHT_POS = 0.1;
     public final double WEIGHT_NEG = 2 * WEIGHT_POS;

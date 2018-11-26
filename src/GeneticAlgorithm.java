@@ -24,6 +24,8 @@ public class GeneticAlgorithm {
     private int solutionCounter;
     private int targetNode;
     private long startTime;
+    private int posTestsNumber;
+    private int negTestNumber;
 
     public GeneticAlgorithm(int populationSize, Utils utils, ASTHandler astHandler, long startTime) {
         this.populationSize = populationSize;
@@ -182,14 +184,13 @@ public class GeneticAlgorithm {
                 //Fitness function step
                 if (compilationResult == utils.PASS) {
 
-                    //todo: here a class on runtime must be provided, create e.g. switch case
-                    Result testNegResult = JUnitCore.runClasses(GCDTestNeg.class);
-                    printTestStatistics(testNegResult, "Negative");
-                    negPass = GCDTestNeg.numberOfNegativeTests - testNegResult.getFailureCount();
+                    Result testNegResult = JUnitCore.runClasses(getCorrespondingTests(utils.TARGET_CODE, utils.negative));
+                    printTestStatistics(testNegResult, utils.negative);
+                    negPass = negTestNumber - testNegResult.getFailureCount();
 
-                    Result testPosResult = JUnitCore.runClasses(GCDTestPos.class);
-                    printTestStatistics(testPosResult, "Positive");
-                    posPass = GCDTestPos.numberOfPositiveTests - testPosResult.getFailureCount();
+                    Result testPosResult = JUnitCore.runClasses(getCorrespondingTests(utils.TARGET_CODE, utils.positive));
+                    printTestStatistics(testPosResult, utils.positive);
+                    posPass = posTestsNumber - testPosResult.getFailureCount();
 
                     double fitness = (utils.WEIGHT_NEG * negPass) + (utils.WEIGHT_POS * posPass);
                     System.out.println("Fitness Value: " + fitness);
@@ -210,6 +211,21 @@ public class GeneticAlgorithm {
             }
         }
         return candidateResult;
+    }
+
+    private Class getCorrespondingTests(String testedProgramName, String testType) {
+        switch (testedProgramName) {
+            case "GCD.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = GCDTestPos.numberOfPositiveTests;
+                    return GCDTestPos.class;
+                } else {
+                    this.negTestNumber = GCDTestNeg.numberOfNegativeTests;
+                    return GCDTestNeg.class;
+                }
+            default:
+                return null;
+        }
     }
 
     private void printTestStatistics(Result testResult, String str) {
