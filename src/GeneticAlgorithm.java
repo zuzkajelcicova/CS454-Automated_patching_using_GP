@@ -223,13 +223,13 @@ public class GeneticAlgorithm {
 
     private Class getCorrespondingTests(String testedProgramName, String testType) {
         switch (testedProgramName) {
-            case "GCD.java":
+            case "LeapYear.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
-                    this.posTestsNumber = GCDTestPos.numberOfPositiveTests;
-                    return GCDTestPos.class;
+                    this.posTestsNumber = LPYtestPos.numberOfPositiveTests;
+                    return LPYtestPos.class;
                 } else {
-                    this.negTestNumber = GCDTestNeg.numberOfNegativeTests;
-                    return GCDTestNeg.class;
+                    this.negTestNumber = LPYtestNeg.numberOfNegativeTests;
+                    return LPYtestNeg.class;
                 }
             default:
                 return null;

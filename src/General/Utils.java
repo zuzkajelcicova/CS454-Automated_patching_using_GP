@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 public class Utils {
     public String SRCML_PATH = "C:\\Program Files\\srcML 0.9.5\\bin";
     //Tested .class file name and location (default)
-    public String TARGET_CLASS = "GCD.class";
-    public String DOT_CLASS_FOLDER_PATH = "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching";
+    public String TARGET_CLASS = "LeapYear.class";
+    public String DOT_CLASS_FOLDER_PATH = "C:\\Git\\CS454-Automated_patching_using_GP\\out\\production\\CS454-Automated_patching_using_GP";
 
     public String LINE_SEPARATOR = System.getProperty("line.separator");
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
@@ -43,7 +43,7 @@ public class Utils {
     public String FL_EXTRACTED_FILE_PATH = FL_EXTRACTED_FILE.getAbsolutePath();
 
     //Buggy program as .java
-    public String TARGET_CODE = "GCD.java";
+    public String TARGET_CODE = "LeapYear.java";
     public File TARGET_CODE_FILE = new File(RESOURCES_DIRECTORY, TARGET_CODE);
     public String TARGET_CODE_FILE_PATH = TARGET_CODE_FILE.getAbsolutePath();
 

@@ -1,30 +1,33 @@
-public class LeapYear {
+import java.time.Year;
+import java.util.Calendar;
+import java.util.Date;
 
+public class LeapYear
+{
     public static void main(String[] args) {
 
-        int year = 1900;
-        boolean leap = false;
+    }
+    public static int checkLeapYear(int year){
+        int specificYear = year;
+        int daysInYear = Year.of( specificYear ).length();
+        return leapYear(specificYear, daysInYear);
+    }
 
-        if (year % 4 == 0) {
-            if (year % 100 == 0) {
-                // Year is divisible by 400, hence the year is a leap year
-                if (year % 400 == 0) {
-                    leap = true;
-                } else {
-                    leap = false;
+    public static int leapYear(int yearToCheck, int days) {
+        int year = yearToCheck;
+
+        while (days > 365) {
+            if (Year.isLeap(year)) {
+                if (days > 366) { // days > 365
+                    days -= 366;
+                    year += 1;
                 }
             } else {
-                leap = true;
+                int temp = days - 1;
+                days -= temp;
+                year += 1;
             }
-        } else {
-            leap = false;
         }
-
-        if (leap) {
-            System.out.println(year + " is a leap year.");
-        } else {
-            System.out.println(year + " is not a leap year.");
-        }
+        return year;
     }
 }
-
