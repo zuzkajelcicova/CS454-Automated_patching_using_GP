@@ -231,21 +231,29 @@ public class GeneticAlgorithm {
                     this.negTestNumber = GCDTestNeg.numberOfNegativeTests;
                     return GCDTestNeg.class;
                 }
-            case "median.java":
+//            case "median.java":
+////                if (testType.equalsIgnoreCase(utils.positive)) {
+////                    this.posTestsNumber = median_PosTest.numberOfPositiveTests;
+////                    return median_PosTest.class;
+////                } else {
+////                    this.negTestNumber = median_NegTest.numberOfNegativeTests;
+////                    return median_NegTest.class;
+////                }
+//            case "Triangle.java":
+//                if (testType.equalsIgnoreCase(utils.positive)) {
+//                    this.posTestsNumber = TestTriPos.numberOfPositiveTests;
+//                    return TestTriPos.class;
+//                } else {
+//                    this.negTestNumber = TestTriNeg.numberOfNegativeTests;
+//                    return TestTriNeg.class;
+//                }
+            case "Smallest19.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
-                    this.posTestsNumber = median_PosTest.numberOfPositiveTests;
-                    return median_PosTest.class;
+                    this.posTestsNumber = Smallest19PosTest.numberOfPositiveTests;
+                    return Smallest19PosTest.class;
                 } else {
-                    this.negTestNumber = median_NegTest.numberOfNegativeTests;
-                    return median_NegTest.class;
-                }
-            case "Triangle.java":
-                if (testType.equalsIgnoreCase(utils.positive)) {
-                    this.posTestsNumber = TestTriPos.numberOfPositiveTests;
-                    return TestTriPos.class;
-                } else {
-                    this.negTestNumber = TestTriNeg.numberOfNegativeTests;
-                    return TestTriNeg.class;
+                    this.negTestNumber = Smallest19NegTest.numberOfNegativeTests;
+                    return Smallest19NegTest.class;
                 }
             default:
                 return null;

@@ -43,7 +43,7 @@ public class TestTriNeg extends TestResult {
         try {
             out.format("Invoking %s()%n", testedMethodName, " from test1...");
             Object o = triMethod.invoke(null, 0, 1301,1);
-            Assert.assertEquals("INVALID",o.toString());
+            Assert.assertEquals("INVALID", o.toString());
             out.format("%s() returned %b%n", testedMethodName, o);
         } catch (IllegalAccessException e) {
             e.printStackTrace();

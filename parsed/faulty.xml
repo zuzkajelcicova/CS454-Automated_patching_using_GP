@@ -1,25 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="C:\Users\admin\git\CS454-Automated_patching_using_GP\resources\GCD.java"><class><specifier>public</specifier> class <name>GCD</name> <block>{
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="C:\Eigene_Programme\Git-Data\Own_Repositories\AISE-IntelliJ\resources\Smallest19.java">
 
-    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>void</name></type> <name>main</name><parameter_list>(<parameter><decl><type><name><name>String</name><index>[]</index></name></type> <name>args</name></decl></parameter>)</parameter_list> <block>{
-        <expr_stmt><expr><call><name>gcd</name><argument_list>(<argument><expr><literal type="number">6</literal></expr></argument>, <argument><expr><literal type="number">3</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+<comment type="block">/*
+ * Print out smallest integer from database
+ */</comment>
+
+<class>class <name>IntObj</name> <block>{
+    <decl_stmt><decl><specifier>public</specifier> <type><name>int</name></type> <name>value</name></decl>;</decl_stmt>
+    <constructor><specifier>public</specifier> <name>IntObj</name> <parameter_list>()</parameter_list> <block>{
+    }</block></constructor> <constructor><specifier>public</specifier> <name>IntObj</name> <parameter_list>(<parameter><decl><type><name>int</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{
+        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt>
+    }</block></constructor>
+}</block></class>
+
+<class>class <name>FloatObj</name> <block>{
+    <decl_stmt><decl><specifier>public</specifier> <type><name>float</name></type> <name>value</name></decl>;</decl_stmt>
+    <constructor><specifier>public</specifier> <name>FloatObj</name> <parameter_list>()</parameter_list> <block>{
+    }</block></constructor> <constructor><specifier>public</specifier> <name>FloatObj</name> <parameter_list>(<parameter><decl><type><name>float</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{
+        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt>
+    }</block></constructor>
+}</block></class>
+
+<class>class <name>LongObj</name> <block>{
+    <decl_stmt><decl><specifier>public</specifier> <type><name>long</name></type> <name>value</name></decl>;</decl_stmt>
+    <constructor><specifier>public</specifier> <name>LongObj</name> <parameter_list>()</parameter_list> <block>{
+    }</block></constructor> <constructor><specifier>public</specifier> <name>LongObj</name> <parameter_list>(<parameter><decl><type><name>long</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{
+        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt>
+    }</block></constructor>
+}</block></class>
+
+<class>class <name>DoubleObj</name> <block>{
+    <decl_stmt><decl><specifier>public</specifier> <type><name>double</name></type> <name>value</name></decl>;</decl_stmt>
+    <constructor><specifier>public</specifier> <name>DoubleObj</name> <parameter_list>()</parameter_list> <block>{
+    }</block></constructor> <constructor><specifier>public</specifier> <name>DoubleObj</name> <parameter_list>(<parameter><decl><type><name>double</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{
+        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt>
+    }</block></constructor>
+}</block></class>
+
+<class>class <name>CharObj</name> <block>{
+    <decl_stmt><decl><specifier>public</specifier> <type><name>char</name></type> <name>value</name></decl>;</decl_stmt>
+    <constructor><specifier>public</specifier> <name>CharObj</name> <parameter_list>()</parameter_list> <block>{
+    }</block></constructor> <constructor><specifier>public</specifier> <name>CharObj</name> <parameter_list>(<parameter><decl><type><name>char</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{
+        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt>
+    }</block></constructor>
+}</block></class>
+
+<class><specifier>public</specifier> class <name>Smallest19</name> <block>{
+    <decl_stmt><decl><specifier>public</specifier> <type><name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>Scanner</name></name></type> <name>scanner</name></decl>;</decl_stmt>
+    <decl_stmt><decl><specifier>public</specifier> <type><name>String</name></type> <name>output</name> <init>= <expr><literal type="string">""</literal></expr></init></decl>;</decl_stmt>
+
+<comment type="line">//    public static void main (String[]args) throws Exception {</comment>
+<comment type="line">//        Smallest19 mainClass = new Smallest19 ();</comment>
+<comment type="line">//        String output;</comment>
+<comment type="line">//        if (args.length &gt; 0) {</comment>
+<comment type="line">//            mainClass.scanner = new java.util.Scanner (args[0]);</comment>
+<comment type="line">//        } else {</comment>
+<comment type="line">//            mainClass.scanner = new java.util.Scanner (System.in);</comment>
+<comment type="line">//        }</comment>
+<comment type="line">//        mainClass.exec ();</comment>
+<comment type="line">//        System.out.println (mainClass.output);</comment>
+<comment type="line">//    }</comment>
+
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>String</name></type> <name>exec</name> <parameter_list>(<parameter><decl><type><name>int</name></type> <name>a</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>b</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>c</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>d</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name>String</name></type> <name>output</name> <init>= <expr><literal type="string">""</literal></expr></init></decl>;</decl_stmt>
+<comment type="line">//        IntObj a = new IntObj (), b = new IntObj (), c = new IntObj (), d =</comment>
+<comment type="line">//            new IntObj ();</comment>
+        <expr_stmt><expr><name>output</name> <operator>+=</operator>
+            <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"Please enter 4 numbers separated by spaces &gt; "</literal></expr></argument>)</argument_list></call><operator>)</operator></expr>;</expr_stmt>
+<comment type="line">//        a = scanner.nextInt ();</comment>
+<comment type="line">//        b = scanner.nextInt ();</comment>
+<comment type="line">//        c = scanner.nextInt ();</comment>
+<comment type="line">//        d = scanner.nextInt ();</comment>
+        <if>if <condition>(<expr><name>a</name> <operator>&lt;</operator> <name>b</name> <operator>&amp;&amp;</operator> <name>a</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>a</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>a</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return>
+        }</block></then> <elseif>else <if>if <condition>(<expr><name>b</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>b</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>b</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>b</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return>
+        }</block></then></if></elseif> <elseif>else <if>if <condition>(<expr><name>c</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>c</name> <operator>&lt;</operator> <name>b</name> <operator>&amp;&amp;</operator> <name>c</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>c</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return>
+        }</block></then></if></elseif> <elseif>else <if>if <condition>(<expr><name>d</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>d</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>d</name> <operator>&lt;</operator> <name>b</name></expr>)</condition><then> <block>{
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>d</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return>
+        }</block></then></if></elseif> <else>else <block>{
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"I don't know what I'm doing. \n"</literal></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return>
+        }</block></else></if>
     }</block></function>
-
-    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>int</name></type> <name>gcd</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>a</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>b</name></decl></parameter>)</parameter_list> <block>{
-        <decl_stmt><decl><type><name>int</name></type> <name>gcd</name> <init>= <expr><name>b</name></expr></init></decl>;</decl_stmt>
-
-        <if>if <condition>(<expr><name>a</name> <operator>==</operator> <literal type="number">0</literal></expr>)</condition><then> <block>{
-            <expr_stmt><expr><call><name><name>System</name><operator>.</operator><name>out</name><operator>.</operator><name>println</name></name><argument_list>(<argument><expr><literal type="string">"GCD: "</literal> <operator>+</operator> <name>gcd</name> <operator>+</operator> <literal type="string">"\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
-        }</block></then></if>
-        <while>while <condition>(<expr><name>b</name> <operator>!=</operator> <literal type="number">0</literal></expr>)</condition> <block>{
-            <if>if <condition>(<expr><name>a</name> <operator>&gt;</operator> <name>b</name></expr>)</condition><then> <block>{
-                <expr_stmt><expr><name>a</name> <operator>=</operator> <name>a</name> <operator>-</operator> <name>b</name></expr>;</expr_stmt>
-            }</block></then> <else>else <block>{
-                <expr_stmt><expr><name>gcd</name> <operator>=</operator> <name>b</name></expr>;</expr_stmt>
-                <expr_stmt><expr><name>b</name> <operator>=</operator> <name>b</name> <operator>-</operator> <name>a</name></expr>;</expr_stmt>
-            }</block></else></if>
-        }</block></while>
-        <expr_stmt><expr><call><name><name>System</name><operator>.</operator><name>out</name><operator>.</operator><name>printf</name></name><argument_list>(<argument><expr><literal type="string">"GCD: "</literal> <operator>+</operator> <name>gcd</name> <operator>+</operator> <literal type="string">"\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
-        <return>return <expr><name>gcd</name></expr>;</return>
-    }</block></function>
-}</block></class></unit>
+}</block></class>
+</unit>

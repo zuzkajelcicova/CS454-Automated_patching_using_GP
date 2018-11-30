@@ -3,8 +3,8 @@ main.java.gcd[GCD.java<main.java.gcd.GCD{<init>()V#3,0,0000000000000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{main([Ljava/lang/String;)V#6,0,00000000000000000000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{main([Ljava/lang/String;)V#7,0,00000000000000000000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#10,0,00000000000000000000000000000000
-main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#11,1,00000000000000000000000000000000
-main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#13,0,57735026918962580000000000000000
+main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#11,0,00000000000000000000000000000000
+main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#13,0,80000000000000000000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#15,0,00000000000000000000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#16,0,91287092917527690000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#17,0,70710678118654760000000000000000
@@ -13,3 +13,4 @@ main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#19,0,8164965809277261000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#20,0,81649658092772610000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#23,0,40824829046386310000000000000000
 main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#24,0,40824829046386310000000000000000
+main.java.gcd[GCD.java<main.java.gcd.GCD{gcd(II)I#82,1,00000000000000000000000000000000
