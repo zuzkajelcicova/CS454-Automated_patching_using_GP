@@ -1,86 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><unit xmlns="http://www.srcML.org/srcML/src" filename="C:\Eigene_Programme\Git-Data\Own_Repositories\AISE-IntelliJ\resources\CodeWithLines.java" language="Java" revision="0.9.5"><comment type="line">//LC:1</comment>
-<comment type="line">//LC:2</comment>
-<comment type="block">/*//LC:3
- * Print out smallest integer from database//LC:4
- */</comment><comment type="line">//LC:5</comment>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><unit xmlns="http://www.srcML.org/srcML/src" filename="C:\Eigene_Programme\Git-Data\Own_Repositories\AISE-IntelliJ\resources\CodeWithLines.java" language="Java" revision="0.9.5"><comment type="line">//LC:1//LC:1</comment>
+<comment type="line">//LC:2//LC:2</comment>
+<comment type="block">/*//LC:3//LC:3
+ * Print out smallest integer from database//LC:4//LC:4
+ */</comment><comment type="line">//LC:5//LC:5</comment>
 <comment type="line">//LC:6</comment>
-<class>class <name>IntObj</name> <block>{<comment type="line">//LC:7</comment>
-    <decl_stmt><decl><specifier>public</specifier> <type><name>int</name></type> <name>value</name></decl>;</decl_stmt><comment type="line">//LC:8</comment>
-    <constructor><specifier>public</specifier> <name>IntObj</name> <parameter_list>()</parameter_list> <block>{<comment type="line">//LC:9</comment>
-    }</block></constructor> <constructor><specifier>public</specifier> <name>IntObj</name> <parameter_list>(<parameter><decl><type><name>int</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:10</comment>
-        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt><comment type="line">//LC:11</comment>
-    }</block></constructor><comment type="line">//LC:12</comment>
-}</block></class><comment type="line">//LC:13</comment>
-<comment type="line">//LC:14</comment>
-<class>class <name>FloatObj</name> <block>{<comment type="line">//LC:15</comment>
-    <decl_stmt><decl><specifier>public</specifier> <type><name>float</name></type> <name>value</name></decl>;</decl_stmt><comment type="line">//LC:16</comment>
-    <constructor><specifier>public</specifier> <name>FloatObj</name> <parameter_list>()</parameter_list> <block>{<comment type="line">//LC:17</comment>
-    }</block></constructor> <constructor><specifier>public</specifier> <name>FloatObj</name> <parameter_list>(<parameter><decl><type><name>float</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:18</comment>
-        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt><comment type="line">//LC:19</comment>
-    }</block></constructor><comment type="line">//LC:20</comment>
-}</block></class><comment type="line">//LC:21</comment>
-<comment type="line">//LC:22</comment>
-<class>class <name>LongObj</name> <block>{<comment type="line">//LC:23</comment>
-    <decl_stmt><decl><specifier>public</specifier> <type><name>long</name></type> <name>value</name></decl>;</decl_stmt><comment type="line">//LC:24</comment>
-    <constructor><specifier>public</specifier> <name>LongObj</name> <parameter_list>()</parameter_list> <block>{<comment type="line">//LC:25</comment>
-    }</block></constructor> <constructor><specifier>public</specifier> <name>LongObj</name> <parameter_list>(<parameter><decl><type><name>long</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:26</comment>
-        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt><comment type="line">//LC:27</comment>
-    }</block></constructor><comment type="line">//LC:28</comment>
-}</block></class><comment type="line">//LC:29</comment>
-<comment type="line">//LC:30</comment>
-<class>class <name>DoubleObj</name> <block>{<comment type="line">//LC:31</comment>
-    <decl_stmt><decl><specifier>public</specifier> <type><name>double</name></type> <name>value</name></decl>;</decl_stmt><comment type="line">//LC:32</comment>
-    <constructor><specifier>public</specifier> <name>DoubleObj</name> <parameter_list>()</parameter_list> <block>{<comment type="line">//LC:33</comment>
-    }</block></constructor> <constructor><specifier>public</specifier> <name>DoubleObj</name> <parameter_list>(<parameter><decl><type><name>double</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:34</comment>
-        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt><comment type="line">//LC:35</comment>
-    }</block></constructor><comment type="line">//LC:36</comment>
-}</block></class><comment type="line">//LC:37</comment>
-<comment type="line">//LC:38</comment>
-<class>class <name>CharObj</name> <block>{<comment type="line">//LC:39</comment>
-    <decl_stmt><decl><specifier>public</specifier> <type><name>char</name></type> <name>value</name></decl>;</decl_stmt><comment type="line">//LC:40</comment>
-    <constructor><specifier>public</specifier> <name>CharObj</name> <parameter_list>()</parameter_list> <block>{<comment type="line">//LC:41</comment>
-    }</block></constructor> <constructor><specifier>public</specifier> <name>CharObj</name> <parameter_list>(<parameter><decl><type><name>char</name></type> <name>i</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:42</comment>
-        <expr_stmt><expr><name>value</name> <operator>=</operator> <name>i</name></expr>;</expr_stmt><comment type="line">//LC:43</comment>
-    }</block></constructor><comment type="line">//LC:44</comment>
-}</block></class><comment type="line">//LC:45</comment>
-<comment type="line">//LC:46</comment>
-<class><specifier>public</specifier> class <name>Smallest19</name> <block>{<comment type="line">//LC:47</comment>
-    <decl_stmt><decl><specifier>public</specifier> <type><name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>Scanner</name></name></type> <name>scanner</name></decl>;</decl_stmt><comment type="line">//LC:48</comment>
-    <decl_stmt><decl><specifier>public</specifier> <type><name>String</name></type> <name>output</name> <init>= <expr><literal type="string">""</literal></expr></init></decl>;</decl_stmt><comment type="line">//LC:49</comment>
-<comment type="line">//LC:50</comment>
-<comment type="line">//    public static void main (String[]args) throws Exception {//LC:51</comment>
-<comment type="line">//        Smallest19 mainClass = new Smallest19 ();//LC:52</comment>
-<comment type="line">//        String output;//LC:53</comment>
-<comment type="line">//        if (args.length &gt; 0) {//LC:54</comment>
-<comment type="line">//            mainClass.scanner = new java.util.Scanner (args[0]);//LC:55</comment>
-<comment type="line">//        } else {//LC:56</comment>
-<comment type="line">//            mainClass.scanner = new java.util.Scanner (System.in);//LC:57</comment>
-<comment type="line">//        }//LC:58</comment>
-<comment type="line">//        mainClass.exec ();//LC:59</comment>
-<comment type="line">//        System.out.println (mainClass.output);//LC:60</comment>
-<comment type="line">//    }//LC:61</comment>
-<comment type="line">//LC:62</comment>
-    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>String</name></type> <name>exec</name> <parameter_list>(<parameter><decl><type><name>int</name></type> <name>a</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>b</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>c</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>d</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:63</comment>
-        <decl_stmt><decl><type><name>String</name></type> <name>output</name> <init>= <expr><literal type="string">""</literal></expr></init></decl>;</decl_stmt><comment type="line">//LC:64</comment>
-<comment type="line">//        IntObj a = new IntObj (), b = new IntObj (), c = new IntObj (), d =//LC:65</comment>
-<comment type="line">//            new IntObj ();//LC:66</comment>
-        <expr_stmt><expr><name>output</name> <operator>+=</operator><comment type="line">//LC:67</comment>
-            <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"Please enter 4 numbers separated by spaces &gt; "</literal></expr></argument>)</argument_list></call><operator>)</operator></expr>;</expr_stmt><comment type="line">//LC:68</comment>
-<comment type="line">//        a = scanner.nextInt ();//LC:69</comment>
-<comment type="line">//        b = scanner.nextInt ();//LC:70</comment>
-<comment type="line">//        c = scanner.nextInt ();//LC:71</comment>
-<comment type="line">//        d = scanner.nextInt ();//LC:72</comment>
-        <if>if <condition>(<expr><name>a</name> <operator>&lt;</operator> <name>b</name> <operator>&amp;&amp;</operator> <name>a</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>a</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{<comment type="line">//LC:73</comment>
-            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>a</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:74</comment>
-        }</block></then> <elseif>else <if>if <condition>(<expr><name>b</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>b</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>b</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{<comment type="line">//LC:75</comment>
-            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>b</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:76</comment>
-        }</block></then></if></elseif> <elseif>else <if>if <condition>(<expr><name>c</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>c</name> <operator>&lt;</operator> <name>b</name> <operator>&amp;&amp;</operator> <name>c</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{<comment type="line">//LC:77</comment>
-            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>c</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:78</comment>
-        }</block></then></if></elseif> <elseif>else <if>if <condition>(<expr><name>d</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>d</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>d</name> <operator>&lt;</operator> <name>b</name></expr>)</condition><then> <block>{<comment type="line">//LC:79</comment>
-            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name> <argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>d</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:80</comment>
-        }</block></then></if></elseif> <else>else <block>{<comment type="line">//LC:81</comment>
-            <comment type="line">//LC:82</comment>
-        }</block></else></if><comment type="line">//LC:83</comment>
-    }</block></function><comment type="line">//LC:84</comment>
-}</block></class><comment type="line">//LC:85</comment>
+<class><specifier>public</specifier> class <name>Smallest19</name> <block>{<comment type="line">//LC:7</comment>
+    <decl_stmt><decl><specifier>public</specifier> <type><name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>Scanner</name></name></type> <name>scanner</name></decl>;</decl_stmt><comment type="line">//LC:8</comment>
+    <decl_stmt><decl><specifier>public</specifier> <type><name>String</name></type> <name>output</name> <init>= <expr><literal type="string">""</literal></expr></init></decl>;</decl_stmt><comment type="line">//LC:9</comment>
+<comment type="line">//LC:10</comment>
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>String</name></type> <name>exec</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>a</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>b</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>c</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>d</name></decl></parameter>)</parameter_list> <block>{<comment type="line">//LC:11</comment>
+        <decl_stmt><decl><type><name>String</name></type> <name>output</name> <init>= <expr><literal type="string">""</literal></expr></init></decl>;</decl_stmt><comment type="line">//LC:12</comment>
+        <expr_stmt><expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name><argument_list>(<argument><expr><literal type="string">"Please enter 4 numbers separated by spaces &gt; "</literal></expr></argument>)</argument_list></call><operator>)</operator></expr>;</expr_stmt><comment type="line">//LC:13</comment>
+        <if>if <condition>(<expr><name>a</name> <operator>&lt;</operator> <name>b</name> <operator>&amp;&amp;</operator> <name>a</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>a</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{<comment type="line">//LC:14</comment>
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name><argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>a</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:15</comment>
+        }</block></then> <elseif>else <if>if <condition>(<expr><name>b</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>b</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>b</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{<comment type="line">//LC:16</comment>
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name><argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>b</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:17</comment>
+        }</block></then></if></elseif> <elseif>else <if>if <condition>(<expr><name>c</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>c</name> <operator>&lt;</operator> <name>b</name> <operator>&amp;&amp;</operator> <name>c</name> <operator>&lt;</operator> <name>d</name></expr>)</condition><then> <block>{<comment type="line">//LC:18</comment>
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name><argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>c</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:19</comment>
+        }</block></then></if></elseif> <elseif>else <if>if <condition>(<expr><name>d</name> <operator>&lt;</operator> <name>a</name> <operator>&amp;&amp;</operator> <name>d</name> <operator>&lt;</operator> <name>c</name> <operator>&amp;&amp;</operator> <name>d</name> <operator>&lt;</operator> <name>b</name></expr>)</condition><then> <block>{<comment type="line">//LC:20</comment>
+            <return>return <expr><name>output</name> <operator>+=</operator> <operator>(</operator><call><name><name>String</name><operator>.</operator><name>format</name></name><argument_list>(<argument><expr><literal type="string">"%d is the smallest\n"</literal></expr></argument>, <argument><expr><name>d</name></expr></argument>)</argument_list></call><operator>)</operator></expr>;</return><comment type="line">//LC:21</comment>
+        }</block></then></if></elseif> <else>else <block>{<comment type="line">//LC:22</comment>
+            <comment type="line">//LC:23</comment>
+        }</block></else></if><comment type="line">//LC:24</comment>
+    }</block></function><comment type="line">//LC:25</comment>
+}</block></class><comment type="line">//LC:26</comment>
 </unit>
