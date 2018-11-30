@@ -5,8 +5,6 @@
  *///LC:5
 
 public class Smallest19 {
-    public java.util.Scanner scanner;
-    public String output = "";
 
     public static String exec(int a, int b, int c, int d) {
         String output = "";
