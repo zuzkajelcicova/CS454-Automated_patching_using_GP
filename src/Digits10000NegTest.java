@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 import static java.lang.System.out;
 
-public class Digits002NegTest extends TestResult {
+public class Digits10000NegTest extends TestResult {
 
     @Rule
     public Timeout globalTimeout = Timeout.seconds(5);
@@ -24,7 +24,7 @@ public class Digits002NegTest extends TestResult {
     @BeforeClass
     public static void setupEnvironment() {
         //Get access to a recompiled class during the runtime
-        testClass = Digits002.class;
+        testClass = Digits10000.class;
         allMethods = CompiledClassLoader.getRecompiledMethods(testClass);
 
         for (Method m : allMethods) {
@@ -39,8 +39,8 @@ public class Digits002NegTest extends TestResult {
     public void test1() {
         try {
             out.format("Invoking %s()%n", testedMethodName, " from test1...");
-            String expected = "Enter an integer >  8 That's all, have a nice day!";
-            Object o = testMethod.invoke(null, 8);
+            String expected = "Enter an integer >  0 That's all, have a nice day!";
+            Object o = testMethod.invoke(null, 0);
             String out = o.toString().replace("\n", "").trim();
             Assert.assertEquals(expected.replace(" ", ""),
                     out.replace(" ", ""));
