@@ -14,7 +14,7 @@ public class Digits39000NegTest extends TestResult {
 
     @Rule
     public Timeout globalTimeout = Timeout.seconds(2);
-    public static int numberOfPositiveTests = 2;
+    public static int numberOfNegativeTests = 2;
 
     public static Class testClass = null;
     public static Method[] allMethods = null;

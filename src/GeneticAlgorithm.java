@@ -249,7 +249,7 @@ public class GeneticAlgorithm {
                 }
             case "Digits00.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
-                    this.posTestsNumber = Digits00NegTest.numberOfPositiveTests;
+                    this.posTestsNumber = Digits00PosTest.numberOfPositiveTests;
                     return Digits00PosTest.class;
                 } else {
                     this.negTestNumber = Digits00NegTest.numberOfNegativeTests;
@@ -304,6 +304,14 @@ public class GeneticAlgorithm {
                     return Digits11004NegTest.class;
                 }
             case "Digits11015.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits11015PosTest.numberOfPositiveTests;
+                    return Digits11015PosTest.class;
+                } else {
+                    this.negTestNumber = Digits11015NegTest.numberOfNegativeTests;
+                    return Digits11015NegTest.class;
+                }
+            case "Digits12000.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
                     this.posTestsNumber = Digits11015PosTest.numberOfPositiveTests;
                     return Digits11015PosTest.class;
