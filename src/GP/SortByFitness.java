@@ -2,9 +2,9 @@ package GP;
 
 import java.util.Comparator;
 
-public class SortByFitness implements Comparator<Individual> {
+public class SortByFitness implements Comparator<Patch> {
 
-    public int compare(Individual b, Individual a) {
+    public int compare(Patch b, Patch a) {
         if (a.getFitness() - b.getFitness() > 0) {
             return 1;
         } else if (a.getFitness() - b.getFitness() < 0) {

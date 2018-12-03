@@ -13,18 +13,20 @@ public class Main {
     public static void main(String[] args) {
         int initialPopulationSize = 10;
         int timeInMinutes = 90;
-        Utils utils = new Utils();
-        Parser parser = new Parser(utils);
+
+        String targetCode = "";
+        String srcMlPath = "";
+        String classFolderPath = "";
 
         //An example of a terminal input:
-        //LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -t 90 - cfp "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching" -c GCD.class
-        if (args.length > 9) {
+        //LeapYear "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -t 90 -cfp "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching"
+        if (args.length > 7) {
             try {
                 if (args[0] != null) {
-                    utils.TARGET_CODE = args[0];
+                    targetCode = args[0];
                 }
                 if (args[1] != null) {
-                    utils.SRCML_PATH = args[1];
+                    srcMlPath = args[1];
                 }
                 if (args[2].equalsIgnoreCase("-p") && args[2] != null) {
                     initialPopulationSize = Integer.parseInt(args[3]);
@@ -33,10 +35,7 @@ public class Main {
                     timeInMinutes = Integer.parseInt(args[5]);
                 }
                 if (args[6].equalsIgnoreCase("-cfp") && args[6] != null) {
-                    utils.DOT_CLASS_FOLDER_PATH = args[7];
-                }
-                if (args[8].equalsIgnoreCase("-c") && args[8] != null) {
-                    utils.TARGET_CLASS = args[9];
+                    classFolderPath = args[7];
                 }
             } catch (NumberFormatException e) {
                 System.err.println("Arguments -p and -t must be integers!");
@@ -50,9 +49,14 @@ public class Main {
 
         long startTime = System.currentTimeMillis();
 
+        //public Utils(String srcMl, String targetCode, String dotClassFolderPath, String targetClass)
+        Utils utils = new Utils(srcMlPath, targetCode + ".java", classFolderPath, targetCode + ".class");
+        Parser parser = new Parser(utils);
+
+
         //Fault localization - process the output file from GZoltar
         utils.obtainSuspiciousLines();
-        List<Bug> chosenBugs = utils.amountOfBugsToFix(1);
+        List<Bug> chosenBugs = utils.amountOfBugsToFix(7);
 
         //ASTHandler instance
         ASTHandler astHandler = new ASTHandler(utils, parser, chosenBugs);

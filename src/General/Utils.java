@@ -14,11 +14,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Utils {
-    public String SRCML_PATH = "C:\\Program Files\\srcML 0.9.5\\bin";
-    //Tested .class file name and location (default)
-    public String TARGET_CLASS = "GCD.class";
-    public String DOT_CLASS_FOLDER_PATH = "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching";
-
+    public String SRCML_PATH;
+    public String TARGET_CLASS;
+    public String DOT_CLASS_FOLDER_PATH;
     public String LINE_SEPARATOR = System.getProperty("line.separator");
     public String OUTPUT_PARSED_DIRECTORY = "parsed";
     public String RESOURCES_DIRECTORY = "resources";
@@ -43,13 +41,13 @@ public class Utils {
     public String FL_EXTRACTED_FILE_PATH = FL_EXTRACTED_FILE.getAbsolutePath();
 
     //Buggy program as .java
-    public String TARGET_CODE = "GCD.java";
-    public File TARGET_CODE_FILE = new File(RESOURCES_DIRECTORY, TARGET_CODE);
-    public String TARGET_CODE_FILE_PATH = TARGET_CODE_FILE.getAbsolutePath();
+    public String TARGET_CODE;
+    public File TARGET_CODE_FILE;
+    public String TARGET_CODE_FILE_PATH;
 
     //Target code in src/
-    public File TARGET_CODE_SRC_FILE = new File(SRC_DIRECTORY, TARGET_CODE);
-    public String TARGET_CODE_SRC_FILE_PATH = TARGET_CODE_SRC_FILE.getAbsolutePath();
+    public File TARGET_CODE_SRC_FILE;
+    public String TARGET_CODE_SRC_FILE_PATH;
 
     //Buggy program as .java with code lines
     public String TARGET_CODE_WITH_LINES = "CodeWithLines.java";
@@ -57,8 +55,8 @@ public class Utils {
     public String TARGET_CODE_FILE_PATH_WITH_LINES = TARGET_CODE_FILE_WITH_LINES.getAbsolutePath();
 
     //Potentially fixed .java  with lines
-    public File TARGET_CODE_FIXED_WITH_LINES_FILE = new File(GEN_CANDIDATE_DIRECTORY, TARGET_CODE);
-    public String TARGET_CODE_FIXED_WITH_LINES_FILE_PATH = TARGET_CODE_FIXED_WITH_LINES_FILE.getAbsolutePath();
+    public File TARGET_CODE_FIXED_WITH_LINES_FILE;
+    public String TARGET_CODE_FIXED_WITH_LINES_FILE_PATH;
 
     //Buggy program as XML
     public File FAULTY_XML_FILE = new File(OUTPUT_PARSED_DIRECTORY, FAULTY_XML);
@@ -87,6 +85,26 @@ public class Utils {
     //Weight for Positive and Negative test cases
     public final double WEIGHT_POS = 0.1;
     public final double WEIGHT_NEG = 2 * WEIGHT_POS;
+
+    public Utils(String srcMl, String targetCode, String dotClassFolderPath, String targetClass) {
+        //"C:\\Program Files\\srcML 0.9.5\\bin"
+        this.SRCML_PATH = srcMl;
+        //"GCD.java"
+        this.TARGET_CODE = targetCode;
+        this.TARGET_CODE_FILE = new File(RESOURCES_DIRECTORY, TARGET_CODE);
+        this.TARGET_CODE_FILE_PATH = TARGET_CODE_FILE.getAbsolutePath();
+
+        this.TARGET_CODE_SRC_FILE = new File(SRC_DIRECTORY, TARGET_CODE);
+        this.TARGET_CODE_SRC_FILE_PATH = TARGET_CODE_SRC_FILE.getAbsolutePath();
+
+        this.TARGET_CODE_FIXED_WITH_LINES_FILE = new File(GEN_CANDIDATE_DIRECTORY, TARGET_CODE);
+        this.TARGET_CODE_FIXED_WITH_LINES_FILE_PATH = TARGET_CODE_FIXED_WITH_LINES_FILE.getAbsolutePath();
+
+        //"C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching";
+        this.DOT_CLASS_FOLDER_PATH = dotClassFolderPath;
+        //"GCD.class"
+        this.TARGET_CLASS = targetClass;
+    }
 
     public void obtainSuspiciousLines() {
         String line;
@@ -149,14 +167,14 @@ public class Utils {
         List<Bug> chosenBugs = new ArrayList<>();
         int counter = 0;
 
-        while (counter < numberOfBugs && allBugs != null && allBugs.size() > 0) {
+        while (counter < numberOfBugs && allBugs != null && allBugs.size() > 0 && allBugs.size() > counter) {
             chosenBugs.add(allBugs.get(counter));
             counter++;
         }
         return chosenBugs;
     }
 
-    public List<Bug> sortBugs(List<Bug> bugs) {
+    private List<Bug> sortBugs(List<Bug> bugs) {
         List<Bug> sortedBugs = bugs.stream()
                 .sorted(Comparator.comparing(Bug::getProbability).reversed())
                 .collect(Collectors.toList());

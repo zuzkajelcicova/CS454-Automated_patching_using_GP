@@ -9,8 +9,8 @@ public class Triangle {
     public static Type classify(int a, int b, int c) {
         int trian;
         if (a <= 0 || b <= 0 || c <= 0)
-            return Type.INVALID;
             trian = 0;
+        return Type.INVALID;
         if (a == b)
             trian = trian + 1;
         if (a == c)
