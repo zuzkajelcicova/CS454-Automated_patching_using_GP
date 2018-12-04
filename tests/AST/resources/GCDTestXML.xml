@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="C:\Users\admin\git\CS454-Automated_patching_using_GP\tests\AST\resources\GCDTest.java"><package>package <name><name>AST</name><operator>.</operator><name>resources</name></name>;</package>
+
+    <class><specifier>public</specifier> class <name>GCDTest</name> <block>{
+
+        <function><specifier>public</specifier> <specifier>static</specifier> <type><name>int</name></type> <name>gcd</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>a</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>b</name></decl></parameter>)</parameter_list> <block>{
+            <decl_stmt><decl><type><name>int</name></type> <name>gcd</name> <init>= <expr><name>b</name></expr></init></decl>;</decl_stmt>
+
+            <if>if <condition>(<expr><name>a</name> <operator>==</operator> <literal type="number">0</literal></expr>)</condition><then> <block>{
+                <expr_stmt><expr><call><name><name>System</name><operator>.</operator><name>out</name><operator>.</operator><name>println</name></name><argument_list>(<argument><expr><literal type="string">"GCD: "</literal> <operator>+</operator> <name>gcd</name> <operator>+</operator> <literal type="string">"\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                }</block></then></if>
+            <expr_stmt><expr><call><name><name>System</name><operator>.</operator><name>out</name><operator>.</operator><name>printf</name></name><argument_list>(<argument><expr><literal type="string">"GCD: "</literal> <operator>+</operator> <name>gcd</name> <operator>+</operator> <literal type="string">"\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <return>return <expr><name>gcd</name></expr>;</return>
+            }</block></function>
+        }</block></class></unit>

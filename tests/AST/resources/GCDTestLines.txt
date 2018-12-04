@@ -1,4 +1,4 @@
-package AST;//LC:1
+package AST.resources;//LC:1
 //LC:2
 public class GCDTest {//LC:3
 //LC:4

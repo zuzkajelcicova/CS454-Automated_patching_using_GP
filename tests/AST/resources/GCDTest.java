@@ -1,4 +1,4 @@
-package AST;
+package AST.resources;
 
 public class GCDTest {
 

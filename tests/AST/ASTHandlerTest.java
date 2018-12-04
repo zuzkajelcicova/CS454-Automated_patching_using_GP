@@ -33,6 +33,7 @@ public class ASTHandlerTest {
     private static final int node111ID = 111;
     private static final String TARGET_TEST_CODE = "GCDTest.java";
     private static final String TARGET_TEST_CODE_LINES = "GCDTestLines.txt";
+    private static final String DIR = "tests/AST/resources/";
 
     /**
      * Test dependency on gzoltar.csv and GCD.java
@@ -170,9 +171,9 @@ public class ASTHandlerTest {
     }
 
     @Test
-    public void createCodeWithLineNumbers() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        File targetCodeFile = new File("tests/AST", TARGET_TEST_CODE);
-        File targetCodeFileLines = new File("tests/AST", TARGET_TEST_CODE_LINES);
+    public void createCodeWithLineNumbers() {
+        File targetCodeFile = new File(DIR, TARGET_TEST_CODE);
+        File targetCodeFileLines = new File(DIR, TARGET_TEST_CODE_LINES);
         String targetCodeFilePath = targetCodeFile.getAbsolutePath();
         String targetCodeLinesFilePath = targetCodeFileLines.getAbsolutePath();
 
