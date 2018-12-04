@@ -19,12 +19,6 @@ public class Edit {
         return sourceNode;
     }
 
-
-    public void addEdit(int op, int sn, int tn){
-        this.operation = op;
-        this.sourceNode = sn;
-        this. targetNode = tn;
-    }
     public int getTargetNode() {
         return targetNode;
     }

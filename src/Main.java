@@ -13,14 +13,16 @@ public class Main {
     public static void main(String[] args) {
         int initialPopulationSize = 10;
         int timeInMinutes = 90;
+        int noOfBugsToSolve = 1;
 
         String targetCode = "";
         String srcMlPath = "";
         String classFolderPath = "";
 
         //An example of a terminal input:
-        //LeapYear "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -t 90 -cfp "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching"
-        if (args.length > 7) {
+        //faultyProgramName srcMlPath -p populationSize -t timeInMinutes -b noOfBugsToSolve -cpf classFolderPathOfFaultyProgram
+        //LeapYear "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -t 90 -b 4 -cfp "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching"
+        if (args.length > 9) {
             try {
                 if (args[0] != null) {
                     targetCode = args[0];
@@ -34,8 +36,11 @@ public class Main {
                 if (args[4].equalsIgnoreCase("-t") && args[4] != null) {
                     timeInMinutes = Integer.parseInt(args[5]);
                 }
-                if (args[6].equalsIgnoreCase("-cfp") && args[6] != null) {
-                    classFolderPath = args[7];
+                if (args[6].equalsIgnoreCase("-b") && args[6] != null) {
+                    noOfBugsToSolve = Integer.parseInt(args[7]);
+                }
+                if (args[8].equalsIgnoreCase("-cfp") && args[8] != null) {
+                    classFolderPath = args[9];
                 }
             } catch (NumberFormatException e) {
                 System.err.println("Arguments -p and -t must be integers!");
@@ -56,7 +61,7 @@ public class Main {
 
         //Fault localization - process the output file from GZoltar
         utils.obtainSuspiciousLines();
-        List<Bug> chosenBugs = utils.amountOfBugsToFix(7);
+        List<Bug> chosenBugs = utils.amountOfBugsToFix(noOfBugsToSolve);
 
         //ASTHandler instance
         ASTHandler astHandler = new ASTHandler(utils, parser, chosenBugs);
