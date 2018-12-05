@@ -12,7 +12,7 @@ public class Individual {
     private int ctrCrossover;
     private int ctrMutation;
 
-    Individual(List<Patch> p, double f){
+    public Individual(List<Patch> p, double f){
         allPatches.addAll(p);
         fitnessVal = f;
     }

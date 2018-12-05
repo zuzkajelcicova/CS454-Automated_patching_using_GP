@@ -10,6 +10,7 @@ import org.junit.rules.Timeout;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class TestFittestSelection extends TestResult {
 
     @Rule
     public Timeout globalTimeout = Timeout.seconds(2);
-    public static int numberOfTests = 2;
+    public static int numberOfTests = 1;
 
     public static Class gpClass = null;
     public static Method[] allMethods = null;
@@ -48,9 +49,12 @@ public class TestFittestSelection extends TestResult {
             Patch p2 = new Patch(0, 23, 5);
             Individual in1 = new Individual(Arrays.asList(p1),10.5);
             Individual in2 = new Individual(Arrays.asList(p2),20.5);
+            List<Individual> pop = new ArrayList<Individual>();
+            pop.add(in1);
+            pop.add(in2);
 
             out.format("Invoking %s()%n", testedMethodName, " from testFittestSelection1...");
-            Object o = gpMethod.invoke(null, in1, in2);
+            Object o = gpMethod.invoke(null, pop);
             Assert.assertNotNull(in1);
             Assert.assertNotNull(in2);
             Assert.assertEquals(in2, o);
