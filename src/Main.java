@@ -12,12 +12,12 @@ public class Main {
 
     public static void main(String[] args) {
         int initialPopulationSize = 10;
-        int timeInMinutes = 90;
+        int timeInMinutes = 5;
         Utils utils = new Utils();
         Parser parser = new Parser(utils);
 
         //An example of a terminal input:
-        //LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -t 90 - cfp "C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching" -c GCD.class
+        //LeapYear.java "C:\\Program Files\\srcML 0.9.5\\bin" -p 50 -t 90 -cfp "C:\Git\CS454-Automated_patching_using_GP\out\production\CS454-Automated_patching_using_GP" -c LeapYear.class
         if (args.length > 9) {
             try {
                 if (args[0] != null) {

@@ -31,18 +31,6 @@ public class GeneticOperations {
         return population.get(maxFitIndex);
     }
 
-    public Individual fittestInTournament(List<Individual> pop) {
-        //Select the most fittest individual
-        int index = 0;
-        double min = Double.MIN_VALUE;
-        for (int i = 0; i < pop.size(); i++) {
-            if (pop.get(i).getFitness() >= min) {
-                index = i;
-                min = pop.get(i).getFitness();
-            }
-        }
-        return pop.get(index);
-    }
 
     public List<Individual> tournamentSelection(List<Individual> pop) {
         int tournament_size = pop.size() / 2;
@@ -77,7 +65,7 @@ public class GeneticOperations {
             currentSizeAvailable = popCopy.size();
 
             //Start the tournament
-            selected.add(fittestInTournament(tournament));
+            selected.add(getFittest(tournament));
         }
         return selected;
     }

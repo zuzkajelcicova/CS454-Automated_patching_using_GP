@@ -4,8 +4,8 @@ import GP.*;
 import General.Utils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 
+import org.junit.runner.notification.Failure;
 import java.io.File;
 import java.util.*;
 
