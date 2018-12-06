@@ -150,7 +150,10 @@ public class Utils {
                     // Obtain line and the probability
                     String codeLine = data[0];
                     double probability = Double.parseDouble(data[1]);
-                    allBugs.add(new Bug(codeLine, probability));
+
+                    if (probability > 0) {
+                        allBugs.add(new Bug(codeLine, probability));
+                    }
                 }
                 lineCounter++;
             }

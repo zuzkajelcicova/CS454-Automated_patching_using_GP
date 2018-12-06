@@ -58,7 +58,10 @@ public class ASTHandler {
 
         populateStatementList();
         populateFaultSpace(bugs);
-        removeBugsFromCandidateSpace();
+
+        //Keep all possible statements in the candidate list since now we will be fixing more
+        //than 1 bug - what is a fault for one part of the program might fix the other one
+        //removeBugsFromCandidateSpace();
 
         printStatementList();
         printCandidateSpace();
