@@ -1,0 +1,14 @@
+package AST.resources;//LC:1
+//LC:2
+public class GCDTest {//LC:3
+//LC:4
+    public static int gcd(int a, int b) {//LC:5
+        int gcd = b;//LC:6
+//LC:7
+        if (a == 0) {//LC:8
+            System.out.println("GCD: " + gcd + "\n");//LC:9
+        }//LC:10
+        System.out.printf("GCD: " + gcd + "\n");//LC:11
+        return gcd;//LC:12
+    }//LC:13
+}//LC:14

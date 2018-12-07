@@ -1,8 +1,8 @@
 package AST;
 
 import GP.Bug;
-import GP.Individual;
 import GP.Patch;
+import GP.Edit;
 import General.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -58,7 +58,10 @@ public class ASTHandler {
 
         populateStatementList();
         populateFaultSpace(bugs);
-        removeBugsFromCandidateSpace();
+
+        //Keep all possible statements in the candidate list since now we will be fixing more
+        //than 1 bug - what is a fault for one part of the program might fix the other one
+        //removeBugsFromCandidateSpace();
 
         printStatementList();
         printCandidateSpace();
@@ -235,20 +238,20 @@ public class ASTHandler {
         }
     }
 
-    public void applyPatches(Individual individual) {
-        List<Node> originalNodeReferences = storeReferencesToNodes(individual);
+    public void applyPatches(Patch patch) {
+        List<Node> originalNodeReferences = storeReferencesToNodes(patch);
 
-        for (int i = 0; i < individual.getAllPatches().size(); i++) {
-            Patch currentPatch = individual.getAllPatches().get(i);
+        for (int i = 0; i < patch.getAllEdits().size(); i++) {
+            Edit currentEdit = patch.getAllEdits().get(i);
             Node currentTargetNode = originalNodeReferences.get(i);
-            int operation = currentPatch.getOperation();
+            int operation = currentEdit.getOperation();
 
             if (operation == utils.DELETE) {
                 deleteNode(currentTargetNode);
             } else if (operation == utils.REPLACE) {
-                replaceNode(currentPatch.getSourceNode(), currentTargetNode);
+                replaceNode(currentEdit.getSourceNode(), currentTargetNode);
             } else if (operation == utils.INSERT) {
-                insertNode(currentPatch.getSourceNode(), currentTargetNode);
+                insertNode(currentEdit.getSourceNode(), currentTargetNode);
             } else {
                 System.out.println("ERROR: unsupported mutation operation no. " + operation);
             }
@@ -257,12 +260,12 @@ public class ASTHandler {
         resetAST();
     }
 
-    //In case we had multiple targets - otherwise we can store a reference to 1 target Node (1 bug)
-    private List<Node> storeReferencesToNodes(Individual individual) {
+    //Multiple targets
+    private List<Node> storeReferencesToNodes(Patch patch) {
         List<Node> originalNodeReferences = new ArrayList<>();
 
-        for (Patch currentPatch : individual.getAllPatches()) {
-            originalNodeReferences.add(ast.item(currentPatch.getTargetNode()));
+        for (Edit currentEdit : patch.getAllEdits()) {
+            originalNodeReferences.add(ast.item(currentEdit.getTargetNode()));
         }
         return originalNodeReferences;
     }

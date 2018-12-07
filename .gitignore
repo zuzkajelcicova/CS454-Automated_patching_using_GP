@@ -1,6 +1,8 @@
 
 \.idea/
 \GAOutput/*
+\parsed/*
+\out/*
 \correctPatch/*
 \resources/CodeWithLines.java
 \fault_localization/gzoltar.csv

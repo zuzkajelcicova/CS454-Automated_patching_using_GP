@@ -1,41 +1,79 @@
 package GP;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Patch {
-    private int operation;
-    private int sourceNode;
-    private int targetNode;
+    private List<Edit> allEdits;
+    private double fitnessVal;
 
-    public Patch(){}
-    public Patch(int operation, int sNode, int tNode) {
-        this.operation = operation;
-        this.sourceNode = sNode;
-        this.targetNode = tNode;
+    private int ctrCrossover;
+    private int ctrMutation;
+
+    public int getCtrCrossover() {
+        return ctrCrossover;
     }
 
-    public int getOperation() {
-        return operation;
+    public void setCtrCrossover(int ctr_crossover) {
+        this.ctrCrossover = ctr_crossover;
     }
 
-    public int getSourceNode() {
-        return sourceNode;
+    public int getCtrMutation() {
+        return ctrMutation;
     }
 
-
-    public void addEdit(int op, int sn, int tn){
-        this.operation = op;
-        this.sourceNode = sn;
-        this. targetNode = tn;
-    }
-    public int getTargetNode() {
-        return targetNode;
+    public void setCtrMutation(int ctrMutation) {
+        this.ctrMutation = ctrMutation;
     }
 
-    public void setSourceNode(int sourceNode) {
-        this.sourceNode = sourceNode;
+    public Patch() {
+        this.allEdits = new ArrayList<>();
+        this.ctrCrossover = 0;
+        this.ctrMutation = 0;
     }
 
-    public String getPatchContent() {
-        return "Operation: " + this.operation + ", Source: " + this.sourceNode + ", Target: " + this.targetNode;
+    public Patch(List<Edit> ind) {
+        this.allEdits = ind;
+        this.ctrCrossover = 0;
+        this.ctrMutation = 0;
+    }
+
+    public List<Edit> getAllEdits() {
+        return allEdits;
+    }
+
+    public double getFitness() {
+        return this.fitnessVal;
+    }
+
+    public StringBuilder getAllPatchesContent() {
+        StringBuilder content = new StringBuilder();
+
+        for (Edit edit : allEdits) {
+            content.append(edit.getPatchContent()).append("\n");
+        }
+        return content;
+    }
+
+    public int patchSize() {
+        return allEdits.size();
+    }
+
+    public Edit getPatch(int index) {
+        return allEdits.get(index);
+    }
+
+    public void deleteEdit(Edit pts) {
+        for (Edit p : allEdits) {
+            if (p.getTargetNode() == pts.getTargetNode() && p.getSourceNode() == pts.getSourceNode() && p.getOperation() == pts.getOperation()) {
+                allEdits.remove(p);
+                break;
+            }
+        }
+    }
+
+    public void setFitness(double fitnessVal) {
+        this.fitnessVal = fitnessVal;
     }
 }
-
