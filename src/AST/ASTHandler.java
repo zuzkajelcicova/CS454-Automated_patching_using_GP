@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class ASTHandler {
 
     private static final List<String> ALLOWED_STATEMENTS = new ArrayList<>(Arrays.asList("if", "while", "for", "do",
-            "break", "continue", "return", "switch", "assert", "empty_stmt", "expr_stmt", "else"));
+            "break", "continue", "return", "switch", "assert", "empty_stmt", "expr_stmt", "else", "case", "default"));
     // HashMap<Integer, Integer> => NodeID, LineNumber, Keeping NodePair for debugging purposes
     private HashMap<Integer, NodePair> allAstStatements;
     private HashMap<Integer, NodePair> candidateSpace;

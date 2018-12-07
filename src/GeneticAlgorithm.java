@@ -2,12 +2,15 @@ import AST.ASTHandler;
 import AST.NodePair;
 import GP.*;
 import General.Utils;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.*;
+
+import org.junit.experimental.ParallelComputer;
+import org.junit.runner.JUnitCore;
 
 public class GeneticAlgorithm {
 
@@ -194,13 +197,35 @@ public class GeneticAlgorithm {
                 //Fitness function step
                 if (compilationResult == utils.PASS) {
 
-                    Result testNegResult = JUnitCore.runClasses(getCorrespondingTests(utils.TARGET_CODE, utils.negative));
-                    printTestStatistics(testNegResult, utils.negative);
-                    negPass = negTestNumber - testNegResult.getFailureCount();
+                    //Run JUnit in a separate process
+                    Process process = new ProcessBuilder(new String[]{"java", "-cp", System.getProperty("java.class.path"), "JUnitProcess", utils.TARGET_CODE}).start();
 
-                    Result testPosResult = JUnitCore.runClasses(getCorrespondingTests(utils.TARGET_CODE, utils.positive));
-                    printTestStatistics(testPosResult, utils.positive);
-                    posPass = posTestsNumber - testPosResult.getFailureCount();
+                    //Read output from a separate process
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                    int noOfNegativeTestsFailed = 0;
+                    int noOfPositiveTestsFailed = 0;
+
+                    String line;
+                    String splitSign = ":";
+
+                    while ((line = reader.readLine()) != null) {
+                        if (line.contains("JUnitProcess_TESTRESULTS_POS")) {
+                            noOfPositiveTestsFailed = Integer.parseInt((line.split(splitSign))[1]);
+                        }else if(line.contains("JUnitProcess_TESTRESULTS_NEG")){
+                            noOfNegativeTestsFailed = Integer.parseInt((line.split(splitSign))[1]);
+                        }
+                    }
+                    reader.close();
+
+                    process.waitFor();
+
+                    //Set total number of positive and negative tests
+                    getCorrespondingNoTests(utils.TARGET_CODE, utils.positive);
+                    getCorrespondingNoTests(utils.TARGET_CODE, utils.negative);
+
+                    negPass = negTestNumber - noOfNegativeTestsFailed;
+                    posPass = posTestsNumber - noOfPositiveTestsFailed;
 
                     double fitness = (utils.WEIGHT_NEG * negPass) + (utils.WEIGHT_POS * posPass);
                     System.out.println("Fitness Value: " + fitness);
@@ -208,7 +233,7 @@ public class GeneticAlgorithm {
                     candidateResult.add(patch);
 
                     //Break after the first fixing Patch is found
-                    if (testNegResult.getFailureCount() == 0 && testPosResult.getFailureCount() == 0) {
+                    if (noOfNegativeTestsFailed == 0 && noOfPositiveTestsFailed == 0) {
                         //Storing 2 files -> .java and .txt for statistics, Time in seconds
                         long requiredPatchTime = (System.currentTimeMillis() - startTime) / 1000;
                         storeCodeAndStatistics(patch, codeWithLines, requiredPatchTime);
@@ -226,7 +251,7 @@ public class GeneticAlgorithm {
         return candidateResult;
     }
 
-    private Class getCorrespondingTests(String testedProgramName, String testType) {
+    private Class getCorrespondingNoTests(String testedProgramName, String testType) {
         switch (testedProgramName) {
             case "GCD.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
@@ -247,16 +272,6 @@ public class GeneticAlgorithm {
             default:
                 return null;
         }
-    }
-
-    private void printTestStatistics(Result testResult, String str) {
-        for (Failure failure : testResult.getFailures()) {
-            System.out.println(failure.toString());
-        }
-        System.out.println(str + " tests");
-        System.out.println("Number of Failure: " + testResult.getFailureCount());
-        System.out.println("Number of Run: " + testResult.getRunCount());
-        System.out.println("Run Time: " + testResult.getRunTime());
     }
 
     private void storeCodeAndStatistics(Patch patch, StringBuilder reformattedCode, long requiredPatchTime) {
