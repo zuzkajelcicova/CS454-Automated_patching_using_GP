@@ -34,7 +34,7 @@ import java.util.Arrays;
  * @since 2.0
  * @version $Id$
  */
-class NumberUtils {
+public class NumberUtils {
     
     /** Reusable Long constant for zero. */
     public static final Long LONG_ZERO = Long.valueOf(0L);
@@ -105,6 +105,7 @@ class NumberUtils {
     public static int toInt(final String str) {
         return toInt(str, 0);
     }
+
 
     /**
      * <p>Convert a <code>String</code> to an <code>int</code>, returning a
@@ -457,6 +458,7 @@ class NumberUtils {
         if (str == null) {
             return null;
         }
+        // Current tests fail because StringUtils() cant be resolved
         if (StringUtils.isBlank(str)) {
             throw new NumberFormatException("A blank string is not a valid number");
         }
