@@ -81,9 +81,9 @@ public class NumberUtilsTestPos extends TestResult {
         try {
 //            NumberUtils nu = new NumberUtils();
             out.format("Invoking %s()%n", testedMethodName, " from NumberUtilsTestPos...");
-            Object o = testMethod.invoke(null, "21");
-//            Assert.assertEquals(Double.valueOf(3.4028236e+38), o);
-            Assert.assertEquals(Double.valueOf(21), o);
+            Object o = testMethod.invoke(null, "3.4028236e+38");
+            Assert.assertEquals(Double.valueOf(3.4028236e+38), o);
+//            Assert.assertEquals(Double.valueOf(21), o);
             out.format("%s() returned %b%n", testedMethodName, o);
         } catch (IllegalAccessException e) {
             e.printStackTrace();

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ import java.util.Arrays;
  * @version $Id$
  */
 public class NumberUtils {
-    
+
     /** Reusable Long constant for zero. */
     public static final Long LONG_ZERO = Long.valueOf(0L);
     /** Reusable Long constant for one. */
@@ -226,14 +226,14 @@ public class NumberUtils {
      * @since 2.1
      */
     public static float toFloat(final String str, final float defaultValue) {
-      if (str == null) {
-          return defaultValue;
-      }     
-      try {
-          return Float.parseFloat(str);
-      } catch (final NumberFormatException nfe) {
-          return defaultValue;
-      }
+        if (str == null) {
+            return defaultValue;
+        }
+        try {
+            return Float.parseFloat(str);
+        } catch (final NumberFormatException nfe) {
+            return defaultValue;
+        }
     }
 
     /**
@@ -278,18 +278,18 @@ public class NumberUtils {
      * @since 2.1
      */
     public static double toDouble(final String str, final double defaultValue) {
-      if (str == null) {
-          return defaultValue;
-      }
-      try {
-          return Double.parseDouble(str);
-      } catch (final NumberFormatException nfe) {
-          return defaultValue;
-      }
+        if (str == null) {
+            return defaultValue;
+        }
+        try {
+            return Double.parseDouble(str);
+        } catch (final NumberFormatException nfe) {
+            return defaultValue;
+        }
     }
 
-     //-----------------------------------------------------------------------
-     /**
+    //-----------------------------------------------------------------------
+    /**
      * <p>Convert a <code>String</code> to a <code>byte</code>, returning
      * <code>zero</code> if the conversion fails.</p>
      *
@@ -438,8 +438,8 @@ public class NumberUtils {
      * <p>If a type specifier is not found, it will check for a decimal point
      * and then try successively larger types from <code>Integer</code> to
      * <code>BigInteger</code> and from <code>Float</code> to
-    * <code>BigDecimal</code>.</p>
-    * 
+     * <code>BigDecimal</code>.</p>
+     *
      * <p>
      * Integral values with a leading {@code 0} will be interpreted as octal; the returned number will
      * be Integer, Long or BigDecimal as appropriate.
@@ -459,9 +459,15 @@ public class NumberUtils {
             return null;
         }
         // Current tests fail because StringUtils() cant be resolved
-        if (StringUtils.isBlank(str)) {
+//        if (StringUtils.isBlank(str)) {
+//            throw new NumberFormatException("A blank string is not a valid number");
+//        }
+
+        int strLen;
+        if (str == null || (strLen = str.length()) == 0) {
             throw new NumberFormatException("A blank string is not a valid number");
         }
+
         // Need to deal with all possible hex prefixes here
         final String[] hex_prefixes = {"0x", "0X", "-0x", "-0X", "#", "-#"};
         int pfxLen = 0;
@@ -502,7 +508,15 @@ public class NumberUtils {
             if (hexDigits > 8) { // too many for an int
                 return createLong(str);
             }
-            return createInteger(str);
+
+            if (str == null) {
+                return null;
+            }
+            // decode() handles 0xAABD and 0777 (hex and octal) as well.
+            return Integer.decode(str);
+
+
+//            return createInteger(str);
         }
         //bug
 
@@ -553,8 +567,8 @@ public class NumberUtils {
                 case 'l' :
                 case 'L' :
                     if (dec == null
-                        && exp == null
-                        && (numeric.charAt(0) == '-' && isDigits(numeric.substring(1)) || isDigits(numeric))) {
+                            && exp == null
+                            && (numeric.charAt(0) == '-' && isDigits(numeric.substring(1)) || isDigits(numeric))) {
                         try {
                             return createLong(numeric);
                         } catch (final NumberFormatException nfe) { // NOPMD
@@ -651,7 +665,7 @@ public class NumberUtils {
      * <p>Utility method for {@link #createNumber(String)}.</p>
      *
      * <p>Returns <code>true</code> if s is <code>null</code>.</p>
-     * 
+     *
      * @param str  the String to check
      * @return if it is all zeros or <code>null</code>
      */
@@ -672,7 +686,7 @@ public class NumberUtils {
      * <p>Convert a <code>String</code> to a <code>Float</code>.</p>
      *
      * <p>Returns <code>null</code> if the string is <code>null</code>.</p>
-     * 
+     *
      * @param str  a <code>String</code> to convert, may be null
      * @return converted <code>Float</code> (or null if the input is null)
      * @throws NumberFormatException if the value cannot be converted
@@ -686,7 +700,7 @@ public class NumberUtils {
 
     /**
      * <p>Convert a <code>String</code> to a <code>Double</code>.</p>
-     * 
+     *
      * <p>Returns <code>null</code> if the string is <code>null</code>.</p>
      *
      * @param str  a <code>String</code> to convert, may be null
@@ -705,7 +719,7 @@ public class NumberUtils {
      * hex and octal notations.</p>
      *
      * <p>Returns <code>null</code> if the string is <code>null</code>.</p>
-     * 
+     *
      * @param str  a <code>String</code> to convert, may be null
      * @return converted <code>Integer</code> (or null if the input is null)
      * @throws NumberFormatException if the value cannot be converted
@@ -719,9 +733,9 @@ public class NumberUtils {
     }
 
     /**
-     * <p>Convert a <code>String</code> to a <code>Long</code>; 
+     * <p>Convert a <code>String</code> to a <code>Long</code>;
      * since 3.1 it handles hex and octal notations.</p>
-     * 
+     *
      * <p>Returns <code>null</code> if the string is <code>null</code>.</p>
      *
      * @param str  a <code>String</code> to convert, may be null
@@ -740,7 +754,7 @@ public class NumberUtils {
      * since 3.2 it handles hex (0x or #) and octal (0) notations.</p>
      *
      * <p>Returns <code>null</code> if the string is <code>null</code>.</p>
-     * 
+     *
      * @param str  a <code>String</code> to convert, may be null
      * @return converted <code>BigInteger</code> (or null if the input is null)
      * @throws NumberFormatException if the value cannot be converted
@@ -773,7 +787,7 @@ public class NumberUtils {
 
     /**
      * <p>Convert a <code>String</code> to a <code>BigDecimal</code>.</p>
-     * 
+     *
      * <p>Returns <code>null</code> if the string is <code>null</code>.</p>
      *
      * @param str  a <code>String</code> to convert, may be null
@@ -790,8 +804,8 @@ public class NumberUtils {
         }
         if (str.trim().startsWith("--")) {
             // this is protection for poorness in java.lang.BigDecimal.
-            // it accepts this as a legal value, but it does not appear 
-            // to be in specification of class. OS X Java parses it to 
+            // it accepts this as a legal value, but it does not appear
+            // to be in specification of class. OS X Java parses it to
             // a wrong value.
             throw new NumberFormatException(str + " is not a valid number.");
         }
@@ -802,7 +816,7 @@ public class NumberUtils {
     //--------------------------------------------------------------------
     /**
      * <p>Returns the minimum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -811,7 +825,7 @@ public class NumberUtils {
     public static long min(final long[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns min
         long min = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -819,13 +833,13 @@ public class NumberUtils {
                 min = array[i];
             }
         }
-    
+
         return min;
     }
 
     /**
      * <p>Returns the minimum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -834,7 +848,7 @@ public class NumberUtils {
     public static int min(final int[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns min
         int min = array[0];
         for (int j = 1; j < array.length; j++) {
@@ -842,13 +856,13 @@ public class NumberUtils {
                 min = array[j];
             }
         }
-    
+
         return min;
     }
 
     /**
      * <p>Returns the minimum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -857,7 +871,7 @@ public class NumberUtils {
     public static short min(final short[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns min
         short min = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -865,13 +879,13 @@ public class NumberUtils {
                 min = array[i];
             }
         }
-    
+
         return min;
     }
 
     /**
      * <p>Returns the minimum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -880,7 +894,7 @@ public class NumberUtils {
     public static byte min(final byte[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns min
         byte min = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -888,13 +902,13 @@ public class NumberUtils {
                 min = array[i];
             }
         }
-    
+
         return min;
     }
 
-     /**
+    /**
      * <p>Returns the minimum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -904,7 +918,7 @@ public class NumberUtils {
     public static double min(final double[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns min
         double min = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -915,13 +929,13 @@ public class NumberUtils {
                 min = array[i];
             }
         }
-    
+
         return min;
     }
 
     /**
      * <p>Returns the minimum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -931,7 +945,7 @@ public class NumberUtils {
     public static float min(final float[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns min
         float min = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -942,7 +956,7 @@ public class NumberUtils {
                 min = array[i];
             }
         }
-    
+
         return min;
     }
 
@@ -950,7 +964,7 @@ public class NumberUtils {
     //--------------------------------------------------------------------
     /**
      * <p>Returns the maximum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -973,7 +987,7 @@ public class NumberUtils {
 
     /**
      * <p>Returns the maximum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -982,7 +996,7 @@ public class NumberUtils {
     public static int max(final int[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns max
         int max = array[0];
         for (int j = 1; j < array.length; j++) {
@@ -990,13 +1004,13 @@ public class NumberUtils {
                 max = array[j];
             }
         }
-    
+
         return max;
     }
 
     /**
      * <p>Returns the maximum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -1005,7 +1019,7 @@ public class NumberUtils {
     public static short max(final short[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns max
         short max = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -1013,13 +1027,13 @@ public class NumberUtils {
                 max = array[i];
             }
         }
-    
+
         return max;
     }
 
     /**
      * <p>Returns the maximum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -1028,7 +1042,7 @@ public class NumberUtils {
     public static byte max(final byte[] array) {
         // Validates input
         validateArray(array);
-    
+
         // Finds and returns max
         byte max = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -1036,13 +1050,13 @@ public class NumberUtils {
                 max = array[i];
             }
         }
-    
+
         return max;
     }
 
     /**
      * <p>Returns the maximum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -1063,13 +1077,13 @@ public class NumberUtils {
                 max = array[j];
             }
         }
-    
+
         return max;
     }
 
     /**
      * <p>Returns the maximum value in an array.</p>
-     * 
+     *
      * @param array  an array, must not be null or empty
      * @return the minimum value in the array
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
@@ -1107,12 +1121,12 @@ public class NumberUtils {
             throw new IllegalArgumentException("Array cannot be empty.");
         }
     }
-     
+
     // 3 param min
     //-----------------------------------------------------------------------
     /**
      * <p>Gets the minimum of three <code>long</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1130,7 +1144,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the minimum of three <code>int</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1148,7 +1162,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the minimum of three <code>short</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1166,7 +1180,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the minimum of three <code>byte</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1184,10 +1198,10 @@ public class NumberUtils {
 
     /**
      * <p>Gets the minimum of three <code>double</code> values.</p>
-     * 
+     *
      * <p>If any value is <code>NaN</code>, <code>NaN</code> is
      * returned. Infinity is handled.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1200,7 +1214,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the minimum of three <code>float</code> values.</p>
-     * 
+     *
      * <p>If any value is <code>NaN</code>, <code>NaN</code> is
      * returned. Infinity is handled.</p>
      *
@@ -1218,7 +1232,7 @@ public class NumberUtils {
     //-----------------------------------------------------------------------
     /**
      * <p>Gets the maximum of three <code>long</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1236,7 +1250,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the maximum of three <code>int</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1254,7 +1268,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the maximum of three <code>short</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1272,7 +1286,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the maximum of three <code>byte</code> values.</p>
-     * 
+     *
      * @param a  value 1
      * @param b  value 2
      * @param c  value 3
@@ -1290,7 +1304,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the maximum of three <code>double</code> values.</p>
-     * 
+     *
      * <p>If any value is <code>NaN</code>, <code>NaN</code> is
      * returned. Infinity is handled.</p>
      *
@@ -1306,7 +1320,7 @@ public class NumberUtils {
 
     /**
      * <p>Gets the maximum of three <code>float</code> values.</p>
-     * 
+     *
      * <p>If any value is <code>NaN</code>, <code>NaN</code> is
      * returned. Infinity is handled.</p>
      *
@@ -1376,15 +1390,15 @@ public class NumberUtils {
             // checking hex (it can't be anything else)
             for (; i < chars.length; i++) {
                 if ((chars[i] < '0' || chars[i] > '9')
-                    && (chars[i] < 'a' || chars[i] > 'f')
-                    && (chars[i] < 'A' || chars[i] > 'F')) {
+                        && (chars[i] < 'a' || chars[i] > 'f')
+                        && (chars[i] < 'A' || chars[i] > 'F')) {
                     return false;
                 }
             }
             return true;
         }
         sz--; // don't want to loop to the last char, check it afterwords
-              // for type qualifiers
+        // for type qualifiers
         int i = start;
         // loop to the next to last char or to the last char if we need another digit to
         // make a valid number (e.g. chars[0..5] = "1234E")
@@ -1395,7 +1409,7 @@ public class NumberUtils {
 
             } else if (chars[i] == '.') {
                 if (hasDecPoint || hasExp) {
-                    // two decimal points or dec in exponent   
+                    // two decimal points or dec in exponent
                     return false;
                 }
                 hasDecPoint = true;
@@ -1439,14 +1453,14 @@ public class NumberUtils {
                 return foundDigit;
             }
             if (!allowSigns
-                && (chars[i] == 'd'
+                    && (chars[i] == 'd'
                     || chars[i] == 'D'
                     || chars[i] == 'f'
                     || chars[i] == 'F')) {
                 return foundDigit;
             }
             if (chars[i] == 'l'
-                || chars[i] == 'L') {
+                    || chars[i] == 'L') {
                 // not allowing L with an exponent or decimal point
                 return foundDigit && !hasExp && !hasDecPoint;
             }
@@ -1460,93 +1474,7 @@ public class NumberUtils {
 
 }
 
-
-/**
- * <p>Operations on {@link String} that are
- * {@code null} safe.</p>
- *
- * <ul>
- *  <li><b>IsEmpty/IsBlank</b>
- *      - checks if a String contains text</li>
- *  <li><b>Trim/Strip</b>
- *      - removes leading and trailing whitespace</li>
- *  <li><b>Equals</b>
- *      - compares two strings null-safe</li>
- *  <li><b>startsWith</b>
- *      - check if a String starts with a prefix null-safe</li>
- *  <li><b>endsWith</b>
- *      - check if a String ends with a suffix null-safe</li>
- *  <li><b>IndexOf/LastIndexOf/Contains</b>
- *      - null-safe index-of checks
- *  <li><b>IndexOfAny/LastIndexOfAny/IndexOfAnyBut/LastIndexOfAnyBut</b>
- *      - index-of any of a set of Strings</li>
- *  <li><b>ContainsOnly/ContainsNone/ContainsAny</b>
- *      - does String contains only/none/any of these characters</li>
- *  <li><b>Substring/Left/Right/Mid</b>
- *      - null-safe substring extractions</li>
- *  <li><b>SubstringBefore/SubstringAfter/SubstringBetween</b>
- *      - substring extraction relative to other strings</li>
- *  <li><b>Split/Join</b>
- *      - splits a String into an array of substrings and vice versa</li>
- *  <li><b>Remove/Delete</b>
- *      - removes part of a String</li>
- *  <li><b>Replace/Overlay</b>
- *      - Searches a String and replaces one String with another</li>
- *  <li><b>Chomp/Chop</b>
- *      - removes the last part of a String</li>
- *  <li><b>AppendIfMissing</b>
- *      - appends a suffix to the end of the String if not present</li>
- *  <li><b>PrependIfMissing</b>
- *      - prepends a prefix to the start of the String if not present</li>
- *  <li><b>LeftPad/RightPad/Center/Repeat</b>
- *      - pads a String</li>
- *  <li><b>UpperCase/LowerCase/SwapCase/Capitalize/Uncapitalize</b>
- *      - changes the case of a String</li>
- *  <li><b>CountMatches</b>
- *      - counts the number of occurrences of one String in another</li>
- *  <li><b>IsAlpha/IsNumeric/IsWhitespace/IsAsciiPrintable</b>
- *      - checks the characters in a String</li>
- *  <li><b>DefaultString</b>
- *      - protects against a null input String</li>
- *  <li><b>Reverse/ReverseDelimited</b>
- *      - reverses a String</li>
- *  <li><b>Abbreviate</b>
- *      - abbreviates a string using ellipsis</li>
- *  <li><b>Difference</b>
- *      - compares Strings and reports on their differences</li>
- *  <li><b>LevenshteinDistance</b>
- *      - the number of changes needed to change one String into another</li>
- * </ul>
- *
- * <p>The {@code StringUtils} class defines certain words related to
- * String handling.</p>
- *
- * <ul>
- *  <li>null - {@code null}</li>
- *  <li>empty - a zero-length string ({@code ""})</li>
- *  <li>space - the space character ({@code ' '}, char 32)</li>
- *  <li>whitespace - the characters defined by {@link Character#isWhitespace(char)}</li>
- *  <li>trim - the characters &lt;= 32 as in {@link String#trim()}</li>
- * </ul>
- *
- * <p>{@code StringUtils} handles {@code null} input Strings quietly.
- * That is to say that a {@code null} input will return {@code null}.
- * Where a {@code boolean} or {@code int} is being returned
- * details vary by method.</p>
- *
- * <p>A side effect of the {@code null} handling is that a
- * {@code NullPointerException} should be considered a bug in
- * {@code StringUtils}.</p>
- *
- * <p>Methods in this class give sample code to explain their operation.
- * The symbol {@code *} is used to indicate any input including {@code null}.</p>
- *
- * <p>#ThreadSafe#</p>
- * @see String
- * @since 1.0
- * @version $Id$
- */
-//@Immutable
+//@Immutablestatic
 class StringUtils {
     // Performance testing notes (JDK 1.4, Jul03, scolebourne)
     // Whitespace:
@@ -1566,7 +1494,7 @@ class StringUtils {
 
     /**
      * A String for a space character.
-     * 
+     *
      * @since 3.2
      */
     public static final String SPACE = " ";
@@ -1579,7 +1507,7 @@ class StringUtils {
 
     /**
      * A String for linefeed LF ("\n").
-     * 
+     *
      * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6">JLF: Escape Sequences
      *      for Character and String Literals</a>
      * @since 3.2
@@ -1588,13 +1516,13 @@ class StringUtils {
 
     /**
      * A String for carriage return CR ("\r").
-     * 
+     *
      * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6">JLF: Escape Sequences
      *      for Character and String Literals</a>
      * @since 3.2
      */
     public static final String CR = "\r";
-    
+
     /**
      * Represents a failed index search.
      * @since 2.1
@@ -4644,12 +4572,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4657,7 +4585,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4676,12 +4604,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4689,7 +4617,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4708,12 +4636,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4721,7 +4649,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4740,12 +4668,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4753,7 +4681,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4772,12 +4700,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4785,7 +4713,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4804,12 +4732,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4817,7 +4745,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4836,12 +4764,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4849,7 +4777,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4915,12 +4843,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4928,7 +4856,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -4964,12 +4892,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -4977,7 +4905,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -5013,12 +4941,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -5026,7 +4954,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -5062,12 +4990,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -5075,7 +5003,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -5111,12 +5039,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -5124,7 +5052,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -5160,12 +5088,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -5173,7 +5101,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -5209,12 +5137,12 @@ class StringUtils {
      * <p>
      * Joins the elements of the provided array into a single String containing the provided list of elements.
      * </p>
-     * 
+     *
      * <p>
      * No delimiter is added before or after the list. Null objects or empty strings within the array are represented
      * by empty strings.
      * </p>
-     * 
+     *
      * <pre>
      * StringUtils.join(null, *)               = null
      * StringUtils.join([], *)                 = ""
@@ -5222,7 +5150,7 @@ class StringUtils {
      * StringUtils.join([1, 2, 3], ';')  = "1;2;3"
      * StringUtils.join([1, 2, 3], null) = "123"
      * </pre>
-     * 
+     *
      * @param array
      *            the array of values to join together, may be null
      * @param separator
@@ -5318,7 +5246,7 @@ class StringUtils {
      * {@code startIndex < 0} or <br/>
      * {@code startIndex >= array.length()} or <br/>
      * {@code endIndex < 0} or <br/>
-     * {@code endIndex > array.length()} 
+     * {@code endIndex > array.length()}
      */
     public static String join(final Object[] array, String separator, final int startIndex, final int endIndex) {
         if (array == null) {
@@ -5755,7 +5683,7 @@ class StringUtils {
      * <li>{@code source.replaceAll(&quot;(?s)&quot; + regex, replacement)}</li>
      * <li>{@code Pattern.compile(regex, Pattern.DOTALL).matcher(source).replaceAll(replacement)}</li>
      * </ul>
-     * 
+     *
      * @param source
      *            the source string
      * @param regex
@@ -5773,7 +5701,7 @@ class StringUtils {
 
     /**
      * Removes each substring of the source String that matches the given regular expression using the DOTALL option.
-     * 
+     *
      * @param source
      *            the source string
      * @param regex
@@ -5919,7 +5847,7 @@ class StringUtils {
      * <p>
      * A {@code null} reference passed to this method is a no-op, or if
      * any "search string" or "string to replace" is null, that replace will be
-     * ignored. 
+     * ignored.
      * </p>
      *
      * <pre>
@@ -6024,7 +5952,7 @@ class StringUtils {
         // if recursing, this shouldn't be less than 0
         if (timeToLive < 0) {
             throw new IllegalStateException("Aborting to protect against StackOverflowError - " +
-                                            "output of one loop is the input of another");
+                    "output of one loop is the input of another");
         }
 
         final int searchLength = searchList.length;
@@ -6033,9 +5961,9 @@ class StringUtils {
         // make sure lengths are ok, these need to be equal
         if (searchLength != replacementLength) {
             throw new IllegalArgumentException("Search and Replace array lengths don't match: "
-                + searchLength
-                + " vs "
-                + replacementLength);
+                    + searchLength
+                    + " vs "
+                    + replacementLength);
         }
 
         // keep track of which still have matches
@@ -6289,10 +6217,10 @@ class StringUtils {
             end = temp;
         }
         return new StringBuilder(len + start - end + overlay.length() + 1)
-            .append(str.substring(0, start))
-            .append(overlay)
-            .append(str.substring(end))
-            .toString();
+                .append(str.substring(0, start))
+                .append(overlay)
+                .append(str.substring(end))
+                .toString();
     }
 
     // Chomping
@@ -7017,17 +6945,17 @@ class StringUtils {
         if (str == null || (strLen = str.length()) == 0) {
             return str;
         }
-        
+
         char firstChar = str.charAt(0);
         if (Character.isTitleCase(firstChar)) {
-        	// already capitalized
-        	return str;
+            // already capitalized
+            return str;
         }
-        
+
         return new StringBuilder(strLen)
-            .append(Character.toTitleCase(firstChar))
-            .append(str.substring(1))
-            .toString();
+                .append(Character.toTitleCase(firstChar))
+                .append(str.substring(1))
+                .toString();
     }
 
     /**
@@ -7055,17 +6983,17 @@ class StringUtils {
         if (str == null || (strLen = str.length()) == 0) {
             return str;
         }
-        
+
         char firstChar = str.charAt(0);
         if (Character.isLowerCase(firstChar)) {
-        	// already uncapitalized
-        	return str;
+            // already uncapitalized
+            return str;
         }
-        
+
         return new StringBuilder(strLen)
-            .append(Character.toLowerCase(firstChar))
-            .append(str.substring(1))
-            .toString();
+                .append(Character.toLowerCase(firstChar))
+                .append(str.substring(1))
+                .toString();
     }
 
     /**
@@ -7803,7 +7731,7 @@ class StringUtils {
     /**
      * <p>Compares two Strings, and returns the portion where they differ.
      * More precisely, return the remainder of the second String,
-     * starting from where it's different from the first. This means that 
+     * starting from where it's different from the first. This means that
      * the difference between "abc" and "ab" is the empty String and not "c". </p>
      *
      * <p>For example,
@@ -8145,7 +8073,7 @@ class StringUtils {
     }
 
     /**
-     * <p>Find the Levenshtein distance between two Strings if it's less than or equal to a given 
+     * <p>Find the Levenshtein distance between two Strings if it's less than or equal to a given
      * threshold.</p>
      *
      * <p>This is the number of changes needed to change one String into
@@ -8187,26 +8115,26 @@ class StringUtils {
         /*
         This implementation only computes the distance if it's less than or equal to the
         threshold value, returning -1 if it's greater.  The advantage is performance: unbounded
-        distance is O(nm), but a bound of k allows us to reduce it to O(km) time by only 
+        distance is O(nm), but a bound of k allows us to reduce it to O(km) time by only
         computing a diagonal stripe of width 2k + 1 of the cost table.
         It is also possible to use this to compute the unbounded Levenshtein distance by starting
         the threshold at 1 and doubling each time until the distance is found; this is O(dm), where
         d is the distance.
-        
+
         One subtlety comes from needing to ignore entries on the border of our stripe
         eg.
         p[] = |#|#|#|*
         d[] =  *|#|#|#|
         We must ignore the entry to the left of the leftmost member
         We must ignore the entry above the rightmost member
-        
+
         Another subtlety comes from our stripe running off the matrix if the strings aren't
-        of the same size.  Since string s is always swapped to be the shorter of the two, 
+        of the same size.  Since string s is always swapped to be the shorter of the two,
         the stripe will always run off to the upper right instead of the lower left of the matrix.
-        
+
         As a concrete example, suppose s is of length 5, t is of length 7, and our threshold is 1.
         In this case we're going to walk a stripe of length 3.  The matrix would look like so:
-        
+
            1 2 3 4 5
         1 |#|#| | | |
         2 |#|#|#| | |
@@ -8218,10 +8146,10 @@ class StringUtils {
 
         Note how the stripe leads off the table as there is no possible way to turn a string of length 5
         into one of length 7 in edit distance of 1.
-        
-        Additionally, this implementation decreases memory usage by using two 
+
+        Additionally, this implementation decreases memory usage by using two
         single-dimensional arrays and swapping them back and forth instead of allocating
-        an entire n by m matrix.  This requires a few minor changes, such as immediately returning 
+        an entire n by m matrix.  This requires a few minor changes, such as immediately returning
         when it's detected that the stripe has run off the matrix and initially filling the arrays with
         large values so that entries we don't compute are ignored.
 
@@ -8256,7 +8184,7 @@ class StringUtils {
         for (int i = 0; i < boundary; i++) {
             p[i] = i;
         }
-        // these fills ensure that the value above the rightmost entry of our 
+        // these fills ensure that the value above the rightmost entry of our
         // stripe will be ignored in following loop iterations
         Arrays.fill(p, boundary, p.length, Integer.MAX_VALUE);
         Arrays.fill(d, Integer.MAX_VALUE);
@@ -8773,7 +8701,7 @@ class StringUtils {
 
     /**
      * Converts a <code>byte[]</code> to a String using the specified character encoding.
-     * 
+     *
      * @param bytes
      *            the byte array to read from
      * @param charsetName
@@ -8790,6 +8718,7 @@ class StringUtils {
     }
 
 }
+
 
 
 /**
