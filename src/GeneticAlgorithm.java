@@ -278,14 +278,14 @@ public class GeneticAlgorithm {
 ////                    this.negTestNumber = median_NegTest.numberOfNegativeTests;
 ////                    return median_NegTest.class;
 ////                }
-//            case "Triangle.java":
-//                if (testType.equalsIgnoreCase(utils.positive)) {
-//                    this.posTestsNumber = TestTriPos.numberOfPositiveTests;
-//                    return TestTriPos.class;
-//                } else {
-//                    this.negTestNumber = TestTriNeg.numberOfNegativeTests;
-//                    return TestTriNeg.class;
-//                }
+            case "Triangle.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = TestTriPos.numberOfPositiveTests;
+                    return TestTriPos.class;
+                } else {
+                    this.negTestNumber = TestTriNeg.numberOfNegativeTests;
+                    return TestTriNeg.class;
+                }
             case "Digits00.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
                     this.posTestsNumber = Digits00PosTest.numberOfPositiveTests;
