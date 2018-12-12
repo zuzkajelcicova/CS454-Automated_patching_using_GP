@@ -236,13 +236,109 @@ public class GeneticAlgorithm {
                     this.negTestNumber = GCDTestNeg.numberOfNegativeTests;
                     return GCDTestNeg.class;
                 }
-            case "Zune.java":
+//            case "median.java":
+////                if (testType.equalsIgnoreCase(utils.positive)) {
+////                    this.posTestsNumber = median_PosTest.numberOfPositiveTests;
+////                    return median_PosTest.class;
+////                } else {
+////                    this.negTestNumber = median_NegTest.numberOfNegativeTests;
+////                    return median_NegTest.class;
+////                }
+            case "Triangle.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
-                    this.posTestsNumber = ZuneTestPos.numberOfPositiveTests;
-                    return GCDTestPos.class;
+                    this.posTestsNumber = TestTriPos.numberOfPositiveTests;
+                    return TestTriPos.class;
                 } else {
-                    this.negTestNumber = ZuneTestNeg.numberOfNegativeTests;
-                    return GCDTestNeg.class;
+                    this.negTestNumber = TestTriNeg.numberOfNegativeTests;
+                    return TestTriNeg.class;
+                }
+            case "Digits00.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits00PosTest.numberOfPositiveTests;
+                    return Digits00PosTest.class;
+                } else {
+                    this.negTestNumber = Digits00NegTest.numberOfNegativeTests;
+                    return Digits00NegTest.class;
+                }
+            case "Digits002.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits002PosTest.numberOfPositiveTests;
+                    return Digits002PosTest.class;
+                } else {
+                    this.negTestNumber = Digits002NegTest.numberOfNegativeTests;
+                    return Digits002NegTest.class;
+                }
+            case "Digits5000.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits5000PosTest.numberOfPositiveTests;
+                    return Digits5000PosTest.class;
+                } else {
+                    this.negTestNumber = Digits5000NegTest.numberOfNegativeTests;
+                    return Digits5000NegTest.class;
+                }
+            case "Digits5003.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits5003PosTest.numberOfPositiveTests;
+                    return Digits5003PosTest.class;
+                } else {
+                    this.negTestNumber = Digits5003NegTest.numberOfNegativeTests;
+                    return Digits5003NegTest.class;
+                }
+            case "Digits6000.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits6000PosTest.numberOfPositiveTests;
+                    return Digits6000PosTest.class;
+                } else {
+                    this.negTestNumber = Digits6000NegTest.numberOfNegativeTests;
+                    return Digits6000NegTest.class;
+                }
+            case "Digits10000.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits10000PosTest.numberOfPositiveTests;
+                    return Digits10000PosTest.class;
+                } else {
+                    this.negTestNumber = Digits10000NegTest.numberOfNegativeTests;
+                    return Digits10000NegTest.class;
+                }
+            case "Digits11004.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits11004PosTest.numberOfPositiveTests;
+                    return Digits11004PosTest.class;
+                } else {
+                    this.negTestNumber = Digits11004NegTest.numberOfNegativeTests;
+                    return Digits11004NegTest.class;
+                }
+            case "Digits11015.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits11015PosTest.numberOfPositiveTests;
+                    return Digits11015PosTest.class;
+                } else {
+                    this.negTestNumber = Digits11015NegTest.numberOfNegativeTests;
+                    return Digits11015NegTest.class;
+                }
+            case "Digits12000.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits11015PosTest.numberOfPositiveTests;
+                    return Digits11015PosTest.class;
+                } else {
+                    this.negTestNumber = Digits11015NegTest.numberOfNegativeTests;
+                    return Digits11015NegTest.class;
+                }
+            case "Digits39000.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Digits39000PosTest.numberOfPositiveTests;
+                    return Digits39000PosTest.class;
+                } else {
+                    this.negTestNumber = Digits39000NegTest.numberOfNegativeTests;
+                    return Digits39000NegTest.class;
+                }
+            case "Smallest19.java":
+                if (testType.equalsIgnoreCase(utils.positive)) {
+                    this.posTestsNumber = Smallest19PosTest.numberOfPositiveTests;
+                    return Smallest19PosTest.class;
+                } else {
+                    this.negTestNumber = Smallest19NegTest.numberOfNegativeTests;
+                    return Smallest19NegTest.class;
                 }
             default:
                 return null;
