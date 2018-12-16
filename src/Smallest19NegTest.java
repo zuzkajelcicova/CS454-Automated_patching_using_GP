@@ -1,3 +1,4 @@
+import General.CompiledClassLoader;
 import org.junit.Test;
 import junit.framework.TestResult;
 import org.junit.Assert;

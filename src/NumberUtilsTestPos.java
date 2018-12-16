@@ -21,12 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import static org.junit.Assert.assertEquals;
 import General.CompiledClassLoader;
 import junit.framework.TestResult;
 import org.junit.Assert;
@@ -40,9 +34,6 @@ import static java.lang.System.out;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigInteger;
-
-import org.junit.Test;
 
 /**
  * Unit tests.

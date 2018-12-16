@@ -15,9 +15,9 @@ public class Main {
         int timeInMinutes = 90;
         int noOfBugsToSolve = 1;
 
-        String targetCode = "";
-        String srcMlPath = "";
-        String classFolderPath = "";
+        String targetCode = "NumberUtils";
+        String srcMlPath = "C:\\Program Files\\srcML 0.9.5\\bin";
+        String classFolderPath = "D:\\GPgit\\CS454-Automated_patching_using_GP\\out\\production\\CS454-Automated_patching_using_GP";
 
         //An example of a terminal input:
         //faultyProgramName srcMlPath -p populationSize -t timeInMinutes -b noOfBugsToSolve -cpf classFolderPathOfFaultyProgram

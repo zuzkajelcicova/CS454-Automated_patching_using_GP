@@ -87,7 +87,7 @@ public class Utils {
     public final double WEIGHT_NEG = 2 * WEIGHT_POS;
 
     public Utils(String srcMl, String targetCode, String dotClassFolderPath, String targetClass) {
-        //"C:\\Program Files\\srcML 0.9.5\\bin"
+//        srcMl = "C:\\Program Files\\srcML 0.9.5\\bin";
         this.SRCML_PATH = srcMl;
         //"GCD.java"
         this.TARGET_CODE = targetCode;
@@ -101,6 +101,7 @@ public class Utils {
         this.TARGET_CODE_FIXED_WITH_LINES_FILE_PATH = TARGET_CODE_FIXED_WITH_LINES_FILE.getAbsolutePath();
 
         //"C:\\Users\\admin\\git\\CS454-Automated_patching_using_GP\\out\\production\\CS454_AutomatedPatching";
+//        dotClassFolderPath = "D:\\GPgit\\CS454-Automated_patching_using_GP\\out\\production\\CS454-Automated_patching_using_GP";
         this.DOT_CLASS_FOLDER_PATH = dotClassFolderPath;
         //"GCD.class"
         this.TARGET_CLASS = targetClass;

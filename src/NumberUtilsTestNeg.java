@@ -16,6 +16,7 @@
  */
 
 import static org.junit.Assert.assertEquals;
+
 import General.CompiledClassLoader;
 import junit.framework.TestResult;
 import org.junit.Assert;
@@ -29,7 +30,6 @@ import static java.lang.System.out;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigInteger;
 
 /**
  * Unit tests

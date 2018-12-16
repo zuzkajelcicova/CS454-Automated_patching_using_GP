@@ -1,6 +1,3 @@
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 import General.CompiledClassLoader;
 import junit.framework.TestResult;
 import org.junit.Assert;
