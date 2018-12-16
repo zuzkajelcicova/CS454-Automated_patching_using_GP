@@ -116,8 +116,8 @@ public class JUnitProcess {
                 System.out.println("JUnitProcess: Digits10000.java JUnit tests selected");
                 break;
             case "Digits11004.java":
-                positiveTestClass = Digits10004NegTest.class;
-                negativeTestClass = Digits10004PosTest.class;
+                positiveTestClass = Digits11004NegTest.class;
+                negativeTestClass = Digits11004PosTest.class;
                 System.out.println("JUnitProcess: Digits10004.java JUnit tests selected");
                 break;
             case "Digits11015.java":
