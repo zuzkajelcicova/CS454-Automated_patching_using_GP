@@ -80,6 +80,71 @@ public class JUnitProcess {
                 negativeTestClass = ZuneTestNeg.class;
                 System.out.println("JUnitProcess: Zune.java JUnit tests selected");
                 break;
+            case "Digits00.java":
+                positiveTestClass = Digits00NegTest.class;
+                negativeTestClass = Digits00PosTest.class;
+                System.out.println("JUnitProcess: Digits00.java JUnit tests selected");
+                break;
+            case "Triangle.java":
+                positiveTestClass = TestTriNeg.class;
+                negativeTestClass = TestTriPos.class;
+                System.out.println("JUnitProcess: Triangle.java JUnit tests selected");
+                break;
+            case "Digits002.java":
+                positiveTestClass = Digits002NegTest.class;
+                negativeTestClass = Digits002PosTest.class;
+                System.out.println("JUnitProcess: Digits002.java JUnit tests selected");
+                break;
+            case "Digits5000.java":
+                positiveTestClass = Digits5000NegTest.class;
+                negativeTestClass = Digits5000PosTest.class;
+                System.out.println("JUnitProcess: Digits5000.java JUnit tests selected");
+                break;
+            case "Digits5003.java":
+                positiveTestClass = Digits5003NegTest.class;
+                negativeTestClass = Digits5003PosTest.class;
+                System.out.println("JUnitProcess: Digits5003.java JUnit tests selected");
+                break;
+            case "Digits6000.java":
+                positiveTestClass = Digits6000NegTest.class;
+                negativeTestClass = Digits6000PosTest.class;
+                System.out.println("JUnitProcess: Digits6000.java JUnit tests selected");
+                break;
+            case "Digits10000.java":
+                positiveTestClass = Digits10000NegTest.class;
+                negativeTestClass = Digits10000PosTest.class;
+                System.out.println("JUnitProcess: Digits10000.java JUnit tests selected");
+                break;
+            case "Digits11004.java":
+                positiveTestClass = Digits10004NegTest.class;
+                negativeTestClass = Digits10004PosTest.class;
+                System.out.println("JUnitProcess: Digits10004.java JUnit tests selected");
+                break;
+            case "Digits11015.java":
+                positiveTestClass = Digits11015NegTest.class;
+                negativeTestClass = Digits11015PosTest.class;
+                System.out.println("JUnitProcess: Digits11015.java JUnit tests selected");
+                break;
+            case "Digits12000.java":
+                positiveTestClass = Digits12000NegTest.class;
+                negativeTestClass = Digits12000PosTest.class;
+                System.out.println("JUnitProcess: Digits12000.java JUnit tests selected");
+                break;
+            case "Digits39000.java":
+                positiveTestClass = Digits39000NegTest.class;
+                negativeTestClass = Digits39000PosTest.class;
+                System.out.println("JUnitProcess: Digits39000.java JUnit tests selected");
+                break;
+            case "Smallest19.java":
+                positiveTestClass = Smallest19NegTest.class;
+                negativeTestClass = Smallest19PosTest.class;
+                System.out.println("JUnitProcess: Smallest19.java JUnit tests selected");
+                break;
+            case "NumberUtils.java":
+                positiveTestClass = NumberUtilsTestNeg.class;
+                negativeTestClass = NumberUtilsTestPos.class;
+                System.out.println("JUnitProcess: NumberUtils.java JUnit tests selected");
+                break;
             default:
                 System.out.println("No matching test classes were found!");
         }
