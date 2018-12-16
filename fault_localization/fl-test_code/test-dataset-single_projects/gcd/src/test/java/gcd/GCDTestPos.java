@@ -30,14 +30,14 @@ public class GCDTestPos extends TestResult {
 //    @BeforeClass
 //    public static void setupEnvironment() {
 //        //Get access to a recompiled class during the runtime
-//        gcdClass = GCD.class;
-//        allMethods = CompiledClassLoader.getRecompiledMethods(gcdClass);
+//        testClass = GCD.class;
+//        allMethods = CompiledClassLoader.getRecompiledMethods(testClass);
 //
 //        for (Method m : allMethods) {
 //            String methodName = m.getName();
 //            if (methodName.startsWith(testedMethodName)) {
 //                m.setAccessible(true);
-//                gcdMethod = m;
+//                testMethod = m;
 //            }
 //        }
 //    }
@@ -46,7 +46,7 @@ public class GCDTestPos extends TestResult {
     @Test
     public void testGCDPositive1() {
         out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive1...");
-//            Object o = gcdMethod.invoke(null, 72, 16);
+//            Object o = testMethod.invoke(null, 72, 16);
 		Assert.assertEquals(4, GCD.gcd(76, 16));
 		out.format("%s() returned %b%n", testedMethodName, GCD.gcd(76, 16));
     }
@@ -54,7 +54,7 @@ public class GCDTestPos extends TestResult {
     @Test
     public void testGCDPositive2() {
         out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive2...");
-//        Object o = gcdMethod.invoke(null, 461952, 116298);
+//        Object o = testMethod.invoke(null, 461952, 116298);
         Assert.assertEquals(18, GCD.gcd(461952, 116298));
         out.format("%s() returned %b%n", testedMethodName, GCD.gcd(461952, 116298));
 
@@ -64,7 +64,7 @@ public class GCDTestPos extends TestResult {
 //    public void testGCDPositive3() {
 //        try {
 //            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive3...");
-//            Object o = gcdMethod.invoke(null, 42, 56);
+//            Object o = testMethod.invoke(null, 42, 56);
 //            Assert.assertEquals(14, o);
 //            out.format("%s() returned %b%n", testedMethodName, o);
 //        } catch (IllegalAccessException e) {
@@ -78,7 +78,7 @@ public class GCDTestPos extends TestResult {
 //    public void testGCDPositive4() {
 //        try {
 //            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive4...");
-//            Object o = gcdMethod.invoke(null, 13, 13);
+//            Object o = testMethod.invoke(null, 13, 13);
 //            Assert.assertEquals(13, o);
 //            out.format("%s() returned %b%n", testedMethodName, o);
 //        } catch (IllegalAccessException e) {
@@ -92,7 +92,7 @@ public class GCDTestPos extends TestResult {
 //    public void testGCDPositive5() {
 //        try {
 //            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive5...");
-//            Object o = gcdMethod.invoke(null, 37, 600);
+//            Object o = testMethod.invoke(null, 37, 600);
 //            Assert.assertEquals(1, o);
 //            out.format("%s() returned %b%n", testedMethodName, o);
 //        } catch (IllegalAccessException e) {
@@ -106,7 +106,7 @@ public class GCDTestPos extends TestResult {
 //    public void testGCDPositive6() {
 //        try {
 //            out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive6...");
-//            Object o = gcdMethod.invoke(null, 20, 100);
+//            Object o = testMethod.invoke(null, 20, 100);
 //            Assert.assertEquals(20, o);
 //            out.format("%s() returned %b%n", testedMethodName, o);
 //        } catch (IllegalAccessException e) {
