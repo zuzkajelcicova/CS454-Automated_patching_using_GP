@@ -50,7 +50,7 @@ public class NumberUtilsTestNeg extends TestResult {
     @BeforeClass
     public static void setupEnvironment() {
         //Get access to a recompiled class during the runtime
-        testClass = NumberUtils.class;
+        testClass = NumberUtils2.class;
         allMethods = CompiledClassLoader.getRecompiledMethods(testClass);
 
         for (Method m : allMethods) {
@@ -66,8 +66,10 @@ public class NumberUtilsTestNeg extends TestResult {
     public void TestLang747() {
         try {
             out.format("Invoking %s()%n", testedMethodName, " from testGCDPositive1...");
-            Object o = testMethod.invoke(null, "0x80000000");
-            Assert.assertEquals(Long.valueOf(0x80000000L), o);
+            //Object o = testMethod.invoke(null, "0x80000000");
+            Object o = testMethod.invoke(null, "0");
+//            Assert.assertEquals(Long.valueOf(0x80000000L), o);
+            Assert.assertEquals(Long.valueOf(80), o);
             out.format("%s() returned %b%n", testedMethodName, o);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
