@@ -374,7 +374,7 @@ public class GeneticAlgorithm {
                     this.negTestNumber = Smallest19NegTest.numberOfNegativeTests;
                     return Smallest19NegTest.class;
                 }
-            case "NumberUtils.java":
+            case "NumberUtils2.java":
                 if (testType.equalsIgnoreCase(utils.positive)) {
                     this.posTestsNumber = NumberUtilsTestPos.numberOfPositiveTests;
                     return NumberUtilsTestPos.class;

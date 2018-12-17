@@ -54,7 +54,7 @@ public class NumberUtilsTestPos extends TestResult {
     @BeforeClass
     public static void setupEnvironment() {
         //Get access to a recompiled class during the runtime
-        testClass = NumberUtils.class;
+        testClass = NumberUtils2.class;
         allMethods = CompiledClassLoader.getRecompiledMethods(testClass);
 
         for (Method m : allMethods) {

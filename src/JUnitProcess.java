@@ -140,7 +140,7 @@ public class JUnitProcess {
                 negativeTestClass = Smallest19PosTest.class;
                 System.out.println("JUnitProcess: Smallest19.java JUnit tests selected");
                 break;
-            case "NumberUtils.java":
+            case "NumberUtils2.java":
                 positiveTestClass = NumberUtilsTestNeg.class;
                 negativeTestClass = NumberUtilsTestPos.class;
                 System.out.println("JUnitProcess: NumberUtils.java JUnit tests selected");
