@@ -22,13 +22,20 @@ public class GeneticOperations {
     public Patch getFittest(List<Patch> population) {
         double maxFit = Double.MIN_VALUE;
         int maxFitIndex = 0;
-        for (int i = 0; i < population.size(); i++) {
-            if (maxFit <= population.get(i).getFitness()) {
-                maxFit = population.get(i).getFitness();
-                maxFitIndex = i;
+        try {
+            if(population != null && population.size()>0){
+                for (int i = 0; i < population.size(); i++) {
+                    if (maxFit <= population.get(i).getFitness()) {
+                        maxFit = population.get(i).getFitness();
+                        maxFitIndex = i;
+                    }
+                }
             }
-        }
-        return population.get(maxFitIndex);
+
+        }catch (Exception e) {
+                e.printStackTrace();
+            }
+             return population.get(maxFitIndex);
     }
 
     public Patch fittestInTournament(List<Patch> pop) {

@@ -115,16 +115,22 @@ public class GeneticAlgorithm {
 
         int indiv = 0;
         while (oldPopulation.size() != populationSize) {
-            oldPopulation.add(initialPopulation.get(indiv));
-            indiv++;
+            if (initialPopulation != null && initialPopulation.size() > 0) {
+                oldPopulation.add(initialPopulation.get(indiv));
+                indiv++;
+            } else {
+                break;
+            }
         }
         if (oldPopulation.size() != populationSize) {
             System.out.println("NOT ENOUGH INDIVIDUALS, POPULATION SMALLER!!!");
             this.populationSize = oldPopulation.size();
         }
-
-        fittestPatch = gp.getFittest(oldPopulation);
+        if (oldPopulation.size() > 0) {
+            fittestPatch = gp.getFittest(oldPopulation);
+        } else fittestPatch = new Patch();
         newPopulation = populateList(oldPopulation);
+
 
         while (solutionList == 0) {
             this.numberOfGenerations++;
@@ -133,7 +139,8 @@ public class GeneticAlgorithm {
 
             //Crossovers and mutations
             offsprings = gp.crossover(tournamentSelectionParents);
-            offsprings = gp.mutate(offsprings, fittestPatch);
+            if (fittestPatch.patchSize() > 0)
+                offsprings = gp.mutate(offsprings, fittestPatch);
 
             offsprings = compileAndTest(offsprings);
             if (solutionList > 0) {
@@ -212,7 +219,7 @@ public class GeneticAlgorithm {
                     while ((line = reader.readLine()) != null) {
                         if (line.contains("JUnitProcess_TESTRESULTS_POS")) {
                             noOfPositiveTestsFailed = Integer.parseInt((line.split(splitSign))[1]);
-                        }else if(line.contains("JUnitProcess_TESTRESULTS_NEG")){
+                        } else if (line.contains("JUnitProcess_TESTRESULTS_NEG")) {
                             noOfNegativeTestsFailed = Integer.parseInt((line.split(splitSign))[1]);
                         }
                     }

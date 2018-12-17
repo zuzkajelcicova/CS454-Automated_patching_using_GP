@@ -11,11 +11,11 @@ import static java.lang.System.exit;
 public class Main {
 
     public static void main(String[] args) {
-        int initialPopulationSize = 10;
+        int initialPopulationSize = 30;
         int timeInMinutes = 90;
         int noOfBugsToSolve = 1;
 
-        String targetCode = "NumberUtils";
+        String targetCode = "NumberUtils2";
         String srcMlPath = "C:\\Program Files\\srcML 0.9.5\\bin";
         String classFolderPath = "D:\\GPgit\\CS454-Automated_patching_using_GP\\out\\production\\CS454-Automated_patching_using_GP";
 

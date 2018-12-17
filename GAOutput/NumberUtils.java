@@ -500,7 +500,24 @@ public class NumberUtils {//LC:37
         }//LC:500
          *///LC:501
         //bug, gzoltar likelihood faulty//LC:502
-        //LC:520
+        if (pfxLen > 0) { // we have a hex number//LC:503
+            final int hexDigits = str.length() - pfxLen;//LC:504
+            if (hexDigits > 16) { // too many for Long//LC:505
+                return createBigInteger(str);//LC:506
+            }//LC:507
+            if (hexDigits > 8) { // too many for an int//LC:508
+                return createLong(str);//LC:509
+            }//LC:510
+//LC:511
+            if (str == null) {//LC:512
+                return null;//LC:513
+            }//LC:514
+            // decode() handles 0xAABD and 0777 (hex and octal) as well.//LC:515
+            return Integer.decode(str);//LC:516
+//LC:517
+//LC:518
+//            return createInteger(str);//LC:519
+        }return substring(start, size);//LC:520
         //bug//LC:521
 //LC:522
 //LC:523
