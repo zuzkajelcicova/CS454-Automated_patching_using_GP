@@ -45,7 +45,7 @@ In order to run the current version of the system, instructions below must be fo
 ## Usage of GZoltar
 
 ### Usage as Eclipse Plugin
-    1.  Download Java 8 32 Bit and Eclipse Mars 32 bit
+    1. Download Java 8 32 Bit and Eclipse Mars 32 bit
     2. Follow steps mentioned here: http://www.gzoltar.com/eclipse-plugin.html
     3. Open new project
     4. Press CTRL + F5 to run GZoltar
