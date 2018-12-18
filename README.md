@@ -41,3 +41,18 @@ In order to run the current version of the system, instructions below must be fo
        
        -p, -f, -t are currently not used (in progress).
     3. The potentially fixed program can be found in the src/ directory. Its name matches the faulty program name.
+
+## Usage of GZoltar
+
+### Usage as Eclipse Plugin
+    1.  Download Java 8 32 Bit and Eclipse Mars 32 bit
+    2. Follow steps mentioned here: http://www.gzoltar.com/eclipse-plugin.html
+    3. Open new project
+    4. Press CTRL + F5 to run GZoltar
+    5. Output files of Gzoltar are created in folder "gzoltar" in the project directory 
+    
+### Usage as CLI
+    1. Use: "com.gzoltar-0.0.11-jar-with-dependencies.java" in fault_localization\fl-main\start-gzoltar
+    2. Run: "java -jar ./com.gzoltar-0.0.11-jar-with-dependencies.jar projectPath ProjectName classDirectory"
+    3. Run (Example): "java -jar ./com.gzoltar-0.0.11-jar-with-dependencies.jar ../src/triangle triangle target/classes/:target/test-classes"
+    4. Output files of Gzoltar are created in folder "gzoltar" in the project directory 
